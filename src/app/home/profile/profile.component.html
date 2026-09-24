@@ -1,0 +1,252 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-title">
+    <h2>Profile</h2>
+  </div>
+  <div class="page-inner">
+    <div class="d-flex align-items-center">
+      <div class="user-img">
+        <ion-img  [src]="profileData.imageUrl?profileData.imageUrl:'assets/images/menu-user.gif'">
+        </ion-img>
+
+        <div class="select-icon"  (click)="presentAlertForImageUplaod()">
+          <label class="fileButton" for="profileImg">
+            <ion-icon name="camera"></ion-icon>
+            <!-- <input id="profileImg" type="file" (change)="uploadProfileImage($event)"> -->
+          </label>
+        </div>
+      </div>
+      <div class="userDetail">
+        <ion-label class="user-name">{{profileData.displayName}}</ion-label>
+        <div class="verify-email mb-1" *ngIf="profileData.mobileNo">
+          <ion-label class="section-label">{{profileData.mobileNo}}</ion-label>
+          <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+        </div>
+        <div class="verify-email mb-1" *ngIf="profileData.emailId">
+          <ion-label class="section-label">{{profileData.emailId}} </ion-label>
+          <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="profileData.isEmailVerified"></ion-img>
+        </div>
+         <span class="section-label" *ngIf="profileData.userType!='PARENT'">Class {{profileData.className}},
+          {{profileData.boardName ? profileData.boardName : ''}}</span>
+          <a class="changeRequest" (click)="changerequest()" *ngIf="userApproval">Request submitted</a>
+          <!-- <a class="changeRequest" (click)="changerequest()" *ngIf="!userApproval">Change</a> -->
+      </div>
+    </div>
+    <div *ngIf="profileData.userType!='PARENT'">
+      <div class="user-follow">
+        <!-- <div class="follow-info">
+          <ion-label *ngIf = "profileData.followUsers">{{profileData.followUsers.length}}</ion-label>
+          <ion-label *ngIf = "profileData.followUsers == undefined || profileData.followUsers == null">0</ion-label>
+          <span class="section-value">Followers</span>
+        </div> -->
+      </div>
+      <div class="info-section">
+        <div class="section-title">
+          <h4>GENERAL</h4>
+          <!-- <ion-button fill="outline" (click)="onClickEditProfile()">{{ !generalEdit ? 'Edit' : 'Save'}}</ion-button>           -->
+          <ion-button fill="outline" (click)="goToSchoolInfo()">Edit</ion-button>          
+        </div>
+        <div>
+          <div class="section-row">
+            <ion-label class="section-label">User ID</ion-label>
+            <span class="section-value">{{profileData.applicationId}}</span>
+          </div>
+
+          <ion-item class="section-row">
+            <ion-label class="section-label">State</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.stateName}}</span>
+            <ion-select *ngIf="generalEdit" name="state" [(ngModel)]="profileData.stateId" placeholder="Select State"
+                mode="ios" (click)="selectState($event)">
+              <ion-select-option *ngFor="let state of stateList" [value]="state.id">{{state.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="section-row">
+            <ion-label class="section-label">District</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.districtName}}</span>
+            <ion-select *ngIf="generalEdit" name="district" [(ngModel)]="profileData.districtId"
+              placeholder="Select District" mode="ios" (click)="selectDistrict($event)">
+              <ion-select-option *ngFor="let dist of districts" [value]="dist.id">{{dist.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+
+          <ion-item class="section-row">
+            <ion-label class="section-label">City</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.cityName}}</span>
+            <ion-select *ngIf="generalEdit" name="city" [(ngModel)]="profileData.cityId" placeholder="Select City/Block"
+              mode="ios" (click)="selectCity($event)">
+              <ion-select-option *ngFor="let city of cities" [value]="city.id">{{city.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="section-row">
+            <ion-label class="section-label">School</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.schoolName}}</span>
+            <ion-select *ngIf="generalEdit" name="school" [(ngModel)]="profileData.schoolId" placeholder="Select School"
+               mode="ios" (click)="selectSchool($event)">
+              <ion-select-option *ngFor="let school of schools" [value]="school.id">{{school.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="section-row">
+            <ion-label class="section-label">Coaching Institute</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.instituteName}}</span>
+            <ion-select *ngIf="generalEdit" name="institute" [(ngModel)]="profileData.instituteId" placeholder="Select Institute"
+               mode="ios" (click)="selectInstitute($event)">
+              <ion-select-option *ngFor="let institute of institutes" [value]="institute.id">{{institute.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="section-row">
+            <ion-label class="section-label">Location</ion-label>
+            <span *ngIf="!generalEdit" class="section-value">{{profileData.location}}</span>
+            <ion-textarea *ngIf="generalEdit" name="location" [(ngModel)]="profileData.location"
+              class="section-value value-textarea">
+            </ion-textarea>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="section-title">
+          <h4>PERSONA</h4>
+          <ion-button fill="outline" (click)="onClickEditPersona()">{{ !personaEdit ? 'Edit' : 'Save'}}</ion-button>
+        </div>
+        <div>
+          <div class="section-row flex-column">
+            <div class="section-title">
+              <ion-label class="section-label">Photos</ion-label>
+              <div *ngIf="personaEdit" class="upload-tab">Upload <b>+</b>
+                <div class="select-icon">
+                  <label for="uploadFile" class="fileButton">
+                    <input id="uploadFile" type="file" (change)="fileChangeEvent($event)">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="photo-container">
+              <div class="photo-box" *ngFor="let p of profileData.images">
+                <ion-img src="{{p.url}}"></ion-img>
+              </div>
+            </div>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Birthday</ion-label>
+            <span *ngIf="!personaEdit" class="section-value">{{profileData.dateOfBirth}}</span>
+            <mat-form-field appearance="fill" class="example-form-field custom-datePicker section-value" (click)="datepicker.open()"
+              *ngIf="personaEdit">
+              <input matInput [matDatepicker]="datepicker" placeholder="Date of Birth" [(ngModel)]="dateOfBirth" disabled>
+              <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker disabled="false">
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">About me</ion-label>
+            <span *ngIf="!personaEdit" class="section-value">{{profileData.aboutMe}}</span>
+            <ion-textarea *ngIf="personaEdit" class="section-value value-textarea" [(ngModel)]="profileData.aboutMe">
+            </ion-textarea>
+          </div>
+          <ion-item class="section-row">
+            <ion-label class="section-label">Interests</ion-label>
+            <div class="tab-container" *ngIf="!personaEdit">
+              <ion-label *ngFor="let interest of profileData.interests">{{interest.displayName}}</ion-label>
+            </div>
+            <ion-select *ngIf="personaEdit" [(ngModel)]="selectedInterest" placeholder="Select your Interests" multiple="true"
+              mode="ios" cancelText="Cancel" okText="Save">
+              <ion-select-option [value]="interest" *ngFor="let interest of interests">{{interest.displayName}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </div>
+      <!-- <div class="info-section">
+        <div class="section-title">
+          <h4>LOCATION</h4>
+          <ion-button fill="outline" (click)="onClickEditLocation()">{{ !locationEdit ? 'Edit' : 'Save'}}</ion-button>
+        </div>
+        <div>
+          <div class="section-row">
+            <ion-label class="section-label">Address</ion-label>
+            <span *ngIf="!locationEdit" class="section-value">{{profileData.address}}</span>
+            <div class="addressContent" *ngIf="locationEdit" (click)="launchLocationPage()">
+              <ion-label id="localLabel" class="localLabel">
+                <span id="yloc" class="yloc current-location" *ngIf="!userLocation.formattedAddress">Set
+                  Location...</span>
+                <span id="yloc" class="yloc current-location"
+                  *ngIf="userLocation.formattedAddress">{{userLocation.formattedAddress}}</span>
+                <ion-icon class="arrow-down" name="chevron-down-outline"></ion-icon>
+              </ion-label>
+            </div>
+
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Location</ion-label>
+            <div class="map-container">
+              <div class="map-img">
+                <ion-img src="/assets/images/map-img.svg"></ion-img>
+              </div>
+              <p>We do not share your location Data with any other third party app or users of Starkwizz. It is hidden
+                for
+                others by default.</p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="info-section">
+        <div class="section-title">
+          <h4>SOCIAL MEDIA</h4>
+          <ion-button fill="outline" (click)="onClickEditSocialNetwork()">{{ !socialLinkEdit ? 'Edit' : 'Save'}}
+          </ion-button>
+        </div>
+        <div>
+          <div class="section-row">
+            <ion-label class="section-label">Facebook</ion-label>
+            <span *ngIf="!socialLinkEdit" class="section-value">{{profileData.facebook}}</span>
+            <ion-input *ngIf="socialLinkEdit" class="section-value section-input" [(ngModel)]="profileData.facebook">
+            </ion-input>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Instagram</ion-label>
+            <span *ngIf="!socialLinkEdit" class="section-value">{{profileData.instagram}}</span>
+            <ion-input *ngIf="socialLinkEdit" class="section-value section-input" [(ngModel)]="profileData.instagram">
+            </ion-input>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Youtube</ion-label>
+            <span *ngIf="!socialLinkEdit" class="section-value">{{profileData.youtube}}</span>
+            <ion-input *ngIf="socialLinkEdit" class="section-value section-input" [(ngModel)]="profileData.youtube">
+            </ion-input>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Linkedin</ion-label>
+            <span *ngIf="!socialLinkEdit" class="section-value">{{profileData.linkedin}}</span>
+            <ion-input *ngIf="socialLinkEdit" class="section-value section-input" [(ngModel)]="profileData.linkedin">
+            </ion-input>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Twitter</ion-label>
+            <span *ngIf="!socialLinkEdit" class="section-value">{{profileData.twiter}}</span>
+            <ion-input *ngIf="socialLinkEdit" class="section-value section-input" [(ngModel)]="profileData.twiter">
+            </ion-input>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,199 @@
+.page-title {
+    padding: 24px 12px 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+    line-height: 30px;
+    font-family: "Nunito-ExtraBold";
+    color: #0A395A;
+    margin: 0;
+}
+
+.page-inner {
+    padding: 16px 12px;
+    // height: calc(100% - 46px);
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // flex-direction: column;
+    text-align: center;
+
+    // p {
+    //     font-size: 14px;
+    //     line-height: 18px;
+    //     color: #1a1a1a;
+    //     font-family: 'Nunito-Bold';
+    //     margin-bottom: 8px;
+
+    //     b {
+    //         font-family: 'Nunito-ExtraBold';
+    //         font-size: 16px;
+    //     }
+    // }
+
+    h4 {
+        font-size: 20px;
+        line-height: 30px;
+        font-family: "Nunito-Bold";
+        color: #0A395A;
+        margin: 0;
+    }
+
+    .stars {
+        width: 240px;
+        margin: 0 auto 24px;
+        position: relative;
+
+        ion-icon {
+            font-size: 40px;
+            color: #6ecfed;
+
+            &.star1 {
+                position: absolute;
+                left: 65px;
+                top: 14px;
+            }
+
+            &.star2 {
+                position: absolute;
+                right: 65px;
+                top: 14px;
+            }
+
+            &.star3 {
+                position: absolute;
+                left: 33px;
+                top: 28px;
+            }
+
+            &.star4 {
+                position: absolute;
+                right: 33px;
+                top: 28px;
+            }
+
+            &.star5 {
+                position: absolute;
+                left: 0;
+                top: 42px;
+            }
+
+            &.star6 {
+                position: absolute;
+                right: 0;
+                top: 42px;
+            }
+        }
+
+        span {
+            display: block;
+            margin-top: 18px;
+            font-size: 22px;
+            line-height: 30px;
+            font-family: "Nunito-Bold";
+            color: #0A395A;
+        }
+
+    }
+
+    .totalPoint {
+        margin: 0 16px 16px;
+
+        h4 {
+            font-size: 24px;
+            line-height: 30px;
+        }
+
+        span {
+            display: block;
+            font-size: 18px;
+            line-height: 24px;
+            font-family: "Nunito-SemiBold";
+            color: #0A395A;
+        }
+
+        .total {
+            h4 {
+                text-decoration: underline;
+                line-height: 24px;
+                letter-spacing: 2px;
+            }
+        }
+
+        .months {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h4 {
+                margin-bottom: 8px;
+            }
+
+            ion-label {
+                display: block;
+                font-size: 20px;
+                line-height: 25px;
+                text-decoration: underline;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+            }
+        }
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+
+        ion-select {
+            height: 44px;
+            width: 150px;
+            font-size: 16px;
+            font-family: "Nunito-SemiBold";
+            border-radius: 8px;
+            background: #fff;
+            color: #1C1D1F;
+            border: 2px solid #625D5D;
+            --padding-top: 8px;
+            --padding-end: 16px;
+            --padding-bottom: 13px;
+            --padding-start: 16px;
+            text-align: left;
+            --placeholder-color: #625D5D66;
+            --placeholder-opacity: 1;
+            margin-right: 14px;
+        }
+
+        ion-select::part(container) {
+            width: calc(100vh - 16px);
+        }
+
+        ion-select::part(placeholder) {
+            width: 100%;
+        }
+
+        ion-select::part(icon) {
+            opacity: 1;
+            color: #000;
+        }
+
+        ion-button {
+            width: 50px;
+            --border-radius: 8px;
+            height: 44px;
+            --padding-start: 0;
+            --padding-end: 0;
+            --padding-top: 0;
+            --padding-bottom: 0;
+
+            ion-icon {
+                font-size: 30px;
+            }
+        }
+    }
+
+
+}

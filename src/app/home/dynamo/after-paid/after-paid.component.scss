@@ -1,0 +1,148 @@
+ion-content {
+    height: calc(100% - 74px);
+}
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .title {
+        padding: 20px 36px;
+        text-align: center;
+        h4 {
+            font-size: 18px;
+            line-height: 24px;
+            font-family: 'Nunito-SemiBold';
+            display: block;
+            margin: 0;
+            color: #0A395A;
+        }
+    }
+    .page-inner {
+        padding: 0 10px;
+        flex: 1;
+        overflow-y: auto;
+    }
+    .subject-type {
+        font-size: 20px;
+        line-height: 22px;
+        font-family: 'Nunito-SemiBold';
+        display: block;
+        color: #0A395A;
+        padding: 0 10px;
+    }
+    .subject-container {
+        margin-bottom: 20px;
+        .subject-inner {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0;
+            .subject-box {
+                position: relative;
+                --ripple-color: transparent;
+                --padding-start: 0;
+                --inner-padding-end: 0;
+                --inner-border-width: 0 0 0px 0;
+                --min-height: 100%;
+                --background: transparent;
+                flex: 1 1 25%;
+                max-width: calc(25% - 20px);
+                height: 110px;
+                border-radius: 10px;
+                overflow: hidden;
+                // padding: 10px;
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                background: url(/assets/images/subject-img1.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                margin: 10px;
+                @media screen and (max-width: 500px) {
+                    flex: 1 1 33.33%;
+                    max-width: calc(33.33% - 20px);
+                }
+                @media screen and (max-width: 420px) {
+                    flex: 1 1 50%;
+                    max-width: calc(50% - 20px);
+                }
+                &.background {
+                    background: url(/assets/images/subject-img2.svg);
+                }
+                .box-label {
+                    position: absolute;
+                    text-overflow: unset;
+                    white-space: unset;
+                    width: 100%;
+                    font-size: 15px;
+                    line-height: 18px;
+                    letter-spacing: 1px;
+                    font-family: 'Nunito-SemiBold';
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    justify-content: center;
+                    color: #fff;
+                    margin: 0;
+                    padding: 10px;
+                    height: 100%;
+                }
+                ion-checkbox {
+                    margin: 0;
+                    --background: #fff;
+                    --border-color: #fff;
+                    --size: 24px;
+                    --background-checked: #fff;
+                    --border-color-checked: #fff;
+                    --checkmark-color: #000;
+                    --border-radius: 6px;
+                    --border-width: 4px;
+                }
+                .price {
+                    position: absolute;
+                    bottom: 2px;
+                    left: 2px;
+                    right: 2px;
+                    background-color: #fff;
+                    color: #0A395A;
+                    font-size: 18px;
+                    line-height: 20px;
+                    font-family: 'Nunito-Regular';
+                    height: 30px;
+                    padding: 6px;
+                    text-align: center;
+                    border-radius: 0 0 9px 9px;
+                }
+            }
+        }
+    }
+}
+
+.footer-toolbar {
+    background: #fff;
+    padding: 16px 10px;
+    display: flex;
+    align-items: center;
+    ion-button {
+        margin-inline: 0;
+        margin: 0 6px;
+        width: 100%;
+        --border-color: #51C1E9;
+        --background: #51c1e9;
+        --color: #0A395A;
+        text-transform: capitalize;
+        font-size: 20px;
+        height: 42px;
+        letter-spacing: 0;
+        font-family: "Nunito-Bold";
+        --border-radius: 8px;
+        --box-shadow: none;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .subject-box {
+
+    }
+}

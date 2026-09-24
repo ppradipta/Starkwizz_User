@@ -1,0 +1,135 @@
+ion-header {
+    height: 64px;
+    background: #fff;
+    padding: 30px 16px 10px;
+    display: flex;
+    align-items: center;
+
+    &::after {
+        height: 0;
+    }
+
+    ion-toolbar {
+        --min-height: 0;
+
+        ion-button {
+            height: 30px;
+            width: 30px;
+            font-size: 18px;
+            margin: 0;
+            --padding-start: 0;
+            --padding-end: 0;
+            --background: transparent;
+            --box-shadow: none;
+
+            ion-icon {
+                color: #00AEFF;
+            }
+        }
+
+        ion-title {
+            font-size: 18px;
+            line-height: 22px;
+            font-family: "Nunito-Bold";
+            color: #00AEFF;
+            text-align: center;
+        }
+    }
+}
+
+ion-content {
+    --keyboard-offset: 0 I !important;
+}
+
+.page-inner {
+    padding: 20px;
+
+    .rating-content {
+
+        .rate-title {
+            font-size: 14px;
+            color: #000;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .rating-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: #00000049;
+        }
+    }
+
+    .rating-section {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .rating-icon {
+            display: flex;
+            margin: 0 10px;
+
+            ion-icon {
+                font-size: 26px;
+                color: #CCC;
+
+                &.active {
+                    color: #00AEFF;
+                }
+            }
+        }
+    }
+
+    .title-row {
+        margin: 24px 0 0;
+        background-color: #fff;
+
+
+
+        ::ng-deep ion-textarea {
+            border: 1px solid #00AEFF;
+            --padding-top: 6px;
+            --padding-end: 10px;
+            --padding-bottom: 6px;
+            --padding-start: 10px;
+            border-radius: 6px;
+            font-size: 17px;
+            color: #000;
+            margin: 0;
+            height: 140px;
+            --highlight-height: 0px;
+            --highlight-color-focused: transparent;
+            --highlight-color: transparent;
+
+            .textarea-wrapper {
+                height: 100%;
+
+                textarea {
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+.footer-toolbar {
+    border-top: 1px solid #E7E7E7;
+    padding: 16px 20px;
+
+    .primary-btn {
+        border-radius: 25px;
+        height: 48px;
+        border-color: #00AEFF;
+        color: #fff;
+        font-size: 20px;
+        --background: #0054e9;
+
+        &.button-disabled {
+            color: #292929;
+            opacity: 1;
+        }
+    }
+}

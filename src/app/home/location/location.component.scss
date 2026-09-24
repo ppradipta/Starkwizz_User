@@ -1,0 +1,43 @@
+ion-header {
+    z-index: 0;
+    border-bottom: 0.5px inset;
+}
+.input-label {
+    color: #ec6f04;
+    margin-top: 8px;
+    font-size: 11px;
+}
+.address-bar {
+    --background: #fbfbfb;
+    --border-width: 0;
+}
+/* .address-bar ion-input {
+    position: relative;
+    bottom: 10px;
+} */
+.current-location span {
+    display: inline-block;
+    color: gray;
+    font-size: 14px;
+}
+.locate-icon {
+    padding: 20px 15px;
+    font-size: 25px;
+    color: gray;
+}
+.current-col {
+    border-bottom: 2px solid #403c3c;
+}
+.current-col p {
+    margin-bottom: 0;
+    font-weight: 500;
+}
+ul {
+    list-style-type: none;
+}
+.locationIcon {
+    position: relative;
+    top: 4px;
+    right: 5px;
+    color: #de5656;
+}

@@ -1,0 +1,139 @@
+.header {
+    background: #1e1e1e;
+    height: 70px;
+    padding: 10px 16px;
+    display: flex;
+    ion-buttons {
+        color: #fff;
+    }
+    .header-logo {
+        flex: 1;
+        margin: 0 30px 0 10px;
+        ion-img {
+            max-width: 180px;
+            margin: 0 auto;
+        }
+    }
+}
+.pageInner {
+    .imgContainer {
+        width: 100%;
+        background: #198754;
+        height: 180px;
+        padding: 10px 8px;
+        position: relative;
+        overflow: hidden;
+        .logoImg {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .round {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #F7DFC3;
+            position: absolute;
+            top: 78px;
+            right: -40px;
+        }
+        .square {
+            width: 150px;
+            height: 140px;
+            background-color: #3A3377;
+            position: absolute;
+            bottom: 118px;
+            left: -40px;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+        .round1 {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #237356;
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            z-index: 1;
+        }
+        .round2 {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background-color: #FFD337;
+            position: absolute;
+            bottom: -110px;
+            right: -4px;
+        }
+    }
+    .pageDetail {
+        flex: 1;
+        padding: 10px 14px 0;
+        background: #FBFFFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        h1 {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 52px;
+            color: #83706d;
+            margin: 0 0 20px;
+            font-family: 'Nunito-ExtraBold';
+            letter-spacing: 1px;
+        }
+        .claim {
+            display: block;
+            color: #2e5774;
+            font-size: 24px;
+            line-height: 26px;
+            margin-bottom: 8px;
+            font-family: 'Nunito-ExtraBold';
+        }
+        .percentage {
+            display: block;
+            color: #0A395A;
+            font-size: 54px;
+            line-height: 43px;
+            font-family: 'Nunito-Black';
+            white-space: nowrap;
+        }
+        .detail {
+            display: block;
+            color: #2e5774;
+            font-size: 40px;
+            line-height: 36px;
+            font-family: 'Nunito-ExtraBold';
+        }
+        .appFee {
+            display: block;
+            color: #2e5774;
+            font-size: 30px;
+            line-height: 32px;
+            font-weight: 800;
+            margin-bottom: 0;
+            font-family: 'Nunito-ExtraBold';
+        }
+        ion-button {
+            display: block;
+            color: #0A395A;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 26px;
+            height: 45px;
+            --background: #70CFED;
+            --border-radius: 25px;
+            --box-shadow: none;
+        }
+        .offer {
+            display: block;
+            color: #939393;
+            font-size: 13px;
+            line-height: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+    }
+}
+

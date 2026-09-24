@@ -1,0 +1,196 @@
+.group-card {
+    padding: 16px 20px;
+    background-color: #70cfed33;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .card-left {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        overflow: hidden;
+        margin-right: 10px;
+        .card-inner {
+            overflow: hidden;
+            flex: 1;
+        }
+        .group-img {
+            width: 60px;
+            background: #fff;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #0A395A;
+            overflow: hidden;
+            margin-right: 10px;
+            position: relative;
+            ion-img {
+              object-fit: cover;
+            }
+        }
+        .user-name  {
+            font-size: 16px;
+            line-height: 20px;
+            font-family: 'Nunito-Bold';
+            color: #0A395A;
+            text-transform: capitalize;
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .section-label {
+            font-size: 14px;
+            line-height: 16px;
+            font-family: 'Nunito-Regular';
+            display: block;
+            color: #70CFED;
+        }
+    }
+    .card-right {
+        display: flex;
+        align-items: center;
+        .ellips-icon {
+            color: #51C1E9;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    }
+}
+
+ion-footer {
+    box-shadow: 0px -2px 10px #00000029;
+    .footer-toolbar {
+        padding: 10px 16px;
+        display: flex;
+        align-items: flex-end;
+        .chat-input {
+            min-height: 20px;
+            max-height: 100px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            font-size: 15px;
+            font-family: 'Nunito-Regular';
+            margin-right: 12px;
+            flex: 1;
+            background-color: #EFEFEF;
+            border-radius: 8px;
+            border: none;
+            outline: 0;
+            padding: 8px 15px;
+        }
+        ion-icon {
+            color: #979797;
+            font-size: 25px;
+            margin-bottom: 6px;
+            &.send-icon {
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+        }
+    }
+}
+
+.footer-md::before {
+    height: 0;
+}
+
+.chat {
+    padding: 16px;
+    .msg {
+        margin-bottom: 20px;
+        text-align: right;
+        &.active {
+            text-align: left;
+            ion-label {
+                color: #70CFED;
+            }
+            span {
+                border-radius: 0 10px 10px 10px;
+                ion-button {
+                    right: -30px;
+                    left: unset;
+                }
+            }
+        }
+        &:hover {
+            ion-button {
+                display: block !important;
+            }
+        }
+        ion-label {
+            display: block;
+            font-size: 13px;
+            line-height: 14px;
+            color: #0A395A;
+            font-family: 'Nunito-Bold';
+            margin-bottom: 2px;
+            text-transform: capitalize;
+        }
+        span {
+            text-align: left;
+            max-width: 90%;
+            font-size: 14px;
+            line-height: 17px;
+            font-family: 'Nunito-SemiBold';
+            display: inline-block;
+            background-color: #e4f6fbb3;
+            color: #404040;
+            box-shadow: 0 1px 2px #4b4b4b29;
+            border-radius: 10px 0px 10px 10px;
+            padding: 7px 12px 8px;
+            min-height: 32px;
+            position: relative;
+            ion-button {
+                display: none;
+                --box-shadow: none;
+                --background: #f2f2f2;
+                --background-activated: #7c7c7c;
+                --background-hover: #a7a8a8;
+                --background-activated-opacity: .4;
+                --background-hover-opacity: .3;
+                margin: 0;
+                position: absolute;
+                top: 5px;
+                left: -30px;
+                transition: 0.2s;
+                height: 22px;
+                width: 22px;
+                --border-radius: 50%;
+                --padding-top: 0;
+                --padding-bottom: 0;
+                --padding-start: 0;
+                --padding-end: 0;
+                ion-icon {
+                    font-size: 16px;
+                    color: #979797;
+                }
+            }
+            
+        }
+    }
+}
+
+ion-popover {
+    --width: 145px;
+    --offset-y: -50px;
+    --offset-x: -50px;
+    --box-shadow: 0px 3px 10px 3px #1c1c1c29;
+    --backdrop-opacity: .02;
+    --background: transparent;
+    .popover-inner {
+        padding: 0 4px;
+        ion-label {
+            text-align: center;
+            display: block;
+            padding: 8px 10px;
+            color: #0a395af5;
+            font-family: "Nunito-SemiBold";
+            font-size: 16px;
+            line-height: 18px;
+            &.first-label {
+                border-bottom: 1px solid #1441604d;
+            }
+        }
+    }
+}

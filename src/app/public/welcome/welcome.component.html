@@ -1,0 +1,144 @@
+<ion-content>
+  <div class="page-container">
+    <div class="right-top">
+      <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+    </div>
+    <div class="left-bottom">
+      <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+    </div>
+
+    <swiper-container #swiper style="height: 100%;" autoplay="true">
+      <swiper-slide>
+        <div class="page-inner">
+          <div class="yellowCircel"></div>
+          <div class="pinkCircel"></div>
+          <div class="fullCircel">
+            <ion-img src="/assets/images/welcome/logo.png"></ion-img>
+            <div class="hCircel">
+              <ion-img src="/assets/images/welcome/Group.svg"></ion-img>
+            </div>
+            <div class="hCircel topCircel">
+              <ion-img src="/assets/images/welcome/Group.svg"></ion-img>
+            </div>
+            <div class="hCircel bottomCircel">
+              <ion-img src="/assets/images/welcome/Group.svg"></ion-img>
+            </div>
+          </div>
+        </div>
+
+        <div class="btnGroup">
+          <div class="d-flex customCheckbox">
+            <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"></ion-checkbox>
+            <ion-label class="checkboxLabel">By Signing up you accept our <span (click)="termsOfService('terms')">Terms
+                & Service</span> and <span (click)="termsOfService('privacy')">Privacy Policy</span></ion-label>
+          </div>
+          <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickStart()">Get Started</ion-button>
+        </div>
+      </swiper-slide>
+
+
+
+      <!-- Dynamo -->
+      <swiper-slide>
+        <div class="page-inner page-inner1">
+          <div class="welImg">
+            <ion-img src="/assets/images/welcome/Dynamo.png"></ion-img>
+          </div>
+          <div class="subsImg">
+            <ion-img src="/assets/images/welcome/Dynamo-img.png"></ion-img>
+          </div>
+          <div class="details">
+            <h4>Be a MASTER OF EXAMS</h4>
+            <p><b>Now Anytime, Anywhere</b> chapter wise <b>Day-To-Day</b>
+              <br><b>REVISION, PRACTICE, TEST, & ANALYSIS</b>
+              <br>So easy with <b>DYNAMO Test Series</b>
+            </p>
+            <p class="activity">Before starting a SUBJECTIVE, Let’s finish the OBJECTIVES</p>
+            <span>(24/7) 365 DAYS PROGRAM</span>
+          </div>
+        </div>
+        <div class="btnGroup">
+          <div class="d-flex customCheckbox">
+            <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"></ion-checkbox>
+            <ion-label class="checkboxLabel">By Signing up you accept our <span (click)="termsOfService('terms')">Terms
+                of
+                Service</span> and <span (click)="termsOfService('privacy')">Privacy Policy</span></ion-label>
+          </div>
+          <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickStart()">Get Started</ion-button>
+        </div>
+      </swiper-slide>
+
+      <!-- QuizWhizz -->
+      <swiper-slide>
+        <div class="page-inner page-inner1">
+          <div class="welImg quiz">
+            <ion-img src="/assets/images/welcome/QuizWhizz.png"></ion-img>
+          </div>
+          <div class="subsImg">
+            <ion-img src="/assets/images/welcome/Quiz-img.png"></ion-img>
+          </div>
+          <div class="details">
+            <h4>The Game Changer</h4>
+            <p>Let’s Play
+              <br>Prove Your <b>Smartness</b>
+              <br>Win Exciting <b>Prizes</b>.
+            </p>
+            <p class="activity">ACHIEVEMENT CARD - CERTIFICATE - MEDAL - TROPHY</p>
+            <span>THE SUNDAY PROGRAM</span>
+          </div>
+        </div>
+        <div class="btnGroup">
+          <div class="d-flex customCheckbox">
+            <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"></ion-checkbox>
+            <ion-label class="checkboxLabel">By Signing up you accept our <span (click)="termsOfService('terms')">Terms
+                of
+                Service</span> and <span (click)="termsOfService('privacy')">Privacy Policy</span></ion-label>
+          </div>
+          <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickStart()">Get Started</ion-button>
+        </div>
+      </swiper-slide>
+
+      <!-- Event -->
+      <swiper-slide>
+        <div class="page-inner page-inner1">
+          <div class="welImg">
+            <ion-img src="/assets/images/welcome/Event.png"></ion-img>
+          </div>
+          <div class="subsImg">
+            <ion-img src="/assets/images/welcome/Event-img.png"></ion-img>
+          </div>
+          <div class="details">
+            <h4>The Achiever</h4>
+            <p>Grab the Chance
+              <br>Showcase Your <b>Talent</b>
+              <br>Win Exciting <b>Prizes</b>.
+            </p>
+            <p class="activity">CERTIFICATE I MEDAL I TROPHY I MEMENTO I CASH PRIZE</p>
+            <span>THE HOLIDAY PROGRAM</span>
+          </div>
+        </div>
+        <div class="btnGroup">
+          <div class="d-flex customCheckbox">
+            <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"></ion-checkbox>
+            <ion-label class="checkboxLabel">By Signing up you accept our <span (click)="termsOfService('terms')">Terms
+                of
+                Service</span> and <span (click)="termsOfService('privacy')">Privacy Policy</span></ion-label>
+          </div>
+          <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickStart()">Get Started</ion-button>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+
+    <!-- <div class="btnGroup">
+      <div class="d-flex customCheckbox">
+        <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"></ion-checkbox>
+        <ion-label class="checkboxLabel">By Signing up you accept our <span (click)="termsOfService('terms')">Terms of
+            Service</span> and <span (click)="termsOfService('privacy')">Privacy Policy</span></ion-label>
+      </div>
+      <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickStart()">Get Started</ion-button>
+    </div> -->
+  </div>
+
+
+
+</ion-content>

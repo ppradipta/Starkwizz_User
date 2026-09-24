@@ -1,0 +1,51 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="search-bar">
+      <ion-searchbar mode="ios" (ionInput)="searchHubs($event)"
+      (ionCancel)="cancelSearch()" (ionClear)="cancelSearch()"></ion-searchbar>
+    </div>
+    <div class="card-container">
+      <ion-card *ngFor="let hub of hubList">
+        <ion-card-header (click)="onClickHubsDetail(hub)">
+          <img
+            [src]="hub.imgUrl?hub.imgUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBZDVb56h4OUVMMPtHIjUho90J4nAVp357nA&usqp=CAU'">
+        </ion-card-header>
+        <ion-card-content>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="hubs-info me-2">
+              <h3> {{hub.displayName}}</h3>
+              <h4>{{hub.dealsIn}}</h4>
+              <p>{{hub.locationText}}</p>
+            </div>
+          </div>
+          <div class="rating">
+            <span>{{hub.rating}}</span>
+            <div class="d-flex justify-content-center">
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star-half" class="halfStar"></ion-icon>
+            </div>
+            <!-- <label>{{hub.ratedCount}} Ratings</label> -->
+          </div>
+          <div class="btn-group">
+            <ion-button class="card-btn" fill="outline" (click)="onClickOffer(hub)">Offers</ion-button>
+            <ion-button class="card-btn" fill="outline" (click)="onClickOnNotice(hub)">Notice</ion-button>
+          </div>
+          <div class="eventcard-footer">
+            <ion-button class="card-btn" fill="outline" (click)="callNumber(hub)">
+              <ion-icon name="call"></ion-icon>
+              <span>Call Now</span>
+            </ion-button>
+            <ion-button class="card-btn" (click)="onClickEnquiry(hub)">Send Enquiry</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

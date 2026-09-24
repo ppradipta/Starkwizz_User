@@ -1,0 +1,67 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <h2>Add members</h2>
+    <div class="search-bar">
+      <ion-searchbar placeholder="Search names" mode="ios"></ion-searchbar>
+    </div>
+    <div>
+      <div class="accounts-container">
+        <div class="account-card" *ngFor="let friend of friends; let i = index">
+          <div class="card-left" *ngIf="friend.recievedTo.id == userDetails.id">
+            <div class="user-img" >
+              <!-- <ion-img src="assets/images/menu-user.svg"></ion-img> -->
+              <ion-img [src]="friend.imageUrl"></ion-img>
+            </div>
+            <div class="card-inner" (click)="slectMember(friend,'SENDBY')">
+              <ion-label class="user-name">{{friend.sendBy.displayName}}</ion-label>
+              <ion-label class="school-name">{{friend.sendBy.cityName}}, {{friend.sendBy.stateName}}
+              </ion-label>
+              <span class="section-label">Class {{friend.sendBy.className}},
+                {{friend.sendBy.boardName}}</span>
+            </div>
+            <div class="card-right">
+              <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="friend.isSelected"></ion-img>
+            </div>
+          </div>
+
+          <div class="card-left" *ngIf="friend.recievedTo.id != userDetails.id" >
+            <div class="user-img" >
+              <!-- <ion-img src="assets/images/menu-user.svg"></ion-img> -->
+              <ion-img [src]="friend.imageUrl"></ion-img>
+            </div>
+            <div class="card-inner" (click)="slectMember(friend,'RECIEVEDTO')">
+              <ion-label class="user-name">{{friend.recievedTo.displayName}}</ion-label>
+              <ion-label class="school-name">{{friend.recievedTo.cityName}}, {{friend.recievedTo.stateName}}
+              </ion-label>
+              <span class="section-label">Class {{friend.recievedTo.className}},
+                {{friend.recievedTo.boardName}}</span>
+            </div>
+            <div class="card-right">
+              <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="friend.isSelected"></ion-img>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="ellips-icon" name="ellipsis-horizontal" id="trigger-button{{i}}"></ion-icon>
+            <ion-popover trigger="trigger-button{{i}}" [dismissOnSelect]="true">
+              <ng-template>
+                <ion-content class="popover-inner">
+                  <ion-label class="first-label" (click)="onClickChat(friend)">Chat</ion-label>
+                  <ion-label (click)="onClickViewProfileDetails(friend)">View Profile</ion-label>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="onClickCreateGroup()">
+    <ion-fab-button>
+      <ion-icon name="chevron-forward"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

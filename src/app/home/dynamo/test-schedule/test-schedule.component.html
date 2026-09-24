@@ -1,0 +1,49 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="heading">
+      <h2>{{examDetails.moduleName}}</h2>
+      <ion-label>Choose a suitable Date and Time to appear Dynamo.</ion-label>
+    </div>
+    <div class="inner-section">
+      <ion-label class="section-title mb-2">Set date</ion-label>
+  
+      <ion-input value="{{ scheduledDate | date: 'dd-MM-YYYY' }}" id="date" placeholder="Date"></ion-input>
+      <ion-popover trigger="date" size="cover">
+        <ng-template>
+          <ion-datetime presentation="date" [ngModel]="scheduledDate" (ngModelChange)="scheduledDate=$event" required></ion-datetime>
+        </ng-template>
+      </ion-popover>
+
+      <ion-input value="{{ time | date: 'h:mm a'}}" id="time" placeholder="Start Time"></ion-input>
+      <ion-popover trigger="time" size="cover">
+        <ng-template>
+          <ion-datetime presentation="time" [(ngModel)]="time" (ngModelChange)="time=$event" 
+          placeholder="Enter Start Time" mode="ios"></ion-datetime>
+        </ng-template>
+      </ion-popover>
+
+    </div>
+    <div class="inner-section">
+      <ion-label class="section-title">Schedule</ion-label>
+      <div class="card-container">
+        <div class="schedule-card" *ngFor="let list of scheduledData" [ngStyle]="{'background': '#618B4A'}">
+          <ion-label class="subject">{{list.subjectName}}</ion-label>
+          <ion-label class="date">{{list.scheduledDate | date: 'd'}}</ion-label>
+          <ion-label class="month">{{list.scheduledDate | date: 'MMM'}}</ion-label>
+          <ion-label class="label">Time</ion-label>
+          <ion-label class="time">{{list.scheduledTime}}</ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="primary-btn" (click) = "reSchedule()">Schedule</ion-button>
+  </div>
+</ion-footer>

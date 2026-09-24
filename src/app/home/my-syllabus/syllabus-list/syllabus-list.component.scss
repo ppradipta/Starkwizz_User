@@ -1,0 +1,168 @@
+.inner-container {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+
+    .headerBtn {
+        height: 64px;
+        padding-top: 20px;
+
+        ion-button {
+            height: 44px;
+            --background: transparent;
+            color: #292929;
+            margin: 0;
+            --box-shadow: none;
+
+            ion-icon {
+                margin-right: auto;
+                font-size: 24px;
+            }
+        }
+    }
+
+    .inner-page {
+        padding: 36px 26px 26px;
+        height: calc(100% - 44px);
+        overflow: auto;
+
+        .left-bottom {
+            width: 106px;
+            height: 178px;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .right-top {
+            width: 80px;
+            height: 128px;
+            position: absolute;
+            top: 0px;
+            right: 0;
+            z-index: -1;
+        }
+
+        .header {
+            margin-bottom: 36px;
+
+            h2 {
+                font-size: 30px;
+                line-height: 45px;
+                font-family: 'Nunito-ExtraBold';
+                text-align: center;
+                color: #00AEFF;
+                margin: 0 0 24px;
+            }
+
+            h4 {
+                font-size: 24px;
+                line-height: 28px;
+                font-family: "Nunito-ExtraBold";
+                color: #152F48;
+                margin: 0 0 12px;
+            }
+
+            span {
+                font-size: 15px;
+                line-height: 20px;
+                font-family: 'Nunito-SemiBold';
+                text-align: center;
+                color: #1C1D1F;
+            }
+        }
+
+        .custom-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 16px 20px 0;
+            box-shadow: 20px 24px 50px 0px #0000001A;
+            display: flex;
+            border: 1px solid #EEEEEE;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+
+            &:last-child {
+                margin: 0;
+            }
+
+            .yellowCircel {
+                width: 126px;
+                height: 126px;
+                background: #FFF8DA;
+                border-radius: 50%;
+                position: absolute;
+                right: -17px;
+                bottom: -40px;
+            }
+
+            .cimg {
+                width: 100px;
+                height: 100px;
+                margin-right: 20px;
+                overflow: hidden;
+                position: relative;
+
+                ion-img {
+                    position: absolute;
+                    right: -20px;
+                    top: 0px;
+                    width: 125px;
+                    height: 125px;
+                }
+            }
+
+            .custom-body {
+                h5 {
+                    font-size: 16px;
+                    color: #152F48;
+                    line-height: 22px;
+                    font-family: 'Nunito-ExtraBold';
+                    margin: 0 0 16px;
+                }
+
+                ion-button {
+                    height: 36px;
+                    font-size: 16px;
+
+                    &.border-btn {
+                        max-width: 120px;
+                        --border-color: #71CEED;
+                        --border-width: 1px;
+                        --color: #71CEED;
+                    }
+
+                    &.secondary-btn {
+                        max-width: 108px;
+                        --color: #fff;
+                    }
+                }
+            }
+        }
+
+        .btn-content {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+
+            ion-text {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-ExtraBold';
+                color: #5DCCFC;
+                margin-bottom: 16px;
+            }
+
+            .secondary-btn {
+                --color: #fff;
+                height: 52px;
+                font-size: 16px;
+            }
+        }
+    }
+}

@@ -1,0 +1,573 @@
+<ion-content class="date-ion-content">
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+
+      <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div>
+      <div class="yellowCircel"></div>
+      <div class="procesBar">
+        <h5>Profile</h5>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+            style="width:3%">
+          </div>
+        </div>
+        <div class="processSize">
+          <span>Complete 0/3</span>
+        </div>
+      </div>
+
+      <!-- Studennt Personal Information -->
+
+      <div class="studennt-info" *ngIf="userDetails.userType=='STUDENT'">
+        <div class="heading">
+          <h4>Personal Information</h4>
+          <!-- <ion-label class="caption m-0">Let your mates recognize you</ion-label> -->
+        </div>
+        <form name="personalForm" #personalForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <!-- <div class="login-input">
+              <ion-input type="text" name="referralCode" id="referralCode" [ngModel]="userDetails.referralCode"
+                (ngModelChange)="userDetails.referralCode=$event" placeholder="Referral Code"
+                [disabled]="true"></ion-input>
+            </div> -->
+            <div class="login-input">
+              <ion-label class="caption">Student First Name</ion-label>
+              <ion-input type="text" name="firstName" id="firstName" [ngModel]="userDetails.firstName"
+                (ngModelChange)="userDetails.firstName=$event" placeholder="First Name" required></ion-input>
+            </div>
+            <div class="login-input">
+              <ion-label class="caption">Student Last Name</ion-label>
+              <ion-input type="text" name="lastName" id="lastName" placeholder="Last Name"
+                [ngModel]="userDetails.lastName" (ngModelChange)="userDetails.lastName=$event" required></ion-input>
+            </div>
+            <div class="login-input verify-input">
+              <ion-label class="caption">Mobile</ion-label>
+              <!-- <div class="country-code">
+                <span>+91</span>
+              </div> -->
+              <ion-input type="text" name="phoneNo" [ngModel]="userDetails.mobileNo" id="number"
+                placeholder="XXXXXXXXXX" readonly></ion-input>
+            </div>
+
+            <div class="login-input verify-input">
+              <ion-label>Email ID</ion-label>
+              <ion-input minlength="8" type="email" name="emailId" class="custom-input"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$" id="email" placeholder="Email ID"
+                [(ngModel)]="userDetails.emailId" required></ion-input>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Date of Birth</ion-label>
+              <mat-form-field appearance="fill" class="example-form-field custom-datePicker"
+                (click)="datepicker.open()">
+                <input matInput [matDatepicker]="datepicker" placeholder="DD - MM - YYYY"
+                  [(ngModel)]="userDetails.dateOfBirth" name="dateOfBirth">
+                <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Gender</ion-label>
+              <div class="custom-raw">
+                <ng-container *ngFor="let type of genderType">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}"
+                    (click)="onClickSelect(type)">{{type.name}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input">
+              <ion-label class="caption">Gender</ion-label>
+              <ion-radio-group class="customRadio" name="gender" [ngModel]="userDetails.gender"
+                (ngModelChange)="userDetails.gender=$event" required>
+                <ion-item>
+                  <ion-label>Male</ion-label>
+                  <ion-radio slot="start" mode="ios" value="male"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Female</ion-label>
+                  <ion-radio slot="start" mode="ios" value="female"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+            <div class="login-input">
+              <ion-label class="caption">School Board</ion-label>
+              <div class="custom-raw">
+                <ng-container *ngFor="let board of boardOfEducation">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': board.isActive}"
+                    [disabled]="board.status=='INACTIVE'"
+                    (click)="onSelectBoard(board)">{{board.displayName}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input">
+              <ion-label class="caption">School Board</ion-label>
+              <ion-radio-group class="customRadio" name="boardId" [ngModel]="userDetails.boardId"
+                (ngModelChange)="userDetails.boardId=$event" (ionChange)="changeBoard($event)" #radioGroup required>
+                <ion-item *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">
+                  <ion-label>{{board.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="board.id">
+                  </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+            <div class="login-input">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <div class="custom-raw custom-raw1">
+                <ng-container *ngFor="let class of classOfEducations">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': class.isActive}"
+                    (click)="onSelectClass(class)">{{class.displayName}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input" *ngIf="classOfEducations.length>0">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <ion-radio-group class="customRadio classRadio" id="ghgh" name="classId" [ngModel]="userDetails.classId"
+                (ngModelChange)="userDetails.classId=$event" (ionChange)="changeClass($event)" required>
+                <ion-item *ngFor="let class of classOfEducations">
+                  <ion-label>{{class.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="class.id"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+          </div>
+        </form>
+        <div class="btn-content">
+          <ion-button class="secondary-btn" [disabled]="!personalForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Parent Personal Information -->
+
+      <div class="parent-info" *ngIf="userDetails.userType=='PARENT'">
+        <form name="personalForm" #personalForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <!-- <ion-input type="text" name="referralCode" id="referralCode" [ngModel]="userDetails.referralCode"
+                    (ngModelChange)="userDetails.referralCode=$event" placeholder="Referral Code"
+                    [disabled]="true"></ion-input> -->
+            <div class="login-input">
+              <ion-label class="caption">Parent Name</ion-label>
+              <ion-input type="text" name="parentName" id="parentName" placeholder="Your name"
+                [ngModel]="userDetails.parentName" (ngModelChange)="userDetails.parentName=$event" required>
+              </ion-input>
+            </div>
+
+            <div class="heading">
+              <h4>Childs Information</h4>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Student First Name</ion-label>
+              <ion-input type="text" name="firstName" id="firstName" [ngModel]="userDetails.firstName"
+                (ngModelChange)="userDetails.firstName=$event" placeholder="First Name" required></ion-input>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Student Last Name</ion-label>
+              <ion-input type="text" name="lastName" id="lastName" placeholder="Last Name"
+                [ngModel]="userDetails.lastName" (ngModelChange)="userDetails.lastName=$event" required></ion-input>
+            </div>
+
+            <div class="login-input verify-input">
+              <ion-label class="caption">Mobile</ion-label>
+
+              <ion-input type="text" name="phoneNo" [ngModel]="userDetails.mobileNo" id="number"
+                placeholder="XXXXXXXXXX" readonly></ion-input>
+            </div>
+
+            <div class="login-input verify-input">
+              <ion-label>Email ID / Phone Number</ion-label>
+              <ion-input minlength="8" type="email" name="emailId" class="custom-input"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$" id="email" placeholder="Email ID"
+                [(ngModel)]="userDetails.emailId" required></ion-input>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Date of Birth</ion-label>
+              <mat-form-field appearance="fill" class="example-form-field custom-datePicker"
+                (click)="datepicker.open()">
+                <input matInput [matDatepicker]="datepicker" placeholder="DD - MM - YYYY"
+                  [(ngModel)]="userDetails.dateOfBirth" name="dateOfBirth" [max]="maxDate">
+                <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Gender</ion-label>
+              <div class="custom-raw">
+                <ng-container *ngFor="let type of genderType">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}"
+                    (click)="onClickSelect(type)">{{type.name}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input">
+              <ion-label class="caption">Gender</ion-label>
+              <ion-radio-group class="customRadio" name="gender" [ngModel]="userDetails.gender"
+                (ngModelChange)="userDetails.gender=$event" required>
+                <ion-item>
+                  <ion-label>Male</ion-label>
+                  <ion-radio slot="start" mode="ios" value="male"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Female</ion-label>
+                  <ion-radio slot="start" mode="ios" value="female"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+            <div class="login-input">
+              <ion-label class="caption">School Board</ion-label>
+              <div class="custom-raw">
+                <ng-container *ngFor="let board of boardOfEducation">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': board.isActive}"
+                    [disabled]="board.status=='INACTIVE'"
+                    (click)="onSelectBoard(board)">{{board.displayName}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input">
+              <ion-label class="caption">School Board</ion-label>
+              <ion-radio-group class="customRadio" name="boardId" [ngModel]="userDetails.boardId"
+                (ngModelChange)="userDetails.boardId=$event" (ionChange)="changeBoard($event)" #radioGroup required>
+                <ion-item *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">
+                  <ion-label>{{board.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="board.id">
+                  </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+
+            <div class="login-input">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <div class="custom-raw custom-raw1">
+                <ng-container *ngFor="let class of classOfEducations">
+                  <ion-button class="selectBtn" [ngClass]="{'ACTIVE': class.isActive}"
+                    (click)="onSelectClass(class)">{{class.displayName}}</ion-button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- <ion-list class="radio-list login-input" *ngIf="classOfEducations.length>0">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <ion-radio-group class="customRadio classRadio" id="ghgh" name="classId" [ngModel]="userDetails.classId"
+                (ngModelChange)="userDetails.classId=$event" (ionChange)="changeClass($event)" required>
+                <ion-item *ngFor="let class of classOfEducations">
+                  <ion-label>{{class.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="class.id"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+          </div>
+        </form>
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!personalForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="inner-page d-none">
+    <div class="mb-3">
+      <div class="logo">
+        <ion-img [src]="'/assets/images/logo.png'"></ion-img>
+      </div>
+      <!-- Studennt Personal Information -->
+      <div class="studennt-info" *ngIf="userDetails.userType=='STUDENT'">
+        <div class="heading">
+          <h4>Personal Information</h4>
+          <ion-label class="caption m-0">Let your mates recognize you</ion-label>
+        </div>
+        <form name="personalForm" #personalForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <!-- <div class="login-input">
+              <ion-input type="text" name="referralCode" id="referralCode" [ngModel]="userDetails.referralCode"
+                (ngModelChange)="userDetails.referralCode=$event" placeholder="Referral Code"
+                [disabled]="true"></ion-input>
+            </div> -->
+            <div class="login-input">
+              <ion-input type="text" name="firstName" id="firstName" [ngModel]="userDetails.firstName"
+                (ngModelChange)="userDetails.firstName=$event" placeholder="First Name" required></ion-input>
+            </div>
+            <div class="login-input">
+              <ion-input type="text" name="lastName" id="lastName" placeholder="Last Name"
+                [ngModel]="userDetails.lastName" (ngModelChange)="userDetails.lastName=$event" required></ion-input>
+            </div>
+            <div class="login-input verify-input mb-2">
+              <div class="country-code">
+                <ion-img src="/assets/images/flag.jpg"></ion-img>
+                <span>+91</span>
+              </div>
+              <ion-input class="phone" type="text" name="phoneNo" [ngModel]="userDetails.mobileNo"
+                (ngModelChange)="userDetails.mobileNo=$event" id="number" placeholder="Mobile Number" minlength="10"
+                maxlength="10" inputmode="tel" required></ion-input>
+            </div>
+
+            <!-- <ion-list class="checkbox-list gender-list">
+              <ion-radio-group name="gender" [ngModel]="userDetails.gender" (ngModelChange)="userDetails.gender=$event"
+                required>
+                <ion-item>
+                  <ion-label>Male</ion-label>
+                  <ion-radio slot="start" mode="ios" value="male"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Female</ion-label>
+                  <ion-radio slot="start" mode="ios" value="female"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+            <div class="login-input">
+              <mat-form-field appearance="fill" class="example-form-field custom-datePicker"
+                (click)="datepicker.open()">
+                <input matInput [matDatepicker]="datepicker" placeholder="Date of Birth"
+                  [(ngModel)]="userDetails.dateOfBirth" name="dateOfBirth">
+                <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <!-- <ion-list class="checkbox-list bord-list">
+              <ion-label class="caption">School Board</ion-label>
+              <ion-radio-group name="boardId" [ngModel]="userDetails.boardId"
+                (ngModelChange)="userDetails.boardId=$event" (ionChange)="changeBoard($event)" #radioGroup required>
+                <ion-item *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">
+                  <ion-label>{{board.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="board.id">
+                  </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+            <!-- <ion-list class="checkbox-list class-list" *ngIf="classOfEducations.length>0">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <ion-radio-group class="flex-wrap" id="ghgh" name="classId" [ngModel]="userDetails.classId"
+                (ngModelChange)="userDetails.classId=$event" (ionChange)="changeClass($event)" required>
+                <ion-item *ngFor="let class of classOfEducations">
+                  <ion-label>{{class.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="class.id"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+          </div>
+        </form>
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!personalForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Parent Personal Information -->
+
+      <div class="parent-info" *ngIf="userDetails.userType=='PARENT'">
+        <form name="personalForm" #personalForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <!-- <ion-input type="text" name="referralCode" id="referralCode" [ngModel]="userDetails.referralCode"
+              (ngModelChange)="userDetails.referralCode=$event" placeholder="Referral Code"
+              [disabled]="true"></ion-input> -->
+            <div class="login-input">
+              <ion-input type="text" name="parentName" id="parentName" placeholder="Your name"
+                [ngModel]="userDetails.parentName" (ngModelChange)="userDetails.parentName=$event" required>
+              </ion-input>
+            </div>
+            <div class="heading">
+              <h4>Childs Information</h4>
+            </div>
+            <div class="login-input">
+              <ion-input type="text" name="firstName" id="firstName" [ngModel]="userDetails.firstName"
+                (ngModelChange)="userDetails.firstName=$event" placeholder="First Name" required></ion-input>
+            </div>
+            <div class="login-input">
+              <ion-input type="text" name="lastName" id="lastName" placeholder="Last Name"
+                [ngModel]="userDetails.lastName" (ngModelChange)="userDetails.lastName=$event" required></ion-input>
+            </div>
+            <div class="login-input verify-input mb-2">
+              <div class="country-code">
+                <ion-img src="/assets/images/flag.jpg"></ion-img>
+                <span>+91</span>
+              </div>
+              <ion-input class="phone" type="text" name="phoneNo" [ngModel]="userDetails.mobileNo"
+                (ngModelChange)="userDetails.mobileNo=$event" id="number" placeholder="Mobile Number" minlength="10"
+                maxlength="10" inputmode="tel" required></ion-input>
+            </div>
+            <!-- <ion-list class="checkbox-list gender-list">
+              <ion-radio-group name="gender" [ngModel]="userDetails.gender" (ngModelChange)="userDetails.gender=$event"
+                required>
+                <ion-item>
+                  <ion-label>Male</ion-label>
+                  <ion-radio slot="start" mode="ios" value="male"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Female</ion-label>
+                  <ion-radio slot="start" mode="ios" value="female"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+            <div class="login-input">
+              <mat-form-field appearance="fill" class="example-form-field custom-datePicker"
+                (click)="datepicker.open()">
+                <input matInput [matDatepicker]="datepicker" placeholder="Date of Birth"
+                  [(ngModel)]="userDetails.dateOfBirth" name="dateOfBirth" [max]="maxDate">
+                <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+            <!-- <ion-list class="checkbox-list bord-list">
+              <ion-label class="caption">School Board</ion-label>
+              <ion-radio-group name="boardId" [ngModel]="userDetails.boardId"
+                (ngModelChange)="userDetails.boardId=$event" (ionChange)="changeBoard($event)" #radioGroup required>
+                <ion-item *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">
+                  <ion-label>{{board.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="board.id">
+                  </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+
+            <!-- <ion-list class="checkbox-list class-list" *ngIf="classOfEducations.length>0">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <ion-radio-group class="flex-wrap" id="ghgh" name="classId" [ngModel]="userDetails.classId"
+                (ngModelChange)="userDetails.classId=$event" (ionChange)="changeClass($event)" required>
+                <ion-item *ngFor="let class of classOfEducations">
+                  <ion-label>{{class.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="class.id"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+          </div>
+        </form>
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!personalForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Teacher Personal Information -->
+
+      <div class="teacher-info" *ngIf="userDetails.userType=='TEACHER'">
+        <div class="heading">
+          <h4>Personal Information</h4>
+          <ion-label class="caption m-0">Let your mates recognize you</ion-label>
+        </div>
+        <form name="teacherForm" #teacherForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <ion-input type="text" name="referralCode" id="referralCode" [ngModel]="userDetails.referralCode"
+              (ngModelChange)="userDetails.referralCode=$event" placeholder="Referral Code"></ion-input>
+            <div class="login-input">
+              <ion-input type="text" name="firstName" id="firstName" placeholder="First Name"
+                [ngModel]="userDetails.firstName" (ngModelChange)="userDetails.firstName=$event" required></ion-input>
+            </div>
+            <div class="login-input">
+              <ion-input type="text" name="LastName" id="LastName" placeholder="Last Name"
+                [ngModel]="userDetails.lastName" (ngModelChange)="userDetails.lastName=$event" required></ion-input>
+            </div>
+            <div class="login-input verify-input mb-2">
+              <div class="country-code">
+                <ion-img src="/assets/images/flag.jpg"></ion-img>
+                <span>+91</span>
+              </div>
+              <ion-input class="phone" type="text" name="phoneNo" [ngModel]="userDetails.mobileNo"
+                (ngModelChange)="userDetails.mobileNo=$event" id="number" placeholder="Mobile Number" minlength="10"
+                maxlength="10" inputmode="tel" required></ion-input>
+            </div>
+            <!-- <ion-list class="checkbox-list gender-list">
+              <ion-radio-group name="gender" [ngModel]="userDetails.gender" (ngModelChange)="userDetails.gender=$event"
+                required>
+                <ion-item>
+                  <ion-label>Male</ion-label>
+                  <ion-radio slot="start" mode="ios" value="male"></ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Female</ion-label>
+                  <ion-radio slot="start" mode="ios" value="female"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+            <div class="login-input">
+              <mat-form-field appearance="fill" class="example-form-field custom-datePicker"
+                (click)="datepicker.open()">
+                <input matInput [matDatepicker]="datepicker" placeholder="Date of Birth"
+                  [(ngModel)]="userDetails.dateOfBirth" name="dateOfBirth">
+                <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply (click)="submitDate()">Ok</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+            <!-- <ion-list class="checkbox-list bord-list">
+              <ion-label class="caption">School Board</ion-label>
+              <ion-radio-group name="boardId" [ngModel]="userDetails.boardId"
+                (ngModelChange)="userDetails.boardId=$event" (ionChange)="changeBoard($event)" #radioGroup required>
+                <ion-item *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">
+                  <ion-label>{{board.displayName}}</ion-label>
+                  <ion-radio slot="start" mode="ios" [value]="board.id">
+                  </ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list> -->
+            <!--Prefer  class-->
+            <!-- <ion-list class="checkbox-list class-list" *ngIf="classOfEducations.length>0">
+              <ion-label class="caption">Class you are studying now</ion-label>
+              <ion-item *ngFor="let class of classOfEducations">
+                <ion-label>{{class.displayName}}</ion-label>
+                <ion-radio slot="start" mode="ios" [value]="class.id" (click)="onSelectedClasse(class)"></ion-radio>
+              </ion-item>
+            </ion-list> -->
+            <!--Prefer  subjects-->
+          </div>
+        </form>
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!teacherForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

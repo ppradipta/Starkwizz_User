@@ -1,0 +1,233 @@
+<!-- <ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+    <div class="notify-btn" (click)="goToNotification()">
+      <ion-icon class="notify-icon" name="notifications-circle-outline"></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+        <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+      </ion-badge>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+
+  <div class="page-inner" *ngIf="contenskeleton">
+    <div class="question-card">
+      <ion-skeleton-text animated
+        style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+      <div class="inner-card">
+        <div class="card-top">
+          <ion-skeleton-text animated
+            style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-inner" *ngIf="!contenskeleton">
+    <div class="question-card">
+      <h5>{{resultDetails.displayName}}</h5>
+      <h4 class="event-name">Quiz Whizz Total</h4>
+      <div class="card-heading">
+        <div class="score-info">
+          <ion-label>your score</ion-label>
+          <div class="d-flex align-items-end">
+            <h4>{{resultDetails?.totalScore}}</h4>
+            <span>pt</span>
+          </div>
+        </div>
+      </div>
+      <ion-label class="heading">Test Analysis</ion-label>
+      <div class="test-card">
+        <div class="card-top">
+          <div class="card-section total">
+            <h4>{{resultDetails?.totalQuestions}}</h4>
+            <span>Total Question</span>
+          </div>
+          <div class="card-section time">
+            <h4>{{resultDetails?.totalExamTimeUsDisplay || resultDetails?.totalExamTimeDisplay}}</h4>
+            <span>Time taken</span>
+          </div>
+        </div>
+        <div class="card-bottom">
+          <div class="card-section currect">
+            <h4>{{resultDetails?.correctAnswers}}</h4>
+            <span>Correct</span>
+          </div>
+          <div class="card-section incurrect">
+            <h4>{{resultDetails?.inCorrectAnswers}}</h4>
+            <span>Incorrect</span>
+          </div>
+          <div class="card-section skipped">
+            <h4>{{resultDetails?.skippedQuestions}}</h4>
+            <span>Skipped</span>
+          </div>
+        </div>
+      </div>
+
+      <swiper-container>
+        <swiper-slide *ngFor="let result of resultDetails?.records">
+          <div class="test-card">
+            <h4 class="event-code-slid">{{result?.eventCode}}</h4>
+            <ion-label class="heading-slid">{{result?.eventName}}</ion-label>
+            <div class="card-top">
+              <div class="card-section total">
+                <h4>{{result?.totalAppearQuesiton}}</h4>
+                <span>Total Question</span>
+              </div>
+              <div class="card-section time">
+                <h4>{{result?.totalExamTimeUsDisplay || result?.totalExamTimeDisplay}}</h4>
+                <span>Time taken</span>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-section currect">
+                <h4>{{result?.totalCorrect}}</h4>
+                <span>Correct</span>
+              </div>
+              <div class="card-section incurrect">
+                <h4>{{result?.totalInCorrect}}</h4>
+                <span>Incorrect</span>
+              </div>
+              <div class="card-section skipped">
+                <h4>{{result?.totalSkipQuestions}}</h4>
+                <span>Skipped</span>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </div>
+  </div>
+</ion-content> -->
+
+
+
+  <ion-header class="quiz-header">
+    <ion-button (click)="goBack()">
+      <ion-icon name="chevron-back"></ion-icon>
+    </ion-button>
+    <div class="header-logo">
+      <ion-img src="/assets/images/theme-logo.svg"></ion-img>
+    </div>
+  </ion-header>
+  <ion-content>
+
+    <div class="page-inner" *ngIf="contenskeleton">
+      <div class="question-card">
+        <ion-skeleton-text animated
+          style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+        <div class="inner-card">
+          <div class="card-top">
+            <ion-skeleton-text animated
+              style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-body" *ngIf="!contenskeleton">
+      <div class="quiz-top">
+        <ion-title>Quizwhizz</ion-title>
+        <h5>{{resultDetails.displayName}}</h5>
+        <div class="classBoard">
+          <span>STD: {{resultDetails.className}}</span>
+          <span class="mx-1">-</span>
+          <span>Board: {{resultDetails.boardName}}</span>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <h4 class="event-name">Quiz Whizz Total</h4>
+        <div class="classBoard">
+          <span>{{contestLevelLabel || '-'}}, Date: {{eventDateText || '-'}}</span>
+        </div>
+         <div class="classBoard" *ngIf="resultDetails?.digitalBadge as badge">
+           <div class="badge-inline">
+             <!-- <ion-img class="badge-img" [src]="getBadgeImage(badge)"></ion-img> -->
+             <span>Digital Badge: <b>{{badge.badgeName}}</b> ({{badge.percentage}}%), Bonus Point: <b>{{badge.bonusPoint}}</b></span>
+           </div>
+         </div>
+
+        <div class="timer">
+          <div class="circle__item">
+            <svg class="circle__spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="22" [ngStyle]="{'animation-duration.s':'50'}"></circle>
+            </svg>
+          </div>
+          <div class="circle__item circle__item1">
+            <svg class="circle__spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="22" [ngStyle]="{'animation-duration.s':'50'}"></circle>
+            </svg>
+          </div>
+          <div class="circle__item circle__item2">
+            <svg class="circle__spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="22" [ngStyle]="{'animation-duration.s':'50'}"></circle>
+            </svg>
+          </div>
+           <div class="score-info">
+             <h4>{{resultDetails?.totalScore || 0}} pt</h4>
+             <ion-label>Secured Point</ion-label>
+           </div>
+         </div>
+
+         <div class="score-table">
+           <div class="d-flex mb-2">
+             <span>Secured Point : <b>{{resultDetails?.totalScore || 0}}</b></span>
+             <span>Bonus Point : <b>{{resultDetails?.bonusPoint || 0}}</b></span>
+             <span>Terminal Point : <b>{{resultDetails?.terminalPoint || (resultDetails?.totalScore || 0)}}</b></span>
+           </div>
+           <div class="d-flex mb-2">
+             <span>Total : <b>{{resultDetails?.totalQuestions}}</b></span>
+             <span>Correct : <b>{{resultDetails?.correctAnswers}}</b></span>
+             <span>Wrong : <b>{{resultDetails?.inCorrectAnswers}}</b></span>
+           </div>
+          <div class="d-flex">
+            <span>Skipped : <b>{{resultDetails?.skippedQuestions}}</b></span>
+            <span class="time">Time taken : <b>{{resultDetails?.totalExamTimeUsDisplay || resultDetails?.totalExamTimeDisplay}}</b></span>
+          </div>
+        </div>
+
+        <swiper-container>
+          <swiper-slide *ngFor="let result of resultDetails?.records">
+            <div class="test-card">
+              <h4 class="event-code-slid">{{result?.eventCode}}</h4>
+              <ion-label class="heading-slid">{{result?.eventName}}</ion-label>
+              <div class="card-top">
+                <div class="card-section total">
+                  <h4>{{result?.totalAppearQuesiton}}</h4>
+                  <span>Total Question</span>
+                </div>
+                <div class="card-section time">
+                  <h4>{{result?.totalExamTimeUsDisplay || result?.totalExamTimeDisplay}}</h4>
+                  <span>Time taken</span>
+                </div>
+              </div>
+              <div class="card-bottom">
+                <div class="card-section currect">
+                  <h4>{{result?.totalCorrect}}</h4>
+                  <span>Correct</span>
+                </div>
+                <div class="card-section incurrect">
+                  <h4>{{result?.totalInCorrect}}</h4>
+                  <span>Incorrect</span>
+                </div>
+                <div class="card-section skipped">
+                  <h4>{{result?.totalSkipQuestions}}</h4>
+                  <span>Skipped</span>
+                </div>
+              </div>
+            </div>
+          </swiper-slide>
+        </swiper-container>
+
+      </div>
+    </div>
+  </ion-content>

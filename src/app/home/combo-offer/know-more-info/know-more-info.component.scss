@@ -1,0 +1,335 @@
+ion-header {
+  height: 64px;
+  background: #fff;
+  padding: 30px 16px 10px;
+  display: flex;
+  align-items: center;
+
+  &::after {
+    height: 0;
+  }
+
+  ion-button {
+    height: 30px;
+    width: 30px;
+    font-size: 18px;
+    margin: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --background: transparent;
+    --box-shadow: none;
+
+    ion-icon {
+      color: #191919;
+    }
+  }
+
+  ion-title {
+    font-size: 18px;
+    line-height: 22px;
+    font-family: "Nunito-Bold";
+    color: #1A1A1A;
+    text-align: center;
+  }
+}
+
+.custom-segment {
+  padding: 16px 16px 8px;
+
+  ion-segment {
+    background: #EFF0FF;
+    border-radius: 8px;
+
+    ion-segment-button {
+      height: 36px;
+      font-size: 12px;
+      font-family: "Nunito-Regular";
+      color: #3F3939;
+
+      &.segment-button-checked {
+        color: #1A1A1A;
+        font-family: 'Nunito-ExtraBold';
+        background: #D6D9FF;
+
+        ion-label {
+          &::after {
+            height: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.page-inner {
+  padding: 16px;
+
+  h2 {
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0;
+    font-family: 'Nunito-ExtraBold';
+    text-align: center;
+    color: #000;
+    border-bottom: 1px solid #1a1a1a;
+    width: max-content;
+    margin: 0 auto 10px;
+  }
+
+  h5 {
+    font-size: 15px;
+    line-height: 20px;
+    margin: 0 0 10px;
+    font-family: 'Nunito-ExtraBold';
+    text-align: center;
+    color: #000;
+
+    &.underLine {
+      line-height: 14px;
+      text-align: start;
+      border-bottom: 1px solid #1a1a1a;
+      width: max-content;
+      margin-bottom: 16px;
+    }
+  }
+
+  ion-text {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 auto 16px;
+    font-family: "Nunito-ExtraBold";
+    color: #000;
+    display: block;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+  }
+
+  .hBorder {
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 4px;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 18px;
+    margin: 0;
+    font-family: 'Nunito-SemiBold';
+    color: #000;
+
+    b {
+      font-family: 'Nunito-Bold';
+    }
+  }
+
+  ion-title {
+    font-size: 14px;
+    line-height: 13px;
+    margin: 0 auto 16px;
+    font-family: 'Nunito-ExtraBold';
+    width: fit-content;
+    padding: 0;
+    color: #000;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .test-section {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 80%;
+
+    span {
+      font-size: 11px;
+      line-height: 16px;
+      display: block;
+      font-family: 'Nunito-SemiBold';
+      margin-bottom: 20px;
+      color: #000;
+
+      b {
+        font-family: 'Nunito-ExtraBold';
+      }
+    }
+
+    ion-label {
+      font-size: 13px;
+      line-height: 16px;
+      font-family: "Nunito-ExtraBold";
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      label {
+        text-decoration: underline;
+        margin: 0 4px;
+      }
+    }
+
+    .test-raw {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &.test-raw1 {
+        justify-content: center;
+
+        .test-col {
+          width: auto;
+        }
+      }
+
+      &.test-raw2 {
+        flex-direction: column;
+
+        .test-col {
+          width: auto;
+        }
+
+        .test-col1 {
+          width: 70%;
+        }
+      }
+
+      &.reward {
+        align-items: flex-start;
+
+        .test-col {
+          border: 0;
+          border-radius: 0;
+          text-align: center;
+          padding: 0;
+          width: calc(50% - 10px);
+
+          ion-label {
+            border: 2px solid #1a1a1a;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            padding: 5px 10px;
+          }
+
+          &.test-col1 {
+            width: 75%;
+          }
+        }
+      }
+
+      .test-col {
+        border: 2px solid #1a1a1a;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 16px;
+        font-family: 'Nunito-ExtraBold';
+        color: #000;
+        width: calc(50% - 20px);
+      }
+    }
+  }
+
+  ul {
+    padding-left: 30px;
+    margin: 0;
+
+    li {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 10px;
+      font-family: 'Nunito-SemiBold';
+      color: #000;
+      padding-left: 6px;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      span {
+        display: block;
+        margin-top: 6px;
+        text-align: center;
+      }
+
+      b {
+        font-family: 'Nunito-ExtraBold';
+      }
+    }
+  }
+
+  .table {
+
+    tr {
+      border-color: #000;
+    }
+
+    td,
+    th {
+      font-size: 13px;
+      line-height: 20px;
+      margin-bottom: 10px;
+      font-family: "Nunito-SemiBold";
+      text-align: center;
+
+      &.w100 {
+        width: 100px;
+      }
+
+      &.title {
+        background: #FCD5B4;
+      }
+
+      &.head {
+        background: #FFEB3B;
+      }
+
+      b {
+        font-family: 'Nunito-ExtraBold';
+      }
+    }
+
+  }
+
+  .reward-table {
+    .table {
+      width: 90%;
+      margin: 16px auto;
+      min-width: 350px;
+    }
+  }
+
+  .rewardlist {
+    list-style: auto;
+
+    span {
+      text-align: start !important;
+    }
+  }
+
+  .last {
+    text-align: center;
+    margin-top: 16px;
+
+    p {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .blue {
+      font-size: 16px;
+      color: #0A395A;
+      font-family: 'Nunito-ExtraBold';
+    }
+  }
+}
+
+::ng-deep app-header {
+  ion-header {
+    height: 50px !important;
+
+    &::after {
+      height: 0 !important;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<ion-app>
+  <ion-split-pane when="md" contentId="main-content">
+    <ion-menu contentId="main-content">
+      <ion-header class="drawerHeader">
+        <div class="user-img">
+          <ion-img *ngIf="userDetails.imageUrl=='' || userDetails.imageUrl==null" src="assets/images/menu-user.gif">
+          </ion-img>
+          <ion-img *ngIf="userDetails.imageUrl!='' || userDetails.imageUrl!=null" [src]="userDetails.imageUrl">
+          </ion-img>
+        </div>
+        <div class="user-info">
+          <ion-label class="user-name">{{userDetails.displayName}}</ion-label>
+          <ion-label class="user-id mb-1" *ngIf="userDetails.mobileNo">{{userDetails.mobileNo}}</ion-label>
+          <ion-label class="user-id" *ngIf="userDetails.id">{{userDetails.applicationId}}</ion-label>
+        </div>
+        <div class="progress-status">
+          <span>Profile strength</span>
+          <ion-progress-bar value="0.5"
+            *ngIf="!userDetails.stateId || !userDetails.districtId || !userDetails.cityId || !userDetails.schoolId">
+          </ion-progress-bar>
+
+          <ion-progress-bar value="1"
+            *ngIf="userDetails.stateId && userDetails.districtId && userDetails.cityId && userDetails.schoolId">
+          </ion-progress-bar>
+        </div>
+      </ion-header>
+      <ion-content>
+        <ion-list class="mb-0 bg-white user-left-menu">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item class="side-nav-border" (click)="changePage(p)">
+              <div class="d-flex align-items-center w-100">
+                <ion-icon slot="start" class="drawerLabel-icon" [src]="p.imageURL" [name]="p.imageURL"></ion-icon>
+                <ion-label class="drawerLabel w-100">{{p.title}}</ion-label>
+              </div>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <ion-button class="clear-btn" fill="clear">Version {{version}}</ion-button>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+
+</ion-app>

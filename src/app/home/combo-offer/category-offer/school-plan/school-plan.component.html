@@ -1,0 +1,108 @@
+
+<ion-content>
+  <div class="page-inner" *ngIf="subscriptionType == 'SUBSCRIBE'">
+    <h3>Student Name - {{userDetails?.firstName}} {{userDetails?.lastName}}</h3>
+    <h3>{{userDetails?.schoolName}}</h3>
+    <ion-label class="heading-label">Academic Year 2026-27</ion-label>
+
+    <div class="custom-raw">
+      <div class="custom-col">
+        <!-- <div class="col-detail">
+          <h2>Subscription Fee</h2>
+          <div class="price">
+            <span class="ms-auto">₹ {{comboOffer.totalPrice | number:'1.2-2'}}</span>
+          </div>
+        </div> -->
+        <div class="col-detail">
+          <h2>Subscription Fee</h2>
+          <div class="price">
+            <span class="ms-auto">₹ {{afterDiscountTotal | number:'1.2-2'}}</span>
+          </div>
+        </div>
+        <!-- <div class="col-detail"  [ngClass]="{'green': comboOffer.discount > 0}">
+          <h2>Discount</h2>
+          <div class="price">
+            <span class="sign">-</span>
+            <span class="ms-auto">₹ {{comboOffer.discount | number:'1.2-2'}}</span>
+          </div>
+        </div> -->
+
+        <div class="price-section">
+          <!-- <div class="discount align-items-center">
+            <ion-label class="title m-0">Payable amount</ion-label>
+            <ion-text>₹ {{afterDiscountTotal | number:'1.2-2'}} </ion-text>
+          </div> -->
+          <span class="offer" *ngIf="discountAmt > 0">Congratulation, Starkwizz Promo Code has been
+            applied</span>
+          <span class="offer" *ngIf="!discountAmt">Enter Academic Code <b></b></span>
+          <div class="discount">
+            <ion-input name="referral" type="text" placeholder="Please enter" [(ngModel)]="referralCode">
+            </ion-input>
+            <ion-button class="pay-btn" (click)="onClickAddCoupon()">{{discountAmt > 0 ? 'Applied' : 'Apply'}}</ion-button>
+          </div>
+
+          <div class="discount disBorder" *ngIf="discountAmt > 0">
+            <ion-label class="green">Promo Code Discount </ion-label>
+            <ion-text class="discPrice"><b>-</b> &nbsp; ₹ {{discountAmt | number:'1.2-2'}}</ion-text>
+          </div>
+
+          <div class="discount align-items-center" *ngIf="netAmountAfterDiscount > 0">
+            <ion-label class="title m-0">Net Amount (After Discount)</ion-label>
+            <ion-text>₹ {{netAmountAfterDiscount | number:'1.2-2'}}</ion-text>
+          </div>
+
+          <div class="discount align-items-center m-0">
+            <ion-label class="title m-0">Net payable amount</ion-label>
+            <ion-text>₹ {{payTotal | number:'1.2-2'}}</ion-text>
+          </div>
+          <span class="remaining">(Inclusive GST)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-inner pt-4" *ngIf="subscriptionType == 'FREETRIAL'">
+
+
+      <div class="logo">
+        <ion-img src="/assets/images/home/logo.svg"></ion-img>
+      </div>
+      <h3>Free Trial For <span>{{(freeTrial.totalDays)}} Days</span> </h3>
+      <ion-label class="heading-label label">Academic Year [2025-26]</ion-label>
+      <ion-label class="heading-label">Pilot Program</ion-label>
+
+      <div class="custom-raw m-0">
+        <!-- <ion-label class="title">Subscription Fee [365 Days]</ion-label> -->
+        <div class="custom-col">
+          <div class="col-detail" *ngFor="let offer of comboOffer.offerApplicables">
+            <h2>{{offer.type}}</h2>
+            <div class="price">
+              <span class="sign" *ngIf="offer.id != 0">+</span>
+              <span class="ms-auto">₹ {{0 | number:'1.2-2'}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="price-section">
+          <div class="discount align-items-center">
+            <ion-label class="title m-0">Sub total</ion-label>
+            <ion-text>₹ {{0 | number:'1.2-2'}}</ion-text>
+          </div>
+
+          <div class="discount align-items-center m-0">
+            <ion-label class="title m-0">Net payable amount</ion-label>
+            <ion-text>₹ {{0 | number:'1.2-2'}}</ion-text>
+          </div>
+          <span class="remaining">(Including taxes and fee)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<div class="footer-fixed">
+  <div class="btn-group">
+    <ion-button (click)="onClickPay()" *ngIf="subscriptionType == 'SUBSCRIBE'">Pay ₹ {{payTotal | number:'1.2-2'}}
+    </ion-button>
+    <ion-button (click)="onClickFreeTrial()" *ngIf="subscriptionType == 'FREETRIAL'">Let's Start</ion-button>
+    <ion-button (click)="goBack()">Cancel</ion-button>
+  </div>
+</div>

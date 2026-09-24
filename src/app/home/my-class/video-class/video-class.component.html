@@ -1,0 +1,120 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="video-container" *ngFor="let event of eClassList; let i = index" [attr.data-index]="i">
+      <div class="video-box">
+        <video preload="auto"  #videoElements webkit-playsinline="playsinline" class="videoPlayer" autobuffer  (play)="videoPlayClick(event,i)"
+          poster="assets/videoloader.gif" (ended)="videoEnd(event,i)" controls controlsList="nodownload" preload="metadata">
+          <source [src]="event?.videoURL" type="video/mp4" />
+        </video>
+        <div class="videoBtn" *ngIf="isHideBtn">
+          <ion-icon name="pause" *ngIf="videoPlayPause" (click)="videoPlayClick(event,i)"></ion-icon>
+          <ion-icon class="play-icon" name="play" *ngIf="!videoPlayPause" (click)="videoPlayClick(event,i)"></ion-icon>
+        </div>
+      </div>
+
+      <!-- <vg-player>
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+        <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+        <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+            <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+            <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+            <vg-track-selector></vg-track-selector>
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <video [vgMedia]="$any(media)" #media id="singleVideo" preload="auto" crossorigin="anonymous">
+            <source [src]="event?.videoURL"  type="video/mp4">
+        </video>
+    </vg-player> -->
+      <div class="video-detail mb-2">
+        <div>
+          <h4>Topic : {{event?.topicName}}</h4>
+          <ion-label>{{event?.viewsCount}} Views</ion-label>
+        </div>
+        <ion-icon (click)="onClickDesc(event)" name="ellipsis-vertical"></ion-icon>
+      </div>
+      <div class="video-panel">
+        <div class="video-info" (click)="onClickLike(event)">
+          <div class="video-icon">
+            <ion-img src="/assets/svg/like-icon.svg"></ion-img>
+          </div>
+          <span>{{event?.likeCount}}</span>
+        </div>
+        <div class="video-info" (click)="onClickDisLike(event)">
+          <div class="video-icon">
+            <ion-img src="/assets/svg/unlike-icon.svg"></ion-img>
+          </div>
+          <span>{{event?.dislikeCount}}</span>
+        </div>
+        <div class="video-info" (click)="onClickViewRatingDetails(event)">
+          <div class="video-icon">
+            <ion-img class="star-icon" src="/assets/svg/star-icon.svg"></ion-img>
+          </div>
+          <span>{{event?.avgRate}}</span>
+        </div>
+        <!-- <div class="video-info" *ngIf="event.isDownloadAllow">
+          <div class="video-icon">
+            <ion-img src="/assets/svg/download-icon.svg"></ion-img>
+          </div>
+          <span>Download</span>
+        </div> -->
+      </div>
+      <div class="video-detail align-items-center">
+        <div class="d-flex align-items-center">
+          <div class="user-img">
+            <ion-img [src]="event.uploadDetails.imageUrl"></ion-img>
+          </div>
+          <div>
+            <h4>{{event?.uploadDetails?.displayName}}</h4>
+            <ion-label>{{event?.uploadDetails?.follower}} Followers</ion-label>
+          </div>
+        </div>
+        <!-- <ion-button fill="clear" class="clear-btn">FOLLOW</ion-button> -->
+      </div>
+      <!-- <div class="comment-section" (click)="onClickComment(event)" *ngIf="event.isComment">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <ion-label>Comments {{event?.commentCount}}</ion-label>
+          <ion-img src="/assets/svg/up-down-icon.svg"></ion-img>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</ion-content>
+
+
+
+<ion-modal #loctionModal class="selectBottomSheet" [isOpen]="isVideoDescOpen" [initialBreakpoint]="0.50"
+  [breakpoints]="[0.25, 0.5, 0.75]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <div class="header-toolbar">
+            <ion-title>Video Description</ion-title>
+          </div>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-icon name="close-outline" (click)="modalDismiss()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="section-row">
+        <ion-label class="section-label">{{selectVideo?.longDescription}}</ion-label>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

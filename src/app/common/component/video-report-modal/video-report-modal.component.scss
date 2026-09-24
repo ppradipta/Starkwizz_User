@@ -1,0 +1,41 @@
+ion-header {
+    border-bottom: 1px solid #70707066;
+    &.header-md::after {
+        height: 0;
+    }
+    .header-toolbar {
+        padding: 20px 16px 12px;
+        text-align: center;
+        ion-label {
+            font-size: 22px;
+            line-height: 24px;
+            color: #0A395A;
+            font-family: "Nunito-Bold";
+            display: block;
+        }
+    }
+}
+
+ion-content {
+    .modal-inner {
+        padding: 25px 20px;
+        .report-info {
+            margin-bottom: 20px;
+            ion-label {
+                font-size: 18px;
+                line-height: 20px;
+                color: #0A395A;
+                font-family: "Nunito-Bold";
+                display: block;
+            }
+            p {
+                font-size: 16px;
+                line-height: 20px;
+                color: #0a395ab3;
+                font-family: "Nunito-Regular";
+                display: block;
+                margin: 12px 0 0;
+            }
+        }
+    }
+}

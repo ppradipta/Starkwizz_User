@@ -1,0 +1,225 @@
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .title {
+        padding: 25px;
+        text-align: center;
+        border-radius: 0 0 20px 20px;
+        background: url(/assets/images/subject-header.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-bottom: 16px;
+        h4 {
+            font-size: 24px;
+            line-height: 26px;
+            font-family: 'Nunito-Bold';
+            display: block;
+            margin: 0 0 6px;
+            color: #fff;
+        }
+        ion-label {
+            font-size: 16px;
+            line-height: 20px;
+            font-family: 'Nunito-SemiBold';
+            display: block;
+            margin: 0;
+            color: #fff;
+        }
+    }
+    .page-inner {
+        padding: 0 10px;
+        flex: 1;
+        overflow-y: auto;
+        .heading {
+            font-size: 18px;
+            line-height: 20px;
+            font-family: "Nunito-Bold";
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+            color: #0A395A;
+        }
+        .subject-container {
+            margin-bottom: 12px;
+            .section-title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 10px;
+                h4 {
+                    font-size: 20px;
+                    line-height: 22px;
+                    font-family: 'Nunito-Bold';
+                    display: block;
+                    color: #0A395A;
+                    margin: 0 10px 0 0;
+                }
+                ion-button {
+                    margin: 0;
+                    --background: #51C1E9;
+                    --color: #0A395A;
+                    text-transform: capitalize;
+                    letter-spacing: 0;
+                    font-family: "Nunito-Bold";
+                    width: 116px;
+                    height: 30px;
+                    font-size: 14px;
+                    --border-radius: 30px;
+                    --padding-start: 10px;
+                    --padding-end: 6px;
+                    --box-shadow: none;
+                    ion-icon {
+                        color: #0A395A;
+                        font-size: 20px;
+                        margin-left: 3px;
+                    }
+                }
+            }
+            .subject-card {
+                width: 100%;
+                height: 200px !important;
+                background: transparent linear-gradient(226deg, #FFFFFF 0%, #51C1E9 100%) 0% 0% no-repeat padding-box;
+                box-shadow: 0px 3px 10px #00000066;
+                border-radius: 16px;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                position: relative;
+                &.test-completed {
+                    pointer-events: none;
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        height: 100%;
+                        width: 100%;
+                        background: #fff;
+                        border-radius: 16px;
+                        opacity: 0.4;
+                    }
+                }
+                &.test-inactive {
+                    pointer-events: none;
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        height: 100%;
+                        width: 100%;
+                        background: #8F8F8F;
+                        border-radius: 16px;
+                        opacity: 0.4;
+                    }
+                }
+                &.event-card {
+                    .card-body {
+                        padding-top: 25px;
+                    }
+                    .card-footer { 
+                        ion-button {
+                            width: 100%;
+                            --border-radius: 0 0 12px 12px;
+                        }
+                    }
+                }
+                .status-label {
+                    position: absolute;
+                    top: -5px;
+                    left: 0;
+                    right: 0;
+                    margin: 0 auto;
+                    height: 35px;
+                    padding-bottom: 3px;
+                    max-width: 140px;
+                    z-index: 1;
+                    color: #fff;
+                    ion-img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                .card-body {
+                    padding: 30px 16px 10px;
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    .section-label {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        .clear-btn {
+                            --color: #2290DE;
+                        }
+                    }
+                    .custom-label {
+                        font-size: 14px;
+                        line-height: 18px;
+                        font-family: "Nunito-Bold";
+                        display: block;
+                        color: #0A395A;
+                        margin-bottom: 2px;
+                    }
+                    .style-label {
+                        font-size: 22px;
+                        line-height: 24px;
+                        font-family: "Nunito-SemiBold";
+                        color: #0A395A;
+                        margin-bottom: 4px;
+                        span {
+                            font-family: "Nunito-Regular";
+                            margin-right: 4px;
+                        }
+                    }
+                    .showbiz-duration {
+                        font-size: 18px;
+                        line-height: 20px;
+                        font-family: "Nunito-SemiBold";
+                        color: #0A395A;
+                        margin-bottom: 4px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        span {
+                            font-size: 17px;
+                            margin-right: 4px;
+                        }
+                    }
+                }
+                .card-footer {
+                    height: 40px;
+                    padding: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: transparent;
+                    border-radius: 0;
+                    border: none;
+                    ion-button {
+                        height: 100%;
+                        width: 100%;
+                        --background: #fff;
+                        --color: #0A395A;
+                        --border-radius: 0 0 12px 12px;
+                        text-transform: capitalize;
+                        font-size: 16px;
+                        --box-shadow: none;
+                        margin: 0;
+                        letter-spacing: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep app-co-scholastic {
+    ion-slides {
+        padding: 16px 10px !important;
+        .swiper-pagination {
+            display: none;
+        }
+    }
+}

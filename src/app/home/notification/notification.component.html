@@ -1,0 +1,47 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-logo">
+        <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+    <!-- <div class="d-flex align-items-center">
+      <ion-icon class="notify-icon" name="notifications-circle-outline" (click)="goToNotification()"></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" style="background-color:#70CFED;" (click)="goToNotification()"
+        [ngClass]="{'active': notificationCount > 99}">
+        <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+      </ion-badge>
+    </div> -->
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="d-flex justify-content-center align-items-center h-100" *ngIf="notifications.length == 0">
+    <p class="noMsgText m-0">No Notification available.</p>
+  </div>
+  <div *ngIf="notifications.length > 0">
+    <div class="d-flex justify-content-end p-2">
+        <ion-button class="clear-btn" fill="clear" (click)="clearAllNotification()">
+          Clear All
+        </ion-button>
+    </div>
+    <ion-card *ngFor="let notification of notifications;">
+      <ion-card-content>
+        <div>
+          <div class="d-flex justify-content-between">
+            <p class="notify-text">{{notification.title}}</p>
+            <!-- <ion-button (click)="closeNotification(notification)" class="decline-btn">Clear</ion-button> -->
+          </div>
+          <small>{{notification.msgText}}</small>
+          <p class="notify-date">{{notification.creationDate | date : 'MMM d, y'}}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

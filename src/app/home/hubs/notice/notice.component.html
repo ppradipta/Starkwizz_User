@@ -1,0 +1,23 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="page-heading">
+      <h2>Notice</h2>
+     </div>
+    <div class="card-container">
+      <ion-card *ngFor="let notice of notices;">
+        <ion-card-header>
+          <img [src]="notice.photos">
+        </ion-card-header>
+        <ion-card-content>
+          <div [innerHTML]="notice.description">
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,89 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <ion-label class="section-title">Create Lesson</ion-label>
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Name"></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-label class="section-label">Select Board</ion-label>
+      <ion-select class="section-input" placeholder="Select Board" mode="ios">
+        <ion-select-option *ngFor="let list of boardList" [value]="list.id">{{list.board}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-label class="section-label">Select Class</ion-label>
+      <ion-select class="section-input" placeholder="Select Class" mode="ios">
+        <ion-select-option *ngFor="let list of classList" [value]="list.id">{{list.class}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-label class="section-label">Select Subject</ion-label>
+      <ion-select class="section-input" placeholder="Select Subject" mode="ios">
+        <ion-select-option *ngFor="let list of subjectList" [value]="list.id">{{list.subj}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+   
+    <ion-item class="section-row">
+      <ion-label class="section-label">Select Module</ion-label>
+      <ion-select class="section-input" placeholder="Select Module" mode="ios">
+        <ion-select-option *ngFor="let list of moduleList" [value]="list.id">{{list.module}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-list class="checkbox-list">
+      <ion-radio-group>
+        <ion-item>
+          <ion-label>Free</ion-label>
+          <ion-radio slot="start" mode="ios" value="Free"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Chargeble</ion-label>
+          <ion-radio slot="start" mode="ios" value="Chargeble"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Amount"></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row mb-3">
+      <mat-form-field appearance="fill" class="example-form-field custom-datePicker" (click)="datepicker.open()">
+        <input matInput [matDatepicker]="datepicker" placeholder="Lesson Start Date" name="dateOfBirth">
+        <mat-datepicker-toggle [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Ok</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </ion-item>
+
+    <ion-item class="section-row mb-3">
+      <mat-form-field appearance="fill" class="example-form-field custom-datePicker" (click)="datepicker1.open()">
+        <input matInput [matDatepicker]="datepicker1" placeholder="Lesson End Date" name="dateOfBirth">
+        <mat-datepicker-toggle [for]="datepicker1"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker1>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Ok</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Lesson Duration"></ion-input>
+    </ion-item>
+
+    <ion-button class="secondary-btn" (click)="addExam()">Add Exam</ion-button>
+  </div>
+</ion-content>

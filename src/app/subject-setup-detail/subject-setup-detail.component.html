@@ -1,0 +1,37 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>{{examParam?.displayName}}</ion-title>
+    <ion-button (click)="cancelExam()">
+      <ion-icon slot="start" name="close-outline"></ion-icon>
+    </ion-button>
+    <!-- <ion-button fill="outline" (click)="cancelExam()" [disabled]="!(previousCompletedExam.length>0)"
+      color="danger">Cancle</ion-button> -->
+  </div>
+</ion-header>
+<ion-content>
+  <div class="section-row">
+    <div class="d-flex align-items-center justify-content-between">
+      <ion-label class="section-label me-2"></ion-label>
+      <ion-button class="create-btn" (click)="createExam()"
+      [disabled]="!(previousCompletedExam.length>0)">Create</ion-button>
+    </div>
+  </div>
+  <div class="section-row" *ngIf="previousCompletedExam.length==0">
+    <div class="text-center">
+      Please appear minimum {{paramRule?.rule?.complete_type}} exam in {{paramRule?.rule?.when_complete}} and Qualify to
+      appear for {{examParam?.displayName}}
+    </div>
+  </div>
+  <ion-list *ngIf="previousCompletedExam.length>0">
+    <div class="section-label text-center errorMsg" *ngIf="erroMsg">
+      {{erroMsg}}
+    </div>
+    <ion-item *ngFor="let exam of previousCompletedExam" (click)="selectModuleForTest(exam)">
+      <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+      <ion-label>{{exam.moduleName}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="exam.isChecked">
+      </ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

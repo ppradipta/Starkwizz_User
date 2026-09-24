@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="225" height="60" viewBox="0 0 225 60">
+  <defs>
+    <filter id="Path_371" x="0" y="0" width="225" height="60" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feFlood flood-opacity="0.4"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_1122" data-name="Group 1122" transform="translate(-201.902 -456.5)">
+    <path id="Path_369" data-name="Path 369" d="M-1-2,2.344,6H-2.165Z" transform="translate(420.402 463)" fill="#176344"/>
+    <path id="Path_370" data-name="Path 370" d="M1.344-2-2,6H2.6Z" transform="translate(208.059 463)" fill="#176344"/>
+    <g transform="matrix(1, 0, 0, 1, 201.9, 456.5)" filter="url(#Path_371)">
+      <path id="Path_371-2" data-name="Path 371" d="M-5,0H205l-5,35c-.631,5.236-4.477,10-10,10H10C4.477,45,.555,40.467,0,35Z" transform="translate(12.5 4.5)" fill="#2aa271"/>
+    </g>
+    <text id="Completed" transform="translate(314.402 491.5)" fill="#fff" font-size="25" font-family="Nunito-Regular, Nunito" letter-spacing="0.015em"><tspan x="-36" y="0">Completed</tspan></text>
+  </g>
+</svg>

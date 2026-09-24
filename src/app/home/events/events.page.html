@@ -1,0 +1,234 @@
+<!-- <ion-header class="header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/theme-logo.svg"></ion-img>
+    </div>
+    <div></div>
+  </div>
+</ion-header> -->
+
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+
+<ion-content [style.--event-cart-footer-space]="selectedForSubscribe.length>0 ? '220px' : '0px'">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="main-content">
+    <div class="page-header">
+      <div class="me-2">
+        <div class="update"><span>Show Your Talent!</span></div>
+        <div class="update"><span>Let's <h4>Participate in!</h4></span></div>
+      </div>
+      <ion-button (click)="viewSubscribedEvents()">My Cart</ion-button>
+    </div>
+    <div class="page-container events-scroll">
+
+      <!-- Add your condition here -->
+      <swiper-container class="mySwiper" autoplay-delay="2500" autoplay-disable-on-interaction="false">
+        <swiper-slide *ngFor="let image of scrollImages">
+          <ion-img [src]="image" *ngIf="image"></ion-img>
+        </swiper-slide>
+      </swiper-container>
+
+      <!-- <div class="header-toolbar">
+        <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+          <ion-segment-button value="PAIDEVENTS">
+            <ion-label> Paid Events</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="FREEEVENTS">
+            <ion-label>Free Events</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div> -->
+      <!-- <div class="page-container" *ngIf="contenskeleton">
+        <ion-list>
+          <ion-skeleton-text animated style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"
+            *ngFor="let list of [1,2,3,4,5]"></ion-skeleton-text>
+        </ion-list>
+      </div>  -->
+      <div class="page-container">
+        <ng-container *ngIf="recentEvents.length == 0">
+          <p class="default-text">No paid events available</p>
+        </ng-container>
+
+        <ion-list slot="content" [ngClass]="{'center': recentEvents.length === 0}">
+          <ng-container *ngIf="recentEvents.length>0">
+            <div class="event-card" *ngFor="let event of recentEvents; let i = index"
+              [ngStyle]="{'background': event.colorCode}">
+              <div class="card-inner">
+                <span class="price">{{event.price}}/-</span>
+                <!-- <span fill="outline" class="viewMore-btn" (click)="onClickEventInfo(event)"> Info </span> -->
+                <!-- <span class="event-code"> {{event.eventCode}} </span> -->
+                <div class="card-heading">
+                  <div class="name" *ngIf="event.line1">
+                    <h4>{{event.line1}}</h4>
+                    <h4>{{event.subjectName}}</h4>
+                    <div class="subject mb-1" *ngIf="event.line2">
+                      <ion-label>{{event.line2}}</ion-label>
+                    </div>
+                    <div class="subject" *ngIf="event.line3">
+                      <ion-label>{{event.line3}}</ion-label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="event-info">
+                    <ion-label class="card-label">Date</ion-label>
+                    <!-- <span class="card-value">{{event.eventStartDate|date: 'MMMM d'}}</span> -->
+                    <!-- <span class="card-value">{{event.eventStartDate|date: 'MMM d'}} - {{event.eventEndDate|date: 'MMM
+                      d'}}</span> -->
+                    <span class="card-value">{{event.eventStartDate|date: 'MMM d'}}</span>
+                    <!-- <ion-label class="event-class"><b>{{event.subjectName}}</b></ion-label> -->
+                  </div>
+                  <div class="event-info">
+                    <ion-label class="card-label">Duration</ion-label>
+                    <span class="card-value fw-semibold">{{event.displayTotalHour}}</span>
+                    <span class="card-value format">Hr Min Sec</span>
+                    <!-- <span class="event-class"> <b>Class : <ion-label>{{userDetails.className}}</ion-label></b>
+                    </span> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer" *ngIf="event.examStatus=='EXPIRED'">
+                <ion-button class="expire-btn">Expired</ion-button>
+              </div>
+              <div class="card-footer" *ngIf="event.examStatus!='EXPIRED' && event.isSubscribed">
+                <ion-button disabled>Subscribed</ion-button>
+              </div>
+              <div class="card-footer" *ngIf="event.examStatus!='EXPIRED' && !event.isSubscribed">
+                <ion-button (click)="onAddToCart(event)" *ngIf="!event.isAddedToCart">
+                  <ion-icon name="bag-add-outline" class="icon-addtocart me-2"></ion-icon><span
+                    class="text icon-addtocart">Add To Cart</span>
+                </ion-button>
+                <ion-button (click)="removeFromCart(event)" *ngIf="event.isAddedToCart">
+                  <ion-icon name="bag-remove-outline" class="icon-removefromcart me-2"></ion-icon><span
+                    class="text icon-removefromcart">Remove From Cart</span>
+                </ion-button>
+              </div>
+            </div>
+          </ng-container>
+        </ion-list>
+
+
+        <ng-container *ngIf="freeEvents.length == 0">
+          <p class="default-text">No free events available</p>
+        </ng-container>
+
+        <ion-list slot="content" [ngClass]="{'center': freeEvents.length === 0}">
+          <ng-container *ngIf="freeEvents.length>0">
+            <div class="event-card" *ngFor="let suevent of freeEvents" [ngStyle]="{'background': suevent.colorCode}">
+              <div class="card-inner">
+                <!-- <span class="viewMore-btn" (click)="onClickEventInfo(suevent)"> Info </span> -->
+                <!-- <span class="event-code"> {{suevent.eventCode}} </span> -->
+                <div class="event-ribbon" *ngIf="suevent.applicableType === 'FREE_TRAIL'">
+                  <span>Free</span>
+                </div>
+                <div class="card-heading">
+                  <div class="name" *ngIf="suevent.line1">
+                    <h4>{{suevent.line1}}</h4>
+                    <h4>{{suevent.subjectName}}</h4>
+                    <div class="subject mb-1" *ngIf="suevent.line2">
+                      <!-- <span>Style : </span> -->
+                      <ion-label>{{suevent.line2}}</ion-label>
+                    </div>
+                    <div class="subject" *ngIf="suevent.line3">
+                      <ion-label>{{suevent.line3}}</ion-label>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="event-info">
+                    <ion-label class="card-label">Date</ion-label>
+                    <!-- <span class="card-value">{{suevent.eventStartDate|date: 'MMM d'}} - {{suevent.eventEndDate|date:
+                      'MMM
+                      d'}}</span> -->
+                      <span class="card-value">{{suevent.eventStartDate|date: 'MMM d'}}</span>
+                    <!-- <ion-label class="event-class"><b>{{suevent.subjectName}}</b></ion-label> -->
+                  </div>
+                  <div class="event-info">
+                    <ion-label class="card-label">Duration</ion-label>
+                    <span class="card-value fw-semibold"><b>{{suevent.displayTotalHour}}</b></span>
+                    <span class="card-value format">Hr Min Sec</span>
+                    <!-- <span class="event-class"> <b>Class : <ion-label>{{userDetails.className}}</ion-label></b> </span> -->
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer" *ngIf="suevent.examStatus=='EXPIRED'">
+                <ion-button *ngIf="suevent.userExamStatus=='COMPLETED' && suevent.userEventId; else expiredOnly"
+                  (click)="onClickCompletedExam(suevent)">View Score</ion-button>
+                <ng-template #expiredOnly>
+                  <ion-button class="expire-btn">Expired</ion-button>
+                </ng-template>
+              </div>
+              <div class="card-footer" *ngIf="suevent.examStatus=='UPCOMING'">
+                <ion-button>Upcoming</ion-button>
+              </div>
+              <div class="card-footer" *ngIf="suevent.examStatus=='APPEAR'">
+                <ion-button *ngIf="suevent.userExamStatus=='COMPLETED' && suevent.userEventId; else appearBtn"
+                  (click)="onClickCompletedExam(suevent)">View Score</ion-button>
+                <ng-template #appearBtn>
+                  <ion-button (click)="onClickAppear(suevent)">Appear</ion-button>
+                </ng-template>
+              </div>
+              <div class="card-footer" *ngIf="suevent.examStatus=='COMPLETED'">
+                <ion-button (click)="onClickCompletedExam(suevent)">View Score</ion-button>
+              </div>
+              <div class="card-footer" *ngIf="suevent.examStatus=='INPROGRESS' || suevent.examStatus=='STARTED'">
+                <ion-button (click)="onClickAppear(suevent)">Continue</ion-button>
+              </div>
+            </div>
+          </ng-container>
+        </ion-list>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="event-cart-footer" *ngIf="selectedForSubscribe.length>0">
+  <div class="offer-card">
+    <!-- <div class="card-header"> -->
+      <!-- <ion-label>Your discount <b>{{discountTypeValue}}%</b></ion-label> -->
+      <!-- <span>{{selectedForSubscribe.length}}</span> -->
+    <!-- </div> -->
+    <div class="card-body">
+      <div class="body-left">
+        <span>Pay</span>
+        <ion-label><img src="assets/icon/Indian-Rupee-icon.svg" class="ruppe-img"> {{discountedAmount}}</ion-label>
+      </div>
+      <div class="body-right">
+        <ion-button class="skip-btn" (click)="onClickSkipPayment()">Clear</ion-button>
+        <ion-button class="pay-btn" (click)="onClickPay()">Pay</ion-button>
+        <!-- <ion-text *ngIf="gstAmount>0">*GST ({{gstDetails.typeValue}}%) {{gstAmount}}</ion-text> -->
+      </div>
+    </div>
+    <!-- <div class="discount-label">
+      <span>- {{}}%</span>
+    </div> -->
+  </div>
+</ion-footer>
+
+<ion-modal #eventInfoModal class="selectBottomSheet" [isOpen]="isEventInfoModalOpen" [initialBreakpoint]="1.0"
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Events Info </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="page-inner" [innerHTML]="selectedEvent.information">
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

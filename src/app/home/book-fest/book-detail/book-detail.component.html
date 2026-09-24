@@ -1,0 +1,105 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="book-info">
+       <!-- <swiper [config]="bookDetailsSwiperConfig">
+        <ng-template swiperSlide *ngFor="let photo of bookDetails.photos">
+          <ion-img [src]="photo"></ion-img>
+        </ng-template>
+      </swiper> -->
+
+      <swiper-container [slidesPerView]="1" [loop]="true" autoplay>
+        <swiper-slide *ngFor="let photo of bookDetails.photos">  
+          <ion-img [src]=" photo"></ion-img></swiper-slide>
+      </swiper-container>
+
+      <!-- <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide *ngFor="let img of bookDetails.bookImages">
+          <ion-img [src]="img"></ion-img>
+        </ion-slide>
+      </ion-slides> -->
+      <div>
+        <span class="book-desc name">{{bookDetails.bookName}}</span>
+        <ion-label class="box-label">Actual price</ion-label>
+        <span class="actual-price">RS {{bookDetails.bookPrice}}</span>
+        <ion-label class="box-label">Offer price</ion-label>
+        <div class="offer-price">
+          <ion-label>Rs {{bookDetails.discount}}</ion-label>
+          <span>({{bookDetails.discountPercentage}}% off)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-info">
+      <ion-label class="inner-title">{{bookDetails.publicationName}}</ion-label>
+      <p class="book-desc">Publication name</p>
+    </div>
+    <div class="book-info">
+      <ion-label class="inner-title">{{bookDetails.className}}</ion-label>
+      <p class="book-desc">Class</p>
+    </div>
+    <div class="book-info">
+      <ion-label class="inner-title">{{bookDetails.boardName}}</ion-label>
+      <p class="book-desc">Board</p>
+    </div>
+    <div class="book-info">
+      <ion-label class="inner-title">{{bookDetails.YearOfPublication}}</ion-label>
+      <p class="book-desc">Year of publication</p>
+    </div>
+    <div class="book-info">
+      <ion-label class="inner-title">Seller</ion-label>
+      <div class="d-flex align-items-center">
+        <div class="seller-img">
+          <ion-img [src]="sellerDetails.imageUrl"></ion-img>
+        </div>
+        <div class="seller-info">
+          <div>
+            <ion-label>{{sellerDetails.displayName}}</ion-label>
+            <span>{{sellerDetails.districtName}}, {{sellerDetails.stateName}}</span>
+          </div>
+          <!-- <ion-icon name="chevron-forward"></ion-icon> -->
+        </div>
+      </div>
+    </div>
+    <div class="book-info no-border">
+      <ion-label class="inner-title">Related Ads</ion-label>
+      <div class="book-container" *ngIf="recomndedBooksList.length>0">
+        <div class="book-box" *ngFor="let rbl of recomndedBooksList">
+          <div class="box-img">
+             <!-- <swiper>
+              <ng-template swiperSlide *ngFor="let photo of rbl.photos">
+                <ion-img [src]="photo"></ion-img>
+              </ng-template>
+            </swiper> -->
+            <swiper-container [slidesPerView]="1" [loop]="true" autoplay>
+              <swiper-slide *ngFor="let photo of rbl.photos">  
+                <ion-img [src]=" photo"></ion-img></swiper-slide>
+            </swiper-container>
+          </div>
+          <div class="offer-price">
+            <ion-label>Rs {{rbl.bookPrice}}</ion-label>
+          </div>
+          <span class="book-desc">{{rbl.publicationName}},{{rbl.YearOfPublication}}</span>
+          <span class="book-desc">{{rbl.boardName}},{{rbl.className}}</span>
+        </div>
+      </div>
+      <div class="book-container" *ngIf="recomndedBooksList.length==0">
+        <ion-label>No related add posted by you.</ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button (click)="onClickChat()">
+      <ion-icon name="chatbox-ellipses"></ion-icon>Chat
+    </ion-button>
+    <ion-button (click)="onClickCall()">
+      <ion-icon name="call"></ion-icon>Call
+    </ion-button>
+  </div>
+</ion-footer>

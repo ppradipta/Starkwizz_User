@@ -1,0 +1,57 @@
+<ion-content class="date-ion-content">
+
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+      <div class="right-top">
+        <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+      </div>
+      <!-- <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div> -->
+      <h4>English Literature</h4>
+      <div class="input-content">
+        <div class="subs-input">
+          <ion-label class="caption">Book Name</ion-label>
+          <ion-input type="text" name="bookName" id="bookName" placeholder="Enter book name" required></ion-input>
+        </div>
+        <div class="subs-input">
+          <ion-label class="caption">Publisher Name</ion-label>
+          <ion-input type="text" name="publisherName" id="publisherName" placeholder="Enter publisher name"
+            required></ion-input>
+        </div>
+        <div class="subs-input">
+          <ion-label class="caption">Book Author Name</ion-label>
+          <ion-input type="text" name="authorName" id="authorName" placeholder="Enter author name" required></ion-input>
+        </div>
+        <div class="subs-input">
+          <ion-label class="caption">Add your chapters below</ion-label>
+          <ul>
+            <li>
+              <ion-input type="text" name="chapter1" id="chapter1" placeholder="Enter Chapter 1" required></ion-input>
+            </li>
+            <li>
+              <ion-input type="text" name="chapter2" id="chapter2" placeholder="Enter Chapter 2" required></ion-input>
+            </li>
+            <li>
+              <ion-input type="text" name="chapter3" id="chapter3" placeholder="Enter Chapter 3" required></ion-input>
+            </li>
+            <li>
+              <ion-input type="text" name="chapter4" id="chapter4" placeholder="Enter Chapter 4" required></ion-input>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="btn-content">
+        <ion-text>Add more chapters!</ion-text>
+        <ion-button class="secondary-btn">Complete and Save</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

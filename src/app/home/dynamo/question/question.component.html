@@ -1,0 +1,2700 @@
+<ng-container *ngIf="testEvent.type !== 'QUIZWHIZZ EXAM'">
+  <ion-header class="main-header">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <ion-buttons slot="start">
+        <!-- <ion-button (click)="goBack()">
+          <ion-icon name="chevron-back-circle-outline"></ion-icon>
+        </ion-button> -->
+      </ion-buttons>
+      <div class="header-logo">
+        <ion-img src="/assets/images/header-logo.svg"></ion-img>
+      </div>
+      <div class="d-flex align-items-center">
+        <ion-icon class="notify-icon" name="notifications-circle-outline"></ion-icon>
+      </div>
+    </div>
+  </ion-header>
+  <ion-content>
+    <div class="page-inner">
+
+      <!-- Simple Question -->
+      <div class="question-card" [ngStyle]="{'background': selectedSubject.colorCode}">
+        <div class="card-heading mb-0">
+          <ion-label>{{testEvent.line1}}</ion-label>
+        </div>
+        <div class="card-heading">
+          <div>
+            <span>{{testEvent.subjectName}}</span>
+            <!-- <span>Code : {{testEvent.eventCode}}</span> -->
+          </div>
+           <div class="test-time" *ngIf="questionList.length>0">
+             <div class="timer">
+               <countdown [id]="eventCountDown" #eventCountDown [config]="eventConfig" displayFormat="H:mm:ss"
+                 (event)="handleTimerEvent($event,testEvent)"></countdown>
+             </div>
+             
+             <div class="nano-timing" *ngIf="elapsedExamTimeUsDisplay">
+               <small>{{ elapsedExamTimeUsDisplay }}</small>
+             </div>
+           </div>
+         </div>
+        <!-- <div style="text-align: center; color: white;" *ngIf="questionList.length==0 && !nextLoadder">No Proper Questions Available</div> -->
+        <div class="classContainer" *ngIf="nextLoadder">
+          <ion-skeleton-text animated style="width: 100%; border-radius: 16px; min-height: 170px;margin-bottom: 30px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+          </ion-skeleton-text>
+        </div>
+        <div *ngIf="!nextLoadder">
+          <div *ngIf="testEvent.questions.length > 0 && questionList.length>0">
+            <div class="classContainer" *ngIf="question.animationType=='bounce'">
+              <div [@bounceInOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown [id]="questionTimeCountDown" #questionTimeCountDown [config]="questionConfig"
+                        displayFormat="ss" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question?.url">
+                    <ion-img [src]="question?.url"></ion-img>
+                  </div>
+                  <!-- <ion-label *ngIf="question.text">{{question.text}}</ion-label> -->
+                  <div [innerHTML]="question?.text" *ngIf="question.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="question?.url">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="1000"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="'data:image/jpg;base64,'+ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img" (click)="deleteImage(ansimage)">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+
+            <div class="classContainer" *ngIf="question.animationType=='flash'">
+              <div [@flashOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT' ">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option.text}}</p>
+                        <div class="option-img" *ngIf="question.url">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner> Skip
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner> Next
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner> Finish
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='pulse'">
+              <div [@pulseOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option.text}}</p>
+                        <div class="option-img" *ngIf="question.url">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='rubberBand'">
+              <div [@rubberBandOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='shake'">
+              <div [@shakeOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='swing'">
+              <div [@swingOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question?.url">
+                    <ion-img [src]="question?.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='tada'">
+              <div [@tadaOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="question?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='wobble'">
+              <div [@wobbleOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='jello'">
+              <div [@jelloOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question?.url">
+                    <ion-img [src]="question?.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-label>{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <div class="option-img">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="process"></div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <ion-img [src]="question.url"> </ion-img>
+                  <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                  <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                    <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                      <p>{{option.text}}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+              <div class="card-footer">
+                <ion-button fill="outline" (click)="skipQuestion()">
+                  <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                  <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                </ion-button>
+                <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                  <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                  <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                </ion-button>
+                <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                  <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                  <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                </ion-button>
+              </div>
+            </div>
+            <div class="classContainer" *ngIf="question.animationType=='flip'">
+              <div [@flipOnEnter] [@fadeOutOnLeave]
+                *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                <div class="inner-card">
+                  <div class="question-time">
+                    <div class="timer">
+                      <div class="circle__item">
+                        <svg class="circle__spinner" viewBox="0 0 50 50">
+                          <circle class="path" cx="25" cy="25" r="22"
+                            [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                        </svg>
+                      </div>
+                      <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)"></countdown>
+                    </div>
+                  </div>
+                  <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                  <div class="question-img" *ngIf="question.url">
+                    <ion-img [src]="question.url"></ion-img>
+                  </div>
+                  <div [innerHTML]="question?.text" *ngIf="question?.text">
+                  </div>
+                  <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                  Details</ion-label> -->
+                </div>
+                <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                  *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                  <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                  <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                    (click)="chnageAnswer(option.sequence)">
+                    <ion-label>
+                      <span>{{option.sequence}}</span>
+                      <div class="option-inner">
+                        <p>{{option?.text}}</p>
+                        <div class="option-img" *ngIf="option?.url">
+                          <ion-img [src]="option?.url"> </ion-img>
+                        </div>
+                      </div>
+
+                    </ion-label>
+                    <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                  </ion-item>
+                  <!-- </ion-radio-group> -->
+                </ion-list>
+                <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                  <div class="select-icon">
+                    <label class="fileButton" for="profileImg">
+                      <ion-icon name="camera"></ion-icon>
+                      <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                    </label>
+                  </div>
+                  <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                    placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                  </ion-textarea>
+                  <div class="title-row">
+                    <div>
+                      <div class="img-container">
+                        <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                          <ion-img [src]="ansimage" class="image"></ion-img>
+                          <div class="view-icon" (click)="previewImage(ansimage)">
+                            <ion-icon name="eye"></ion-icon>
+                          </div>
+                          <div class="clear-img">
+                            <ion-icon name="close-circle-outline"></ion-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                    <ion-label>{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span>
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ng-container>
+
+<ng-container *ngIf="testEvent.type === 'QUIZWHIZZ EXAM'">
+  <ion-header class="main-header quiz-header">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <ion-buttons slot="start">
+        <ion-button (click)="goBack()">
+          <ion-icon name="chevron-back-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{testEvent.subjectName | titlecase}}</ion-title>
+      <div class="test-time" *ngIf="questionList.length>0">
+        <ion-img src="/assets/images/clock.svg"></ion-img>
+        <div class="timer">
+          <countdown [id]="eventCountDown" #eventCountDown [config]="eventConfig" displayFormat="H:mm:ss"
+            (event)="handleTimerEvent($event,testEvent)"></countdown>
+        </div>
+        <div class="nano-timing" *ngIf="elapsedExamTimeUsDisplay">
+          <small>{{ elapsedExamTimeUsDisplay }}</small>
+        </div>
+      </div>
+    </div>
+  </ion-header>
+  <ion-content>
+    <div class="quiz-body">
+      <div class="questionDetail">
+        <h4>{{testEvent.line1}}</h4>
+        <div class="question-card">
+
+          <div class="countList">
+            <div class="countDetail">
+              <div class="count Active">
+                <span>{{selectedQuestionIndex + 1}}</span>
+              </div>
+              <div class="count" *ngIf="selectedQuestionIndex < questionList?.length - 1">
+                <span>{{selectedQuestionIndex + 2}}</span>
+              </div>
+              <div class="count" *ngIf="selectedQuestionIndex < questionList?.length - 2">
+                <span>{{selectedQuestionIndex + 3}}</span>
+              </div>
+              <div class="count" *ngIf="selectedQuestionIndex < questionList?.length - 3">
+                <span>{{selectedQuestionIndex + 4}}</span>
+              </div>
+              <div class="count" *ngIf="selectedQuestionIndex < questionList?.length - 4">
+                <span>{{selectedQuestionIndex + 5}}</span>
+              </div>
+              <span class="dots" *ngIf="selectedQuestionIndex < questionList?.length - 4">.....</span>
+            </div>
+            <div class="count total">
+              <span>{{questionList?.length}}</span>
+            </div>
+          </div>
+
+          <div class="classContainer" *ngIf="nextLoadder">
+            <ion-skeleton-text animated
+              style="width: 100%; border-radius: 16px; min-height: 170px;margin-bottom: 30px;">
+            </ion-skeleton-text>
+            <ion-skeleton-text animated
+              style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+            </ion-skeleton-text>
+            <ion-skeleton-text animated
+              style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+            </ion-skeleton-text>
+            <ion-skeleton-text animated
+              style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+            </ion-skeleton-text>
+            <ion-skeleton-text animated
+              style="width: 100%; min-height: 46px; border-radius: 30px; margin-bottom: 16px;">
+            </ion-skeleton-text>
+          </div>
+          <div *ngIf="!nextLoadder">
+            <div *ngIf="testEvent.questions.length > 0 && questionList.length>0">
+              <div class="classContainer" *ngIf="question.animationType=='bounce'">
+                <div [@bounceInOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown [id]="questionTimeCountDown" #questionTimeCountDown [config]="questionConfig"
+                          displayFormat="ss" (event)="handleTimerEvent($event,question)"></countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question?.url">
+                      <ion-img [src]="question?.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question.text">
+                    </div>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="question?.url">
+                            <ion-img [src]="option.url"> </ion-img>
+                          </div>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="1000"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="'data:image/jpg;base64,'+ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img" (click)="deleteImage(ansimage)">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+
+              <div class="classContainer" *ngIf="question.animationType=='flash'">
+                <div [@flashOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT' ">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option.text}}</p>
+                          <div class="option-img" *ngIf="question.url">
+                            <ion-img [src]="option.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner> Skip
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner> Next
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner> Finish
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='pulse'">
+                <div [@pulseOnEnter] [@fadeOutOnLeave] *ngIf="question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option.text}}</p>
+                          <div class="option-img" *ngIf="question.url">
+                            <ion-img [src]="option.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='rubberBand'">
+                <div [@rubberBandOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='shake'">
+                <div [@shakeOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='swing'">
+                <div [@swingOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question?.url">
+                      <ion-img [src]="question?.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='tada'">
+                <div [@tadaOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="question?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='wobble'">
+                <div [@wobbleOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='jello'">
+                <div [@jelloOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question?.url">
+                      <ion-img [src]="question?.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-label class="question">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <div class="option-img">
+                          <ion-img [src]="option.url"> </ion-img>
+                        </div>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="process"></div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                    <ion-img [src]="question.url"> </ion-img>
+                    <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                    <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                      <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                        <p>{{option.text}}</p>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </div>
+                <!-- <div class="card-footer">
+                  <ion-button fill="outline" (click)="skipQuestion()">
+                    <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+                    <ion-label *ngIf="!skipLoadder">Skip</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+                    <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+                    <ion-label *ngIf="!nextLoadder">Next</ion-label>
+                  </ion-button>
+                  <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+                    <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+                    <ion-label *ngIf="!finishLoader">Finish</ion-label>
+                  </ion-button>
+                </div> -->
+              </div>
+              <div class="classContainer" *ngIf="question.animationType=='flip'">
+                <div [@flipOnEnter] [@fadeOutOnLeave]
+                  *ngIf="question.questionType == 'SINGLE_CHOICE' || question.questionType =='TEXT'">
+                  <div class="inner-card">
+                    <div class="question-time">
+                      <div class="timer">
+                        <div class="circle__item">
+                          <svg class="circle__spinner" viewBox="0 0 50 50">
+                            <circle class="path" cx="25" cy="25" r="22"
+                              [ngStyle]="{'animation-duration.s':question.perQuestionTimer}"></circle>
+                          </svg>
+                        </div>
+                        <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                        </countdown>
+                      </div>
+                    </div>
+                    <div class="question-img" *ngIf="question.url">
+                      <ion-img [src]="question.url"></ion-img>
+                    </div>
+                    <div class="question" [innerHTML]="question?.text" *ngIf="question?.text">
+                    </div>
+                    <!-- <ion-label stacked (click)="questionExplainDetails(question)" class="clickEnable">Explain
+                    Details</ion-label> -->
+                  </div>
+                  <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list"
+                    *ngIf="question.type!='SUBJECTIVE_NO_OPTION'">
+                    <!-- <ion-radio-group (ionChange)="chnageAnswer($event)"> -->
+                    <ion-item class="{{option.isCorrect}}" *ngFor="let option of question.options"
+                      (click)="chnageAnswer(option.sequence)">
+                      <ion-label>
+                        <span>{{option.sequence}}</span>
+                        <div class="option-inner">
+                          <p>{{option?.text}}</p>
+                          <div class="option-img" *ngIf="option?.url">
+                            <ion-img [src]="option?.url"> </ion-img>
+                          </div>
+                        </div>
+
+                      </ion-label>
+                      <!-- <ion-radio slot="end" mode="ios" [value]="option.sequence"></ion-radio> -->
+                    </ion-item>
+                    <!-- </ion-radio-group> -->
+                  </ion-list>
+                  <div class="section-row" *ngIf="question.type=='SUBJECTIVE_NO_OPTION'">
+                    <div class="select-icon">
+                      <label class="fileButton" for="profileImg">
+                        <ion-icon name="camera"></ion-icon>
+                        <input id="profileImg" type="file" (change)="uploadAnswerImage($event)">
+                      </label>
+                    </div>
+                    <ion-textarea class="section-value value-textarea" rows="15" maxLength="500"
+                      placeholder="Write your Ans" value="Wriet your Ans" [(ngModel)]="userAnswerText">
+                    </ion-textarea>
+                    <div class="title-row">
+                      <div>
+                        <div class="img-container">
+                          <div class="preview-img" *ngFor="let ansimage of userAnswerImages">
+                            <ion-img [src]="ansimage" class="image"></ion-img>
+                            <div class="view-icon" (click)="previewImage(ansimage)">
+                              <ion-icon name="eye"></ion-icon>
+                            </div>
+                            <div class="clear-img">
+                              <ion-icon name="close-circle-outline"></ion-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="question.questionType == 'PICTURE_CHOICE'">
+                    <div class="inner-card">
+                      <div class="question-time">
+                        <div class="timer">
+                          <div class="process"></div>
+                          <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                          </countdown>
+                        </div>
+                      </div>
+                      <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                      <ion-label class="question">{{question.text}}</ion-label>
+                    </div>
+                    <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list optionImg-list">
+                      <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                        <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                          <div class="option-img">
+                            <ion-img [src]="option.url"> </ion-img>
+                          </div>
+                        </ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </div>
+                  <div *ngIf="question.questionType == 'PICTURE_QUESTION'">
+                    <div class="inner-card">
+                      <div class="question-time">
+                        <div class="timer">
+                          <div class="process"></div>
+                          <countdown #cd [config]="questionConfig" (event)="handleTimerEvent($event,question)">
+                          </countdown>
+                        </div>
+                      </div>
+                      <!-- <span>Question <b>{{selectedQuestionIndex+1}}</b> / {{questionList.length}}</span> -->
+                      <ion-img [src]="question.url"> </ion-img>
+                      <ion-label class="question" *ngIf="question.text">{{question.text}}</ion-label>
+                    </div>
+                    <ion-list [ngClass]="{'disabled': isQuesDisabled}" class="option-list">
+                      <ion-item *ngFor="let option of question.options" (click)="chnageAnswer(option.sequence)">
+                        <ion-label class="{{option.isCorrect}}"><span>{{option.sequence}}</span>
+                          <p>{{option.text}}</p>
+                        </ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ion-content>
+
+
+  <ion-footer>
+    <div class="card-footer">
+
+      <ion-button *ngIf="!lastq" class="next-btn" (click)="nextQuestion()">
+        <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner>
+        <ion-label *ngIf="!nextLoadder">Confirm</ion-label>
+      </ion-button>
+      <ion-button *ngIf="lastq" class="next-btn" (click)="examCompleted()">
+        <ion-spinner name="dots" *ngIf="finishLoader"></ion-spinner>
+        <ion-label *ngIf="!finishLoader">Finish</ion-label>
+      </ion-button>
+      <ion-button class="skip-btn" (click)="skipQuestion()">
+        <ion-spinner name="dots" *ngIf="skipLoadder"></ion-spinner>
+        <ion-label *ngIf="!skipLoadder">Skip and Next</ion-label>
+      </ion-button>
+    </div>
+  </ion-footer>
+</ng-container>
+
+
+<ion-modal #questionExplainModal class="selectBottomSheet" [isOpen]="isQuesExplainModalOpen" [initialBreakpoint]="1.0"
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Question Explain Details </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="page-inner" [innerHTML]="quesExplainDetails?.questionExplanationText">
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

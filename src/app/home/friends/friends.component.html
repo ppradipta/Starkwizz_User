@@ -1,0 +1,145 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="header-toolbar">
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+        <ion-segment-button value="myFriend">
+          <ion-label>My Friends</ion-label>
+        </ion-segment-button>
+        <ion-segment-button class="ms-2" value="all">
+          <ion-label>All</ion-label>
+        </ion-segment-button>
+        <ion-segment-button class="mx-2" value="friendRequests">
+          <ion-label>Friend requests</ion-label>
+          <!-- <span>03</span> -->
+        </ion-segment-button>
+        <ion-segment-button value="sendRequests">
+          <ion-label>Send requests</ion-label>
+          <!-- <span>04</span> -->
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div class="search-bar">
+      <ion-searchbar mode="ios"></ion-searchbar>
+    </div>
+
+    <div *ngIf="segmentValue == 'myFriend'">
+      <div class="accounts-container">
+        <div class="account-card" *ngFor="let friend of myFriends; let i = index">
+          <div class="card-left" *ngIf="friend.recievedTo.id == userDetails.id" (click)="onClickViewProfileDetails(friend,'SENDBY')">
+            <div class="user-img" >
+              <!-- <ion-img src="assets/images/menu-user.svg"></ion-img> -->
+              <ion-img [src]="friend.sendBy.imageUrl"></ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{friend.sendBy.displayName}}</ion-label>
+              <ion-label class="school-name">{{friend.sendBy.cityName}}, {{friend.sendBy.stateName}}
+              </ion-label>
+              <span class="section-label">Class {{friend.sendBy.className}},
+                {{friend.sendBy.boardName}}</span>
+            </div>
+          </div>
+
+          <div class="card-left" *ngIf="friend.recievedTo.id != userDetails.id" (click)="onClickViewProfileDetails(friend,'RECIEVEDTO')">
+            <div class="user-img" >
+              <!-- <ion-img src="assets/images/menu-user.svg"></ion-img> -->
+              <ion-img [src]="friend.recievedTo.imageUrl"></ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{friend.recievedTo.displayName}}</ion-label>
+              <ion-label class="school-name">{{friend.recievedTo.cityName}}, {{friend.recievedTo.stateName}}
+              </ion-label>
+              <span class="section-label">Class {{friend.recievedTo.className}},
+                {{friend.recievedTo.boardName}}</span>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="ellips-icon" name="ellipsis-horizontal" id="trigger-button{{i}}"></ion-icon>
+            <ion-popover trigger="trigger-button{{i}}" [dismissOnSelect]="true">
+              <ng-template>
+                <ion-content class="popover-inner">
+                  <ion-label class="first-label" (click)="onClickChat(friend)">Chat</ion-label>
+                  <ion-label (click)="onClickViewProfileDetails(friend,'RECIEVEDTO')">View Profile</ion-label>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="segmentValue == 'all'">
+      <!-- <div  style="text-align: center;" *ngIf ="friends.length == 0">
+        <ion-label>Sorry No Friends Found !!!</ion-label>
+      </div> -->
+      <div class="accounts-container">
+        <div class="account-card" *ngFor="let list of friends">
+          <div class="card-left">
+            <div class="user-img" (click)="onClickDetail()">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{list.displayName}}</ion-label>
+              <ion-label class="school-name">{{list.cityName}}, {{list.stateName}}</ion-label>
+              <span class="section-label">Class {{list.className}}, {{list.boardName}}</span>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="ellips-icon" name="ellipsis-horizontal" (click)="requestAlert(list)"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="segmentValue == 'friendRequests'">
+      <div style="text-align: center;" *ngIf="recievedFriendRequests.length == 0">
+        <ion-label>Sorry You have not recieved any Friends requests!!!</ion-label>
+      </div>
+      <div class="accounts-container">
+        <div class="account-card" *ngFor="let list of recievedFriendRequests">
+          <div class="card-left">
+            <div class="user-img" (click)="onClickDetail()">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{list.recievedTo.displayName}}</ion-label>
+              <ion-label class="school-name">{{list.recievedTo.cityName}}, {{list.recievedTo.stateName}}</ion-label>
+              <span class="section-label">Class {{list.recievedTo.className}}, {{list.recievedTo.boardName}}</span>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="check-icon" name="checkmark-circle" (click)="acceptFriendRequest(list)"></ion-icon>
+            <ion-icon class="close-icon" name="close-circle-outline" (click)="declineFriendRequests(list)"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="segmentValue == 'sendRequests'">
+      <div style="text-align: center;" *ngIf="sentFriendRequests.length == 0">
+        <ion-label>No Friends requests sent!!!</ion-label>
+      </div>
+      <div class="accounts-container">
+        <div class="account-card" *ngFor="let list of sentFriendRequests">
+          <div class="card-left">
+            <div class="user-img" (click)="onClickDetail()">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{list.recievedTo.displayName}}</ion-label>
+              <ion-label class="school-name">{{list.recievedTo.cityName}}, {{list.recievedTo.stateName}}</ion-label>
+              <span class="section-label">Class {{list.recievedTo.className}}, {{list.recievedTo.boardName}}</span>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="close-icon" name="close-circle-outline" (click)="declineFriendRequests(list)"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,30 @@
+.main-header {
+    background: #fff;
+    height: 70px;
+    padding: 30px 16px 10px;
+    display: flex;
+    ion-buttons {
+        ion-button {
+            color: #70CFED;
+            height: 36px;
+            width: 36px;
+            font-size: 24px;
+            margin: 0;
+            --padding-start: 0;
+            --padding-end: 0;
+        }
+    }
+    .header-logo {
+        // flex: 1;
+        margin: 0 16px;
+        display: flex;
+        img {
+            max-width: 140px;
+            margin: 0 auto;
+        }
+        // ion-img {
+        //     max-width: 140px;
+        //     margin: 0 auto;
+        // }
+    }
+}

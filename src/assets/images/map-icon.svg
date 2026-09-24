@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <g id="map" transform="translate(2003 4221)">
+    <g id="Ellipse_349" data-name="Ellipse 349" transform="translate(-2003 -4221)" fill="#fff" stroke="#51c1e9" stroke-width="1">
+      <circle cx="35" cy="35" r="35" stroke="none"/>
+      <circle cx="35" cy="35" r="34.5" fill="none"/>
+    </g>
+    <path id="Icon_awesome-map-marker-alt" data-name="Icon awesome-map-marker-alt" d="M12.113,35.274C1.9,20.463,0,18.943,0,13.5a13.5,13.5,0,0,1,27,0c0,5.443-1.9,6.963-12.113,21.774a1.688,1.688,0,0,1-2.775,0ZM13.5,19.125A5.625,5.625,0,1,0,7.875,13.5,5.625,5.625,0,0,0,13.5,19.125Z" transform="translate(-1981.5 -4204)" fill="#51c1e9"/>
+  </g>
+</svg>

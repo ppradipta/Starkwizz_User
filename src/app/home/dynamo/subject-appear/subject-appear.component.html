@@ -1,0 +1,330 @@
+<!-- <ng-container *ngIf="event.type !== 'QUIZWHIZZ EXAM'">
+  <ion-header [ngStyle]="{'background': selectedSubject.colorCode}">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <div class="header-logo">
+        <h2>Instruction Details</h2>
+      </div>
+      <div class="d-flex align-items-center" (click)="onClickClose()">
+        <ion-icon class="close-icon" name="close-circle-outline"></ion-icon>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div class="page-inner" [innerHTML]="eventInstruction?.instruction">
+    </div>
+  </ion-content>
+
+  <ion-footer>
+    <div class="footer-toolbar">
+      <ion-button (click)="onClickProceed()" [ngStyle]="{'background': selectedSubject.colorCode}">Proceed</ion-button>
+    </div>
+  </ion-footer>
+</ng-container> -->
+
+<ng-container *ngIf="event.type === 'QUIZWHIZZ EXAM'">
+  <ion-content>
+    <div class="eventPage-inner">
+      <!-- <div class="quizwhizz-contest-box">
+        <div class="box-title">{{event.quizwhizzContestLevelLabel || event.eventName}}</div>
+        <div class="box-meta">
+          <div class="box-date">Date: {{event.quizwhizzContestDateLabel || (event.eventEndDate | date:'dd-MM-yyyy')}}</div>
+          <div class="box-duration">Duration: {{event.quizwhizzContestDurationLabel || formatDurationMinutesSeconds(event.totalHour)}}</div>
+        </div>
+        <div class="box-categories">{{event.quizwhizzContestCategoriesLabel || 'GK * CURRENT AFFAIRS * REASONING'}}</div>
+      </div> -->
+      <h4>Contest Instructions</h4>
+
+      <div class="event-detail">
+        <div class="event-raw">
+          <div class="eventImg">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.5133 13.44H4.63327C4.15327 13.44 3.7666 13.0533 3.7666 12.5733V3.96664C3.7666 3.48664 4.15327 3.09998 4.63327 3.09998H11.5133C11.9933 3.09998 12.3799 3.48664 12.3799 3.96664V12.5733C12.3799 13.0533 11.9933 13.44 11.5133 13.44Z"
+                stroke="#952626" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 6.95331H8.76663" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 9.58667H10.1" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>3 Categories</ion-label>
+            <span>General Knowledge (10) + Current Affairs (10) + Reasoning (5)</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.5133 13.44H4.63327C4.15327 13.44 3.7666 13.0533 3.7666 12.5733V3.96664C3.7666 3.48664 4.15327 3.09998 4.63327 3.09998H11.5133C11.9933 3.09998 12.3799 3.48664 12.3799 3.96664V12.5733C12.3799 13.0533 11.9933 13.44 11.5133 13.44Z"
+                stroke="#952626" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 6.95331H8.76663" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 9.58667H10.1" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{+(event.questionToAttemp ?? event.questions?.length) || 0}} {{(((+(event.questionToAttemp ?? event.questions?.length) || 0) === 1) ? 'Question' : 'Questions')}}</ion-label>
+            <span>Total numbers of questions available in this event</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg clock">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8.30669 14.2133C11.5689 14.2133 14.2134 11.5688 14.2134 8.30666C14.2134 5.0445 11.5689 2.39999 8.30669 2.39999C5.04453 2.39999 2.40002 5.0445 2.40002 8.30666C2.40002 11.5688 5.04453 14.2133 8.30669 14.2133Z"
+                stroke="#DD6802" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8.30664 5.08002V8.30668L10.2933 9.25335" stroke="#DD6802" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+           </div>
+           <div class="w-100">
+             <ion-label>{{formatDurationMinutesSeconds(event.totalHour)}}</ion-label>
+             <span>Total duration of this competition</span>
+           </div>
+         </div>
+
+        <div class="event-raw">
+          <div class="eventImg star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.6999 3.04998L14.7699 8.76998L20.8499 8.96998C21.4899 8.98998 21.7599 9.79998 21.2499 10.2L16.4499 13.93L18.1399 19.77C18.3199 20.39 17.6299 20.89 17.0999 20.53L12.0699 17.12L7.03994 20.53C6.50994 20.89 5.81994 20.39 5.99994 19.77L7.68994 13.93L2.86994 10.2C2.35994 9.80998 2.62994 8.98998 3.26994 8.96998L9.34994 8.76998L11.4199 3.04998C11.6299 2.44998 12.4799 2.44998 12.6999 3.04998Z"
+                stroke="#0C6500" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{event.eventMarks}} Points</ion-label>
+            <span>Total score for this competition</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.6999 3.04998L14.7699 8.76998L20.8499 8.96998C21.4899 8.98998 21.7599 9.79998 21.2499 10.2L16.4499 13.93L18.1399 19.77C18.3199 20.39 17.6299 20.89 17.0999 20.53L12.0699 17.12L7.03994 20.53C6.50994 20.89 5.81994 20.39 5.99994 19.77L7.68994 13.93L2.86994 10.2C2.35994 9.80998 2.62994 8.98998 3.26994 8.96998L9.34994 8.76998L11.4199 3.04998C11.6299 2.44998 12.4799 2.44998 12.6999 3.04998Z"
+                stroke="#0C6500" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>Win Badges / Rewards</ion-label>
+            <span>Answer all questions correctly</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-rules">
+        <p>Please read the below instructions carefully before starting the competition</p>
+        <div *ngIf="eventInstruction?.instruction" [innerHTML]="eventInstruction.instruction"></div>
+        <ng-container *ngIf="!eventInstruction?.instruction">
+        <ul>
+          <li>You will be given 2 points for each correct answer.</li>
+          <li>There’s no negative marking for a wrong answer.</li>
+          <li>A fixed time is scheduled for each question.</li>
+          <li>It is your responsibility to monitor and manage the time scheduled to complete the competition in due
+            time.</li>
+          <li>There’s no option to review or change the answer, once progressed for the next question during the
+            competition.</li>
+          <li>Skipping or returning in between before completion of the competition, might result into withholding and
+            you might be unable to attain the same competition later again.</li>
+          <li>If you experience any technical difficulties during the competition with accessing, completing, and/or
+            submitting; contact our <b>Exam Helpdesk</b> during the office hours within 3 working days of the
+            competition.</li>
+        </ul>
+        </ng-container>
+      </div>
+
+      <div class="event-footer">
+        <ion-button (click)="onClickProceed()">Continue</ion-button>
+      </div>
+    </div>
+  </ion-content>
+
+</ng-container>
+
+<ng-container *ngIf="event.type === 'EXAM'">
+  <ion-content>
+    <div class="eventPage-inner">
+      <h4 class="mb-2">{{event.eventName}}</h4>
+      <h4>Test Information</h4>
+
+      <div class="event-detail">
+        <div class="event-raw">
+          <div class="eventImg">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.5133 13.44H4.63327C4.15327 13.44 3.7666 13.0533 3.7666 12.5733V3.96664C3.7666 3.48664 4.15327 3.09998 4.63327 3.09998H11.5133C11.9933 3.09998 12.3799 3.48664 12.3799 3.96664V12.5733C12.3799 13.0533 11.9933 13.44 11.5133 13.44Z"
+                stroke="#952626" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 6.95331H8.76663" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 9.58667H10.1" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{+(event.questionToAttemp ?? event.questions?.length) || 0}} {{(((+(event.questionToAttemp ?? event.questions?.length) || 0) === 1) ? 'Question' : 'Questions')}}</ion-label>
+            <span>Total number of questions available in this test</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg clock">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8.30669 14.2133C11.5689 14.2133 14.2134 11.5688 14.2134 8.30666C14.2134 5.0445 11.5689 2.39999 8.30669 2.39999C5.04453 2.39999 2.40002 5.0445 2.40002 8.30666C2.40002 11.5688 5.04453 14.2133 8.30669 14.2133Z"
+                stroke="#DD6802" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8.30664 5.08002V8.30668L10.2933 9.25335" stroke="#DD6802" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+           </div>
+           <div class="w-100">
+             <ion-label>{{formatDurationMinutesSeconds(event.totalHour)}}</ion-label>
+             <span>Total duration of this test</span>
+           </div>
+         </div>
+
+        <div class="event-raw">
+          <div class="eventImg star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.6999 3.04998L14.7699 8.76998L20.8499 8.96998C21.4899 8.98998 21.7599 9.79998 21.2499 10.2L16.4499 13.93L18.1399 19.77C18.3199 20.39 17.6299 20.89 17.0999 20.53L12.0699 17.12L7.03994 20.53C6.50994 20.89 5.81994 20.39 5.99994 19.77L7.68994 13.93L2.86994 10.2C2.35994 9.80998 2.62994 8.98998 3.26994 8.96998L9.34994 8.76998L11.4199 3.04998C11.6299 2.44998 12.4799 2.44998 12.6999 3.04998Z"
+                stroke="#0C6500" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{event.eventMarks}} Points</ion-label>
+            <span>Total score for this test</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.6999 3.04998L14.7699 8.76998L20.8499 8.96998C21.4899 8.98998 21.7599 9.79998 21.2499 10.2L16.4499 13.93L18.1399 19.77C18.3199 20.39 17.6299 20.89 17.0999 20.53L12.0699 17.12L7.03994 20.53C6.50994 20.89 5.81994 20.39 5.99994 19.77L7.68994 13.93L2.86994 10.2C2.35994 9.80998 2.62994 8.98998 3.26994 8.96998L9.34994 8.76998L11.4199 3.04998C11.6299 2.44998 12.4799 2.44998 12.6999 3.04998Z"
+                stroke="#0C6500" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>Answer all questions correctly</ion-label>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-rules">
+        <p>Please read the below instructions carefully before starting the exam</p>
+        <ul>
+          <li>You will be given 2 points for each correct answer.</li>
+          <li>There’s no negative marking for a wrong answer.</li>
+          <li>A fixed time is scheduled for each question.</li>
+          <li>It is your responsibility to monitor and manage the time scheduled to complete the test in due time.</li>
+          <li>There’s no option to review or change the answer, once progressed for the next question during the test.
+          </li>
+          <li>Skipping or returning from the test in between before completion of the exam, might result into
+            withholding and you might be unable to attain the same test later again.</li>
+          <li>If you experience any technical difficulties during the exam with accessing, completing, and/or submitting
+            the test; contact our <b>Exam Helpdesk</b> during the office hour.</li>
+        </ul>
+      </div>
+
+      <div class="event-footer">
+        <ion-button (click)="onClickProceed()">Continue</ion-button>
+      </div>
+    </div>
+  </ion-content>
+
+</ng-container>
+
+<ng-container *ngIf="event.type === 'EVENT'">
+  <ion-content>
+    <div class="eventPage-inner">
+      <h4 class="mb-2">{{event.eventName}}</h4>
+      <h4>Event Information</h4>
+
+      <div class="event-detail">
+        <div class="event-raw">
+          <div class="eventImg">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.5133 13.44H4.63327C4.15327 13.44 3.7666 13.0533 3.7666 12.5733V3.96664C3.7666 3.48664 4.15327 3.09998 4.63327 3.09998H11.5133C11.9933 3.09998 12.3799 3.48664 12.3799 3.96664V12.5733C12.3799 13.0533 11.9933 13.44 11.5133 13.44Z"
+                stroke="#952626" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 6.95331H8.76663" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6.04663 9.58667H10.1" stroke="#952626" stroke-width="1.2" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{+(event.questionToAttemp ?? event.questions?.length) || 0}} {{(((+(event.questionToAttemp ?? event.questions?.length) || 0) === 1) ? 'Question' : 'Questions')}}</ion-label>
+            <!-- <ion-label>{{event.questions?.length}} Questions (Scholarship Event)</ion-label> -->
+            <span>Total numbers of questions available in this event</span>
+          </div>
+        </div>
+
+        <div class="event-raw">
+          <div class="eventImg clock">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8.30669 14.2133C11.5689 14.2133 14.2134 11.5688 14.2134 8.30666C14.2134 5.0445 11.5689 2.39999 8.30669 2.39999C5.04453 2.39999 2.40002 5.0445 2.40002 8.30666C2.40002 11.5688 5.04453 14.2133 8.30669 14.2133Z"
+                stroke="#DD6802" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8.30664 5.08002V8.30668L10.2933 9.25335" stroke="#DD6802" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+           </div>
+           <div class="w-100">
+             <ion-label>{{formatDurationMinutesSeconds(event.totalHour)}}</ion-label>
+             <!-- <ion-label>{{formatDurationMinutesSeconds(event.totalHour)}} (Scholarship Event)</ion-label> -->
+             <span>Total duration of this event</span>
+           </div>
+         </div>
+
+        <div class="event-raw">
+          <div class="eventImg star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.6999 3.04998L14.7699 8.76998L20.8499 8.96998C21.4899 8.98998 21.7599 9.79998 21.2499 10.2L16.4499 13.93L18.1399 19.77C18.3199 20.39 17.6299 20.89 17.0999 20.53L12.0699 17.12L7.03994 20.53C6.50994 20.89 5.81994 20.39 5.99994 19.77L7.68994 13.93L2.86994 10.2C2.35994 9.80998 2.62994 8.98998 3.26994 8.96998L9.34994 8.76998L11.4199 3.04998C11.6299 2.44998 12.4799 2.44998 12.6999 3.04998Z"
+                stroke="#0C6500" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="w-100">
+            <ion-label>{{event.eventMarks}} Points</ion-label>
+            <!-- <ion-label>{{event.eventMarks}} Points (Scholarship Event)</ion-label> -->
+            <span>Total score for this event</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-rules">
+        <p>Please read the below instructions carefully before starting the event</p>
+        <ul>
+          <li>You will be given 2 points for each correct answer.</li>
+          <li>There’s no negative marking for a wrong answer.</li>
+          <li>A fixed time is scheduled for each question.</li>
+          <li>It is your responsibility to monitor and manage the time scheduled to complete the event in due time.</li>
+          <li>There’s no option to review or change the answer, once progressed for the next question during the
+            event.</li>
+          <li>Skipping or returning in between before completion of the event, might result into withholding and you
+            might be unable to attain the same event later again.</li>
+          <li>If you experience any technical difficulties during the event with accessing, completing, and/or
+            submitting; contact our <b>Exam Helpdesk</b> during the office hours within 3 days (including holidays) of
+            the
+            event.</li>
+        </ul>
+      </div>
+
+      <div class="event-footer">
+        <ion-button (click)="onClickProceed()">Continue</ion-button>
+      </div>
+    </div>
+  </ion-content>
+
+</ng-container>

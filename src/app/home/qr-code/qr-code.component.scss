@@ -1,0 +1,51 @@
+.qr-page {
+  padding: 16px;
+}
+
+.qr-card {
+  background: #3bcbe6;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  // display: block;
+  // font-size: 16px;
+  // font-weight: 600;
+  // color: #0a395a;
+  // margin-bottom: 8px;
+  display: flex;
+  justify-content:center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.code {
+  display: block;
+  // font-size: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+}
+
+.hint {
+  font-size: 13px;
+  line-height: 18px;
+  color: #6b7280;
+}
+
+.qr-image {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.qr-image ion-img {
+  width: 220px;
+  max-width: 100%;
+}

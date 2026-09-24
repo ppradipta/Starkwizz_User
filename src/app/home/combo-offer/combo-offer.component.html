@@ -1,0 +1,75 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="page-container">
+    <div class="left-top">
+      <ion-img src="/assets/svg/combo-design.svg"></ion-img>
+    </div>
+    <div class="right-top">
+      <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+    </div>
+    <div class="left-bottom">
+      <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+    </div>
+
+    <div class="page-inner">
+      <h3 class="mb-2">Academic Year 2026-27</h3>
+      <!-- <h3>{{comboOffer.name}}</h3>
+      <span class="heading-span">Get 3 <label>Starkwizz’s</label> Subscriptions</span>
+      <ion-label class="heading-label">Academic Year 2025-26</ion-label> -->
+
+      <div class="custom-raw">
+        <ng-container *ngFor="let offer of comboOffer.offerApplicables">
+          <div class="custom-col {{offer.name}}" [ngClass]="{'UNCHECK': !offer.isSelected}"
+            (click)="selectOrderForAction(offer)">
+            <div class="d-flex justify-content-between mb-1">
+              <h2>{{offer.name}}</h2>
+              <!-- <span><b>₹ {{offer.price}}</b>/{{offer.countDays}} days</span> -->
+            </div>
+            <div class="middle-info">
+              <div>
+                <ion-text>{{offer.desc}}</ion-text>
+                <ion-text><b>{{offer.desc1}}</b></ion-text>
+              </div>
+              <ion-checkbox [checked]="offer.isSelected" [disabled]="true"
+                (click)="selectOrderForAction(offer)"></ion-checkbox>
+            </div>
+            <ion-button class="moreBtn" fill="clear" (click)="goToMore(offer)">Know more</ion-button>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- <div class="price">
+        <h3 class="mb-0">Subscribe Now,</h3>
+        <ion-label>and receive all Starkwizz benefits for the academic year 2025-26 for <span>FREE</span></ion-label>
+      </div> -->
+      <!-- <div class="price" *ngIf="selectedOfferDiscount > 0 && selectedOffer.length">
+        <h3>{{comboOffer.name}}</h3>
+        <ion-label><b>Select all </b><span>{{selectedOffer.length}} Starkwizz Platforms</span> Subscriptions</ion-label>
+        <ion-label><b>Just for </b><span>₹{{selectedOfferPrice -
+            selectedOfferDiscount}}/-</span>&nbsp;<del>{{selectedOfferPrice}}/-</del></ion-label>
+        <span class="offer">(Flat Discount of Rs.{{selectedOfferDiscount}}/-) *<a>Limited Period Offer</a></span>
+      </div>
+      <div class="price" *ngIf="selectedOfferDiscount == 0">
+        <h3>{{comboOffer.name}}</h3>
+        <ion-label><b>Select all </b><span>3 Starkwizz Platforms</span> Subscriptions</ion-label>
+        <ion-label><b>Just for </b><span>₹{{comboOffer.totalPrice -
+            comboOffer.discount}}/-</span>&nbsp;<del>{{comboOffer.totalPrice}}/-</del></ion-label>
+        <span class="offer">(Flat Discount of Rs.{{comboOffer.discount}}/-) <a>*Limited Period Offer</a></span>
+      </div> -->
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="btn-group">
+    <ng-container *ngIf="!isFreeTrialUser">
+      <ion-button class="freetrial" (click)="onClickFreeTrial()" [disabled]="!freeTrial"><span>Free Trial</span></ion-button>
+    </ng-container>
+    <ion-button (click)="onClickOfferDetail()">Go For Subscription</ion-button>
+  </div>
+</ion-footer>

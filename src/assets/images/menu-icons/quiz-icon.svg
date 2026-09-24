@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58.445" height="43.636" viewBox="0 0 58.445 43.636">
+  <g id="Group_917" data-name="Group 917" transform="translate(-2090.995 17353)">
+    <path id="Icon_material-lightbulb-outline" data-name="Icon material-lightbulb-outline" d="M16.227,44.454a2.188,2.188,0,0,0,2.182,2.182h8.727a2.188,2.188,0,0,0,2.182-2.182V42.272H16.227ZM22.772,3a15.266,15.266,0,0,0-8.727,27.8v4.931a2.188,2.188,0,0,0,2.182,2.182H29.318A2.188,2.188,0,0,0,31.5,35.727V30.8A15.266,15.266,0,0,0,22.772,3Zm6.218,24.218-1.855,1.309v5.018H18.409V28.527l-1.855-1.309a10.909,10.909,0,1,1,12.436,0Z" transform="translate(2097.176 -17356)" fill="#fff"/>
+    <text id="_" data-name="?" transform="translate(2120 -17330.943)" fill="#fff" font-size="17" font-family="ArialNarrow, Arial" letter-spacing="0.05em"><tspan x="-4.258" y="0">?</tspan></text>
+    <line id="Line_298" data-name="Line 298" x2="10.136" transform="translate(2138.799 -17339.148)" fill="none" stroke="#fff" stroke-width="5"/>
+    <line id="Line_299" data-name="Line 299" y1="5.068" x2="9.46" transform="translate(2138.799 -17348.947)" fill="none" stroke="#fff" stroke-width="5"/>
+    <line id="Line_300" data-name="Line 300" x2="9.46" y2="5.068" transform="translate(2138.799 -17334.418)" fill="none" stroke="#fff" stroke-width="5"/>
+    <line id="Line_301" data-name="Line 301" x2="10.136" transform="translate(2101.635 -17339.148) rotate(180)" fill="none" stroke="#fff" stroke-width="5"/>
+    <line id="Line_302" data-name="Line 302" y1="5.068" x2="9.46" transform="translate(2101.635 -17329.35) rotate(180)" fill="none" stroke="#fff" stroke-width="5"/>
+    <line id="Line_303" data-name="Line 303" x2="9.46" y2="5.068" transform="translate(2101.635 -17343.877) rotate(180)" fill="none" stroke="#fff" stroke-width="5"/>
+  </g>
+</svg>

@@ -1,0 +1,109 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div>
+      <div class="profile-container">
+        <div class="d-flex align-items-center mb-3">
+          <div class="profile-img">
+            <ion-img *ngIf="videoUserData.userImage=='' || videoUserData.userImage==null"
+              src="assets/images/menu-user.gif">
+            </ion-img>
+            <ion-img *ngIf="videoUserData.userImage!='' || videoUserData.userImage!=null"
+              [src]="videoUserData.userImage">
+            </ion-img>
+          </div>
+          <div class="profile-right">
+            <div class="profile-info">
+              <span class="info-count">{{userVideoPostCount+userImagePostCount}}</span>
+              <span class="info-name">Posts</span>
+            </div>
+            <div class="profile-info" *ngIf="videoUserData.followUsers">
+              <span class="info-count">{{videoUserData.followUsers.length}}</span>
+              <span class="info-name">Followers</span>
+            </div>
+            <div class="profile-info"
+              *ngIf="videoUserData.followUsers == undefined || videoUserData.followUsers == null">
+              <span class="info-count">0</span>
+              <span class="info-name">Followers</span>
+            </div>
+          </div>
+        </div>
+        <ion-label class="user-name">{{videoUserData.userName}}</ion-label>
+        <ion-label class="section-label">Class {{videoUserData.className}}, {{videoUserData.boardName}} </ion-label>
+        <ion-label class="section-label mb-2">{{userProfileDetails.schoolName}}</ion-label>
+        <ion-label>Interest : </ion-label>
+        <span *ngIf="userProfileDetails.interests != undefined">
+          <span *ngFor="let intrest of userProfileDetails.interests">{{intrest.displayName}}, </span>
+        </span>
+        <span *ngIf="userProfileDetails.interests == undefined">
+          <span>No interests added</span>
+        </span>
+      </div>
+      <div class="custom-segment">
+        <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+          <ion-segment-button value="videoClips">
+            <ion-label>
+              <ion-icon name="tv-outline"></ion-icon>Video Clips
+            </ion-label>
+          </ion-segment-button>
+          <ion-segment-button class="snapshot" value="snapshots">
+            <ion-label>
+              <ion-icon name="images-outline"></ion-icon>Snapshots
+            </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="events">
+            <ion-label>
+              <ion-icon name="calendar-outline"></ion-icon>Events
+            </ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
+
+    <div class="video-container" *ngIf="segmentValue == 'videoClips'">
+      <div class="video-container" *ngIf="postedVideos.length == 0">
+        <p class="default-text">No Video Clips Available.</p>
+      </div>
+      <div class="video-container" *ngIf="postedVideos.length > 0">
+        <div class="video-box" *ngFor="let video of postedVideos" (click)="onClickPlayVideo(video)">
+          <video preload="auto" webkit-playsinline="playsinline" class="videoPlayer" #videoElements >
+            <source src="{{video.videoUrl}}" type="video/mp4" />
+          </video>
+          <div class="view-info">
+            <ion-icon name="play-outline"></ion-icon>
+            <span>1.2k</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="video-container" *ngIf="segmentValue == 'snapshots'">
+      <div class="video-container" *ngIf="postedImages.length == 0">
+        <p class="default-text">No Snapshots Available.</p>
+      </div>
+      <div class="video-container" *ngIf="postedImages.length > 0">
+        <div class="video-box" *ngFor="let img of postedImages">
+          <div class="videoPlayer">
+            <ion-img [src]="img.videoUrl"></ion-img>
+          </div>
+          <div class="view-info">
+            <ion-icon name="play-outline"></ion-icon>
+            <span>1.2k</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="video-container" *ngIf="segmentValue == 'events'">
+      <p class="default-text">No Events Available.</p>
+      <!-- <div class="video-box" *ngFor="let list of achive">
+        <ion-img src="https://images.unsplash.com/photo-1547153760-18fc86324498?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZGFuY2V8ZW58MHx8MHx8&w=1000&q=80"></ion-img>
+        <div class="view-info">
+          <ion-icon name="play-outline"></ion-icon>
+          <span>1.2k</span>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</ion-content>

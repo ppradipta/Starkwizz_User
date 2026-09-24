@@ -1,0 +1,95 @@
+﻿.page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px 16px 28px;
+}
+
+.feature-icons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 8px 0 14px;
+  text-align: center;
+}
+
+.feature .icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 6px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #f2f6ff;
+  color: #2f6fed;
+}
+
+.feature .icon ion-icon {
+  font-size: 28px;
+}
+
+.feature .label {
+  font-size: 12px;
+  color: #2b2b2b;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 10px 0 14px;
+}
+
+.title {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 8px 0 14px;
+  color: #1b1b1b;
+  font-weight: 700;
+}
+
+.text p {
+  margin: 10px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #333;
+}
+
+.feedback-title {
+  text-align: center;
+  margin: 8px 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1b1b1b;
+}
+
+.feedback-sub {
+  text-align: center;
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #444;
+}
+
+.feedback-checkbox {
+  width: 100%;
+  margin: 6px 0 12px;
+  --size: 20px;
+  --checkbox-background-checked: #2f6fed;
+  --checkmark-color: #fff;
+}
+
+.feedback-checkbox ion-label {
+  white-space: normal;
+  font-size: 13px;
+  color: #2b2b2b;
+}
+
+.primary-btn {
+  --background: #2f6fed;
+  --border-radius: 8px;
+  margin-top: 4px;
+}
+
+.secondary-btn {
+  margin-top: 4px;
+  color: #6b6b6b;
+}

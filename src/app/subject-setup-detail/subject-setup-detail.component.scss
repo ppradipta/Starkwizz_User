@@ -1,0 +1,46 @@
+.verify-icon{
+    width: 28px;
+    margin-right: 10px;
+}
+ion-header {
+    padding: 5px 0 20px;
+    .header-toolbar {
+        padding: 0;
+        margin-bottom: 0;
+        display: flex;
+        ion-title {
+            padding: 0;
+        }
+        ion-button {
+            --box-shadow: none;
+            --background: transparent;
+            --color: #0a395a;
+            font-size: 22px;
+            min-width: auto;
+            margin: 0;
+            --padding-start: 0;
+            --padding-end: 0;
+        }
+    }
+}
+ion-list {
+    ion-item {
+        --padding-start: 0;
+    }
+}
+.create-btn {
+    --background: #51C1E9;
+    --color: #0A395A;
+    text-transform: capitalize;
+    letter-spacing: 0;
+    font-family: "Nunito-SemiBold";
+    font-size: 16px;
+    --border-radius: 4px;
+    margin: 10px 0 0 0;
+    --box-shadow: none;
+}
+.errorMsg {
+    color: red;
+    font-size: 15px;
+    font-family: "Nunito-SemiBold";
+}

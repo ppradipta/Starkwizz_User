@@ -1,0 +1,96 @@
+<ion-header>
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/theme-logo.svg"></ion-img>
+    </div>
+    <!-- <div class="d-flex align-items-center" (click)="onClickFilter()">
+      <ion-img class="filter-icon" src="/assets/images/filter.svg"></ion-img>
+    </div> -->
+  </div>
+</ion-header>
+<ion-content *ngIf="selectedContentType.typevalue=='videoclips'">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div>
+    <!-- <ion-fab class="custom-fab" vertical="top" horizontal="end" slot="fixed" id="trigger-button">
+      <ion-fab-button>
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> -->
+    <ion-popover trigger="trigger-button" [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content class="popover-inner">
+          <ion-label class="first-label" (click)="onClickLabel('videoClips')">Video Clip</ion-label>
+          <ion-label (click)="onClickLabel('snapshots')">Snapshots</ion-label>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </div>
+
+  <div class="default-text" *ngIf="videoList.length === 0">
+    <!-- <p>No Showcase Available.</p> -->
+    <p>Coming Soon - 1st April 2026.</p>
+  </div>
+  <swiper-container #swiper style="height: 100%;" autoplay="true" (ionSlideDidChange)="slideChanged($event)">
+    <swiper-slide *ngFor="let video of videoList">
+  <!-- <ion-slides class="p-0 m-0" [options]="slideOpts" (ionSlideDidChange)="slideChanged($event)">
+    <ion-slide class="p-0 m-0" *ngFor="let video of videoList"> -->
+      <video preload="none" webkit-playsinline="playsinline" class="videoPlayer" #videoElements
+        (click)="onSlideTapped()" (ended)="videoEnd()" autobuffer poster="assets/videoloader.gif">
+        <source [src]="video.videoUrl" type="video/mp4" />
+      </video>
+      <div class="videoBtn">
+        <ion-icon name="pause" *ngIf="videoPlayPause"></ion-icon>
+        <ion-icon class="play-icon" name="play" *ngIf="!videoPlayPause"></ion-icon>
+      </div>
+      <app-feed [video]="video"></app-feed>
+    </swiper-slide>
+  </swiper-container>
+
+  <ion-infinite-scroll (ionInfinite)="findNext($event)">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<ion-content *ngIf="selectedContentType.typevalue=='snapshots'">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefreshForImage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div>
+    <ion-fab class="custom-fab" vertical="top" horizontal="end" slot="fixed" id="trigger-button">
+      <ion-fab-button>
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-popover trigger="trigger-button" [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content class="popover-inner">
+          <ion-label class="first-label" (click)="onClickLabel('videoClips')">Video Clip</ion-label>
+          <ion-label (click)="onClickLabel('snapshots')">Snapshots</ion-label>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </div>
+
+  <swiper-container #swiper style="height: 100%;" autoplay="false" (ionSlideDidChange)="imageSlideChanged($event)">
+    <swiper-slide *ngFor="let img of imageList">
+  <!-- <ion-slides class="p-0 m-0" [options]="slideOpts" (ionSlideDidChange)="imageSlideChanged($event)">
+    <ion-slide class="p-0 m-0" *ngFor="let img of imageList"> -->
+      <div class="videoPlayer">
+        <ion-img [src]="img.videoUrl"></ion-img>
+      </div>
+      <app-feed [video]="img"></app-feed>
+    <!-- </ion-slide>
+  </ion-slides> -->
+</swiper-slide>
+</swiper-container>
+
+  <ion-infinite-scroll (ionInfinite)="findNextForImage($event)">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

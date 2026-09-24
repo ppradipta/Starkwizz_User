@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.faq-content {
+//   --background: var(--ion-color-light);
+  padding: 16px;
+}
+
+.faq-container {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.faq-hero {
+  text-align: center;
+  padding: 20px 0 8px;
+  h1 {
+    font-size: 1.6rem;
+    margin: 0 0 6px;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+.faq-list {
+  .faq-block {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+}
+
+.faq-item {
+  --padding-start: 16px;
+  --inner-padding-end: 12px;
+  cursor: pointer;
+  h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  ion-icon {
+    transition: transform 220ms ease;
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 16px;
+  transition: max-height 260ms ease, padding 260ms ease;
+  p {
+    margin: 12px 0;
+    color: #444;
+    line-height: 1.4;
+  }
+  &.open {
+    max-height: 480px;
+    padding: 12px 16px 16px;
+  }
+}
+
+.no-results {
+  text-align: center;
+  color: #777;
+  margin-top: 18px;
+}
+
+@media (min-width: 700px) {
+  .faq-hero { h1 { font-size: 2rem; } }
+}

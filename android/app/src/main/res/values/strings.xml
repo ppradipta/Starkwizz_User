@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Starkwizz</string>
+    <string name="title_activity_main">Starkwizz</string>
+    <string name="package_name">com.lavni.starkwizz</string>
+    <string name="custom_url_scheme">com.lavni.starkwizz</string>
+</resources>

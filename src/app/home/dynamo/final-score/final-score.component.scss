@@ -1,0 +1,859 @@
+.main-header {
+    background: #fff;
+    height: 90px;
+    padding: 30px 16px 10px;
+    display: flex;
+
+    ion-buttons {
+        ion-button {
+            color: #70CFED;
+            height: 36px;
+            width: 36px;
+            font-size: 24px;
+            margin: 0;
+            --padding-start: 0;
+            --padding-end: 0;
+        }
+    }
+
+    .header-logo {
+        flex: 1;
+        margin: 0 16px;
+
+        ion-img {
+            max-width: 140px;
+            margin: 0 auto;
+        }
+    }
+}
+
+.question-card {
+    .classContainer {
+        .inner-card {
+            .meta-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                margin-bottom: 12px;
+
+                span {
+                    display: inline-flex;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}
+
+.page-inner {
+    padding: 16px;
+
+    .question-card {
+        background: url(/assets/images/modal-header.svg);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 16px;
+        border-radius: 16px;
+
+        h5 {
+            font-size: 17px;
+            line-height: 22px;
+            font-family: "Nunito-Bold";
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: inherit;
+        }
+
+        .card-heading {
+            width: 200px;
+            height: 200px;
+            border: 14px solid #ffffff66;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 22px auto 16px;
+
+            .score-info {
+                height: 100%;
+                width: 100%;
+                border-radius: 50%;
+                background: #FFFFFF 0% 0% no-repeat padding-box;
+                border: 14px solid #00000045;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                padding: 26px 10px 10px;
+
+                ion-label {
+                    font-size: 18px;
+                    line-height: 20px;
+                    font-family: 'Nunito-SemiBold';
+                    margin-bottom: 14px;
+                    color: #0A395A;
+                }
+
+                h4 {
+                    margin: 0 4px 0 0;
+                    font-family: 'Nunito-Bold';
+                    line-height: 40px;
+                    font-size: 48px;
+                    letter-spacing: 2px;
+                    color: #0A395A;
+                }
+
+                span {
+                    font-size: 20px;
+                    line-height: 28px;
+                    font-family: 'Nunito-Black';
+                    color: #0A395A;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+
+        .heading {
+            color: #fff;
+            font-size: 16px;
+            line-height: 18px;
+            letter-spacing: 0.8px;
+            font-family: "Nunito-SemiBold";
+            padding: 15px;
+            display: block;
+        }
+
+        .test-card {
+            background-color: #fff;
+            min-height: 180px;
+            text-align: center;
+            padding: 20px 26px 6px;
+            border-radius: 25px;
+            box-shadow: 0px 3px 15px #0000008C;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+
+            .card-section {
+                min-width: 100px;
+                margin: 0 10px 16px 20px;
+                text-align: left;
+
+                &.total {
+                    h4 {
+                        color: #6262DE;
+
+                        &::after {
+                            background-color: #6262DE;
+                        }
+                    }
+                }
+
+                &.time {
+                    h4 {
+                        color: #D26FEF;
+
+                        &::after {
+                            background-color: #D26FEF;
+                        }
+                    }
+                }
+
+                &.currect {
+                    h4 {
+                        color: #40D47B;
+
+                        &::after {
+                            background-color: #40D47B;
+                        }
+                    }
+                }
+
+                &.incurrect {
+                    h4 {
+                        color: #EF6F6F;
+
+                        &::after {
+                            background-color: #EF6F6F;
+                        }
+                    }
+                }
+
+                &.skipped {
+                    h4 {
+                        color: #ebe71a;
+
+                        &::after {
+                            background-color: #ebe71a;
+                        }
+                    }
+                }
+
+                h4 {
+                    font-size: 20px;
+                    line-height: 22px;
+                    font-family: 'Nunito-SemiBold';
+                    margin-bottom: 2px;
+                    text-align: left;
+                    color: #0A395A;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: 5px;
+                        left: -20px;
+                        height: 10px;
+                        width: 10px;
+                        border-radius: 50%;
+                        background-color: #000;
+                    }
+                }
+
+                span {
+                    font-size: 15px;
+                    line-height: 18px;
+                    font-family: 'Nunito-SemiBold';
+                    display: block;
+                    color: #0A395A;
+                }
+            }
+
+            .card-top {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .card-bottom {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+        }
+
+        .inner-card {
+            background-color: #fff;
+            // min-height: 220px;
+            min-height: 120px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 25px;
+            box-shadow: 0px 3px 15px #0000008C;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+
+            .card-top {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .test-info {
+                text-align: center;
+                margin: 16px 8px;
+                min-width: 100px;
+                width: calc(33.33% - 16px);
+
+                .info-icon {
+                    height: 56px;
+                    width: 56px;
+                    border-radius: 50%;
+                    background: #000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto 8px;
+
+                    &.review-icon {
+                        background-color: #55BFCB;
+                    }
+
+                    &.share-icon {
+                        background-color: #E56B6B;
+                    }
+
+                    &.board-icon {
+                        background-color: #82A9EC;
+
+                        ion-icon {
+                            font-size: 26px;
+                        }
+                    }
+
+                    &.download-icon {
+                        background-color: #57BC8A;
+                    }
+
+                    ion-icon {
+                        color: #fff;
+                        font-size: 30px;
+                    }
+                }
+
+                span {
+                    font-size: 17px;
+                    line-height: 20px;
+                    font-family: 'Nunito-SemiBold';
+                    display: block;
+                    color: #0A395A;
+                }
+            }
+        }
+    }
+
+    .event-name {
+        text-align: center;
+        font-size: 22px;
+        line-height: 26px;
+        font-family: "Nunito-Bold";
+        margin: 0;
+        color: #fff;
+    }
+
+    .event-code {
+        text-align: center;
+        font-size: 18px;
+        line-height: 22px;
+        font-family: "Nunito-Bold";
+        margin: 0 0 6px;
+        color: #fff;
+        position: unset;
+    }
+
+    ion-item {
+        &.currect-option {
+            --background: #40D47B !important;
+        }
+
+        &.wrong-option {
+            --background: #EF6F6F !important;
+        }
+
+        &.none-option {
+            --background: #ffffff !important;
+        }
+
+        span {
+            background: #fff !important;
+        }
+    }
+
+    .option-list {
+        margin: 30px 0 15px;
+        padding: 0;
+        background: transparent;
+
+        ion-item {
+            --min-height: unset;
+            --border-style: none;
+            border-radius: 30px;
+            --background: #fff;
+            --ripple-color: transparent;
+            --padding-start: 5px;
+            --padding-end: 5px;
+            --padding-top: 5px;
+            --padding-bottom: 5px;
+            --inner-padding-end: 0;
+            margin-bottom: 16px;
+
+            ion-label {
+                height: 100%;
+                color: #0a395a;
+                margin: 0;
+                font-size: 20px;
+                font-family: "Nunito-SemiBold";
+                display: flex;
+                align-items: center;
+
+                span {
+                    height: 36px;
+                    width: 36px;
+                    font-size: 20px;
+                    line-height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    margin-right: 12px;
+                }
+
+                .option-inner {
+                    flex: 1;
+                    margin-right: 8px;
+
+                    p {
+                        flex: 1;
+                        color: #0a395a;
+                        margin: 0;
+                        font-size: 17px;
+                        line-height: 22px;
+                        font-family: "Nunito-SemiBold";
+                        white-space: normal;
+                        word-break: break-word;
+                    }
+                }
+            }
+        }
+    }
+
+    .option-img {
+        flex: 1;
+        width: 100%;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 20px;
+        border: 2px solid transparent;
+        margin: 7px 0;
+
+        ion-img {
+            //object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.quiz-header {
+    height: 44px;
+    background-image: linear-gradient(to right, #7982ef, #6b73dd, #5d65cb, #4f57ba, #4149a9);
+    padding: 10px 16px;
+    display: flex;
+
+    ion-button {
+        height: 30px;
+        width: 30px;
+        font-size: 18px;
+        margin: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --box-shadow: none;
+
+        ion-icon {
+            color: #fff;
+        }
+    }
+
+    .header-logo {
+        height: 24px;
+        width: 110px;
+        margin: 0 auto;
+
+        ion-img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+
+}
+
+.quiz-body {
+    background-image: linear-gradient(to right, #7982ef, #6b73dd, #5d65cb, #4f57ba, #4149a9);
+    padding: 0;
+
+    .quiz-top {
+        text-align: center;
+
+        ion-title {
+            font-size: 16px;
+            line-height: 25px;
+            font-family: 'Nunito-Bold';
+            color: #fff;
+            margin: 0 0 12px;
+        }
+
+        h5 {
+            font-size: 20px;
+            line-height: 34px;
+            font-family: 'Nunito-Bold';
+            color: #fff;
+            margin: 0;
+        }
+
+    }
+
+    .classBoard {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+        color: #fff;
+
+        span {
+            font-size: 14px;
+            line-height: 22px;
+            font-family: 'Nunito-Bold';
+            color: #fff;
+            display: block;
+        }
+    }
+
+    .event-name {
+        font-size: 21px;
+        line-height: 38px;
+        font-family: 'Nunito-Bold';
+        color: #333333;
+        text-align: center;
+        margin: 0;
+    }
+
+    .question-card {
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 24px 24px 0 0;
+
+        .classBoard {
+            span {
+                color: #333333;
+            }
+        }
+
+        .score-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+
+            .score-col {
+                width: calc(33.33% - 20px);
+
+                ion-label {
+                    font-size: 12px;
+                    line-height: 14px;
+                    font-family: inherit;
+                    color: #627292;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                    display: block;
+                }
+
+                h4 {
+                    font-size: 18px;
+                    line-height: 26px;
+                    font-family: inherit;
+                    color: #242526;
+                    font-weight: 700;
+                    margin: 0 0 2px;
+                }
+
+                .procees-line {
+                    background: linear-gradient(243.06deg, #CEF6FF 0%, #CED3FF 100%);
+                    height: 12px;
+                    border-radius: 22px;
+                    padding: 3px;
+
+                    .line {
+                        height: 6px;
+                        background: #3B82F6;
+                        border-radius: 20px;
+                    }
+
+                    &.Accuracy {
+                        background: linear-gradient(251.92deg, #FDEBC4 0%, #FFD6CC 100%);
+
+                        .line {
+                            background: #FFA600;
+                        }
+                    }
+
+                    &.Percentile {
+                        background: #EFEFEF;
+
+                        .line {
+                            background: #14B8A6;
+                        }
+                    }
+                }
+            }
+        }
+
+        .score-table {
+            padding: 16px 24px;
+            background: #F6F6F6;
+            margin: 0 -30px 24px;
+
+            .score-row {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                column-gap: 12px;
+                align-items: start;
+            }
+
+            span {
+                font-size: 14px;
+                line-height: 20px;
+                color: #242526;
+                font-family: 'Nunito-Regular';
+                display: block;
+                text-align: left;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                &.time {
+                    white-space: normal;
+                    overflow: visible;
+                    text-overflow: unset;
+
+                    b {
+                        display: block;
+                        white-space: nowrap;
+                    }
+                }
+
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+
+            @media (max-width: 480px) {
+                padding: 12px 16px;
+
+                .score-row {
+                    column-gap: 10px;
+                }
+
+                span {
+                    font-size: 12px;
+                    line-height: 16px;
+                }
+
+                span.time b {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .score-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .test-info {
+                border-radius: 8px;
+                padding: 16px 12px;
+                background: #FDEED5;
+                width: calc(50% - 13px);
+                height: 80px;
+                text-align: center;
+                margin-bottom: 26px;
+
+                &.share {
+                    background: #EBF0FF;
+                }
+
+                &.board {
+                    background: #FFF1F1;
+                }
+
+                &.download {
+                    background: #ECF9FF;
+                }
+
+                .info-icon {
+                    width: 24px;
+                    height: 24px;
+                    margin: 0 auto 8px;
+
+                    ion-img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                span {
+                    font-size: 12px;
+                    line-height: 16px;
+                    font-family: 'Nunito-SemiBold';
+                    display: block;
+                    color: #242526;
+                }
+
+            }
+        }
+
+        .view-btn {
+            height: 36px;
+            --background: transparent;
+            --color: #51C0E9;
+            font-size: 16px;
+            font-family: 'Nunito-ExtraBold';
+            text-transform: math-auto;
+            --box-shadow: none;
+            --border-radius: 4px;
+            display: flex;
+            margin: 0 auto 16px;
+        }
+
+        .more-quiz {
+            h2 {
+                font-size: 18px;
+                line-height: 36px;
+                font-family: 'Nunito-Bold';
+                color: #333333;
+                margin: 0 0 12px;
+            }
+
+            .custom-card {
+                border: 1px solid #EEEEEE;
+                border-radius: 8px;
+                box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+                margin-bottom: 16px;
+                position: relative;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                .custom-body {
+                    display: flex;
+                    overflow: hidden;
+                    position: relative;
+                    padding: 16px;
+                    z-index: 0;
+
+                    .card-img {
+                        width: 58px;
+                        height: 58px;
+                        margin-right: 16px;
+
+                        ion-img {
+                            object-fit: cover;
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+
+                    .card-info {
+                        flex: 1;
+
+                        .title {
+                            color: #1A1A1A;
+                            font-size: 14px;
+                            line-height: 20px;
+                            font-family: 'Nunito-ExtraBold';
+                            display: block;
+                            margin-bottom: 7px;
+                        }
+
+                        span {
+                            display: flex;
+                            font-size: 12px;
+                            font-family: 'Nunito-Regular';
+                            line-height: 16px;
+                            color: #282828;
+                            margin-bottom: 6px;
+
+                            svg {
+                                // width: 16px;
+                                // height: 16px;
+                                margin-right: 4px;
+                            }
+
+                            &.label {
+                                line-height: 14px;
+                                color: #2D2D2D;
+                            }
+
+                            &:last-child {
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        .timer {
+            width: 195px;
+            height: 195px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 0 auto 24px;
+        }
+
+        .circle__item {
+            width: 195px;
+            height: 195px;
+            position: absolute;
+
+            &.circle__item1 {
+                height: 155px;
+                width: 155px;
+            }
+
+            &.circle__item2 {
+                height: 117px;
+                width: 117px;
+            }
+
+            .circle__spinner {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .score-info {
+            h4 {
+                font-size: 24px;
+                line-height: 24px;
+                font-family: 'Nunito-ExtraBold';
+                color: #242526;
+                margin: 0 0 4px;
+                display: flex;
+                justify-content: center;
+            }
+
+            ion-label {
+                display: block;
+                font-size: 12px;
+                line-height: 16px;
+                font-family: 'Nunito-SemiBold';
+                color: #242526;
+            }
+        }
+    }
+}
+
+.selectBottomSheet {
+    ion-header {
+        &::after {
+            bottom: -5px;
+            height: 5px;
+        }
+        ion-title {
+            font-size: 16px;
+            line-height: 20px;
+            font-family: 'Nunito-Bold';
+            color: #0A395A;
+            padding: 0 10px;
+        }
+        .invoiceBtn {
+            height: 30px;
+            --border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Nunito-Bold';
+            --background: transparent;
+            --color: #0A395A;
+            text-transform: capitalize;
+            letter-spacing: 0;
+            --box-shadow: none;
+            margin: 0 16px;
+
+            ion-img {
+                width: 16px;
+                height: 16px;
+                margin-right: 4px;
+            }
+        }
+    }
+}

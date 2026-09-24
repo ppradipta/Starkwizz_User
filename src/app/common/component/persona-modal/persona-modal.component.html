@@ -1,0 +1,43 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>PERSONA</ion-title>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="modal-inner">
+    <div class="section-row flex-column">
+      <ion-label class="section-label w-100">Photos</ion-label>
+      <div class="photo-container">
+        <div class="photo-box" *ngFor="let p of photos">
+          <ion-img src="{{p.img}}"></ion-img>
+        </div>
+        <div class="upload-tab">Upload <b>+</b></div>
+      </div>
+    </div>
+    <div class="section-row">
+      <ion-label class="section-label">Birthday</ion-label>
+      <ion-input class="section-value" value="21st August, 2010"></ion-input>
+    </div>
+    <div class="section-row">
+      <ion-label class="section-label">About me</ion-label>
+      <ion-textarea class="section-value value-textarea" value="I am quite mischievous sometimes but i keep my rhythm of studies intact. I love to dance and want to be a model.">
+      </ion-textarea>
+    </div>
+    <div class="section-row">
+      <ion-label class="section-label">Interests</ion-label>
+      <div class="tab-container">
+        <ion-label>Music</ion-label>
+        <ion-label>Poetry</ion-label>
+        <ion-label>Politics</ion-label>
+        <ion-label>Travel</ion-label>
+        <ion-label>Drama</ion-label>
+        <ion-label>Add <b>+</b></ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="primary-btn" (click)="onClickClose()">Done</ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,255 @@
+ion-content {
+    --background: #fff !important;
+    --keyboard-offset: 0px !important;
+}
+
+.input-content {
+    margin: 0 auto;
+}
+
+.page-container {
+    position: relative;
+    min-height: 100%;
+    padding: 26px;
+    overflow: auto;
+
+    .right-top {
+        width: 80px;
+        height: 128px;
+        position: absolute;
+        top: 0px;
+        right: 0;
+        z-index: -1;
+    }
+
+    .left-bottom {
+        width: 106px;
+        height: 178px;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .yellowCircel {
+        width: 249px;
+        height: 249px;
+        background: #FFF8DA;
+        border-radius: 50%;
+        position: absolute;
+        left: -107px;
+        top: 241px;
+    }
+
+    .logo {
+        ion-img {
+            max-width: 200px;
+            margin: 40px auto 40px;
+            height: 75px;
+        }
+    }
+
+    .col {
+        margin-bottom: 48px;
+
+        h5 {
+            font-size: 20px;
+            font-family: "Nunito-Bold";
+            color: #1C1D1F;
+            line-height: 24px;
+            text-align: center;
+            margin: 0 0 11px;
+        }
+
+        .decs {
+            font-size: 16px;
+            line-height: 18px;
+            font-family: "Nunito-Bold";
+            color: #00AEFF;
+            display: block;
+            text-align: center;
+        }
+    }
+
+    form {
+        min-height: 350px;
+    }
+
+    .login-input {
+        margin-bottom: 12px;
+
+        &:first-child {
+            margin-bottom: 20px;
+        }
+
+        &.verify-input {
+            position: relative;
+
+            .verify-icon {
+                position: absolute;
+                right: 10px;
+                bottom: 9px;
+                padding: 0;
+                height: 28px;
+                width: 28px;
+                z-index: 5;
+            }
+
+            .hideShowIcon {
+                position: absolute;
+                bottom: 5px;
+                right: 5px;
+                color: #000000d1;
+                cursor: pointer;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                font-size: 20px;
+                z-index: 5;
+            }
+
+            ion-label {
+                font-size: 14px;
+                line-height: 19px;
+                font-family: "Nunito-Bold";
+                color: #1C1D1F;
+                margin-bottom: 8px;
+                display: block;
+            }
+        }
+
+
+        .country-code {
+            position: absolute;
+            left: 16px;
+            bottom: 15px;
+            height: 20px;
+            z-index: 5;
+            padding-right: 8px;
+            border-right: 1px solid #000;
+
+            span {
+                color: #625D5D;
+                font-size: 16px;
+                line-height: 20px;
+                display: block;
+            }
+        }
+
+        ion-input {
+            height: 100%;
+            width: 100%;
+            font-size: 16px;
+            font-family: "Nunito-Regular";
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid #625D5D;
+            --highlight-height: 0px;
+            --highlight-color-focused: transparent;
+            --highlight-color: transparent;
+            --padding-end: 16px;
+            --padding-start: 16px;
+            --padding-bottom: 13px;
+            --padding-top: 14px;
+            text-align: left;
+            color: #0a395a;
+            --placeholder-color: #625d5d;
+            letter-spacing: 0.5px;
+
+            &.phone {
+                --padding-start: 64px;
+            }
+        }
+
+    }
+
+    .btn-content {
+        margin: 30px 0 40px;
+        text-align: end;
+
+        .customCheckbox {
+            text-align: center;
+            margin-bottom: 42px;
+
+            ion-checkbox {
+                --size: 22px;
+                margin-right: 12px;
+                --border-color: #70CFED;
+                --checkmark-width: 2px;
+                --border-radius: 3px;
+                --checkmark-color: #fff;
+                --background-checked: #70CFED;
+                --border-color-checked: #70CFED;
+                margin-bottom: -5px;
+            }
+
+            .checkboxLabel {
+                flex: 1;
+                font-size: 14px;
+                line-height: 20px;
+                font-family: 'Nunito-Light';
+                color: #625D5D;
+                margin: 0;
+            }
+        }
+
+        .reset-btn {
+            height: 30px;
+            margin: 8px 0 0 auto;
+            --padding-start: 10px;
+            --padding-end: 10px;
+            --box-shadow: none;
+            text-transform: capitalize;
+            --color: #70CFED;
+            font-size: 16px;
+            font-family: "Nunito-Bold";
+            width: max-content;
+        }
+
+        .secondary-btn {
+            margin-bottom: 12px;
+            --color: #fff;
+            &.button-disabled {
+                --background: #E7F7FC;
+                opacity: 1;
+                color: #B1DCEA;
+            }
+        }
+
+        // .webLink {
+        //     color: #70CFED;
+        //     font-size: 16px;
+        //     line-height: 20px;
+        //     font-family: "Nunito-ExtraBold";
+        //     padding: 5px 10px;
+        //     border-radius: 4px;
+        //     display: block;
+        //     width: fit-content;
+        //     margin-left: auto;
+        //     &:hover {
+        //         background: rgb(5 135 130 / 15%);
+        //     }
+        // }
+
+        ion-text {
+            font-size: 14px;
+            line-height: 18px;
+            margin-top: 10px;
+            display: block;
+            font-family: "Nunito-SemiBold";
+            text-align: center;
+            color: #625D5D;
+
+            b {
+                color: #70CFED;
+                font-family: "Nunito-ExtraBold";
+                font-size: 18px;
+            }
+        }
+
+    }
+}

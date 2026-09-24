@@ -1,0 +1,301 @@
+@import "swiper/css";
+@import "@ionic/angular/css/ionic-swiper";
+
+ion-menu-button {
+    color: #fff;
+    height: 50px;
+    width: 50px;
+    font-size: 35px;
+
+    &.menu-button-hidden {
+        display: block !important;
+    }
+}
+
+ion-header {
+    background: #1e1e1e;
+    height: 70px;
+    padding: 30px 16px 10px;
+    display: flex;
+
+    .header-logo {
+        flex: 1;
+        margin: 0 16px;
+
+        ion-img {
+            max-width: 180px;
+            margin: 0 auto;
+        }
+    }
+
+    .camera-icon {
+        height: 30px;
+        width: 30px;
+        margin: 0 14px 0 0;
+        --background: transparent;
+        --color: #fff;
+        --border-color: #fff;
+        --border-style: solid;
+        --border-width: 2px;
+        --border-radius: 50%;
+        --color: #fff;
+        --padding-bottom: 4px;
+        --padding-end: 2px;
+        --padding-start: 2px;
+        --padding-top: 2px;
+        font-size: 12px;
+
+        &:focus {
+            --background: #51c0e9;
+            --color: #51c0e9;
+        }
+    }
+
+    .filter-icon {
+        width: 20px;
+        padding-top: 4px;
+    }
+}
+
+.page-container {
+    height: 100%;
+
+    .inner-body {
+        height: calc(100% - 65px);
+        padding: 20px;
+        background: url(/assets/images/video-img.svg);
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+.account-card {
+    border-radius: 15px;
+    box-shadow: 0px 3px 10px 1px #00000029;
+    padding: 12px 16px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-left {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        .user-img {
+            width: 60px;
+            background: #fff;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            overflow: hidden;
+            margin-right: 10px;
+
+            ion-img {
+                object-fit: cover;
+            }
+        }
+
+        .user-name {
+            font-size: 16px;
+            line-height: 18px;
+            font-family: "Nunito-Bold";
+            color: #6acdec;
+            text-transform: capitalize;
+            display: block;
+        }
+
+        .school-name {
+            font-size: 16px;
+            line-height: 18px;
+            font-family: "Nunito-SemiBold";
+            display: block;
+            color: #0a395a;
+        }
+
+        .section-label {
+            font-size: 16px;
+            line-height: 18px;
+            font-family: "Nunito-SemiBold";
+            display: block;
+            color: #0a395a;
+        }
+    }
+
+    .card-right {
+        display: flex;
+        align-items: center;
+
+        .ellips-icon {
+            color: #51c1e9;
+            font-size: 34px;
+        }
+    }
+}
+
+::ng-deep .custom-fab {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: #0A395A;
+
+    &.fab-horizontal-end {
+        right: calc(12px + var(--ion-safe-area-right, 0px)) !important;
+    }
+
+    &.fab-vertical-top {
+        top: 20px !important;
+    }
+
+    ion-fab-button {
+        width: 32px !important;
+        height: 32px !important;
+        --background: transparent !important;
+        --box-shadow: none !important;
+
+        ion-icon {
+            font-size: 20px;
+        }
+    }
+}
+
+ion-popover {
+    --width: 120px;
+    --offset-y: -50px;
+    --offset-x: -44px;
+    --box-shadow: 0px 3px 15px #000000cc;
+    --backdrop-opacity: 0;
+    --background: transparent;
+
+    .popover-inner {
+        padding: 0 4px;
+
+        ion-label {
+            text-align: center;
+            display: block;
+            padding: 8px 10px;
+            color: #0a395af5;
+            font-family: "Nunito-SemiBold";
+            font-size: 16px;
+            line-height: 18px;
+
+            &.first-label {
+                border-bottom: 1px solid #1441604d;
+            }
+        }
+    }
+}
+
+swiper-container {
+    swiper-slide {
+        position: relative;
+
+        video {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+ion-content {
+    height: 100%;
+    --overflow: hidden;
+}
+
+.custom-toster {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    background-color: #70cfed;
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    min-height: 58px;
+
+    p {
+        margin: 0;
+        flex: 1;
+        color: #0A395A;
+    }
+
+    .close-icon {
+        display: flex;
+        margin-left: 16px;
+
+        ion-icon {
+            font-size: 24px;
+            color: #0A395A;
+        }
+    }
+}
+
+.videoBtn {
+    position: absolute;
+    pointer-events: none;
+    height: 50px;
+    width: 50px;
+    top: calc(50% - 25px);
+    left: 0;
+    right: 0;
+    background: rgb(0 0 0 / 60%);
+    border-radius: 50%;
+    margin: 0 auto;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: zoomInZoomOut;
+    animation-duration: .5s;
+    animation-timing-function: ease-in;
+
+    ion-icon {
+        color: #fff;
+        font-size: 26px;
+
+        &.play-icon {
+            margin-left: 3px;
+        }
+    }
+}
+
+@keyframes zoomInZoomOut {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.default-text {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+        text-align: center;
+        font-size: 16px;
+        line-height: 20px;
+        font-family: "Nunito-SemiBold";
+        display: block;
+        color: #999;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+video.bkg {
+    background: black
+}

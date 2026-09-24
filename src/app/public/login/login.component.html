@@ -1,0 +1,107 @@
+<ion-content>
+
+  <div class="page-container">
+    <div class="right-top">
+      <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+    </div>
+    <div class="left-bottom">
+      <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+    </div>
+
+    <div class="yellowCircel"></div>
+    <div class="logo">
+      <ion-img src="/assets/images/home/logo.svg"></ion-img>
+    </div>
+    <div class="col">
+      <h5>Welcome to Starkwizz</h5>
+      <span class="decs">Please fill in your Mobile Number to login to your account.</span>
+    </div>
+    <form name="loginForm" #loginForm="ngForm" autocomplete="off">
+  <div id="sign-in-button"></div>
+      <div class="input-content">
+        <div>
+          <div class="login-input verify-input">
+            <ion-label>Phone Number</ion-label>
+            <div class="country-code">
+              <span>+91</span>
+            </div>
+
+
+            <ion-input class="phone" type="text" name="phoneNo" [(ngModel)]="phoneNo" id="number" inputmode="tel"
+              placeholder="Mobile Number" minlength="10" maxlength="10" required></ion-input>
+            <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="loginForm.valid"></ion-img>
+          </div>
+        </div>
+      </div>
+      <div class="btn-content">
+        <ion-button class="secondary-btn" [disabled]="!loginForm.valid" (click)="onLogin()">Next</ion-button>
+        <ion-button class="reset-btn" fill="clear" (click)="goToEmailLogin()">Sign In With Email.</ion-button>
+      </div>
+
+    </form>
+
+  </div>
+</ion-content>
+
+<ion-modal #loginWithEmailModal class="selectBottomSheet" [isOpen]="isLoginWithEmailModalOpen"
+  [backdropDismiss]="false" (didDismiss)="onEmailLoginModalDidDismiss()">
+  <ng-template>
+    <ion-content>
+      <div class="page-container">
+        <div class="right-top">
+          <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+        </div>
+        <div class="left-bottom">
+          <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+        </div>
+
+        <div class="yellowCircel"></div>
+        <div class="logo">
+          <ion-img src="/assets/images/home/logo.svg"></ion-img>
+        </div>
+        <div class="col">
+          <h5>Welcome to Starkwizz</h5>
+          <span class="decs">Please fill in your email password to login to your account.</span>
+        </div>
+        <form #loginFormWithEmail="ngForm" name="loginFormWithEmail" autocomplete="off">
+          <div class="input-content">
+            <div>
+              <div class="login-input verify-input">
+                <ion-label>Email ID</ion-label>
+                <ion-input minlength="8" type="email" name="email" class="custom-input"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,10}$" id="email" placeholder="Email ID"
+                  [(ngModel)]="email" required></ion-input>
+                <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="loginFormWithEmail.valid"></ion-img>
+              </div>
+              <div class="login-input verify-input showPassword">
+                <ion-label>Password</ion-label>
+                <ion-input minlength="8" type="{{isVisible ? 'text': 'password'}}" name="password"
+                  class="custom-input" id="password" placeholder="Password" [(ngModel)]="password"
+                  required></ion-input>
+                <span class="hideShowIcon">
+                  <ion-icon name="{{isVisible ? 'eye-off' : 'eye'}}" (click)="isVisible = !isVisible"></ion-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-content my-2">
+            <ion-button class="reset-btn" fill="clear" (click)="forgetPassword()">Forgot Password?</ion-button>
+            <ion-button class="reset-btn" fill="clear" (click)="onClickLogin()">Sign In With Mobile Number</ion-button>
+            <!-- <a class="webLink" href="https://starkwizz-admin.web.app/" target="_blank">WebLink?</a> -->
+          </div>
+          <div class="btn-content">
+            <div class="customCheckbox">
+              <ion-checkbox (ionChange)="onClickShow($event)" [(ngModel)]="isChecked"
+                [ngModelOptions]="{standalone: true}"></ion-checkbox>
+              <ion-label class="checkboxLabel">Keep me Signed in with this device</ion-label>
+            </div>
+
+            <ion-button class="secondary-btn" [disabled]="!loginFormWithEmail.valid || !checkedBtn"
+              (click)="signInWithEmailPassword()">Login</ion-button>
+            <ion-text>Don’t have an account? <b (click)="onClickSignup()">sign up</b></ion-text>
+          </div>
+        </form>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

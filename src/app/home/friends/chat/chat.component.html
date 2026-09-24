@@ -1,0 +1,68 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="group-card">
+      <div class="card-left" *ngIf="profileType=='SENDBY'">
+        <div class="group-img">
+          <ion-img src="friend.sendBy.imgUrl"></ion-img>
+        </div>
+        <div class="card-inner">
+          <ion-label class="user-name">{{friend.sendBy.displayName}}</ion-label>
+          <ion-label class="section-label">Online</ion-label>
+        </div>
+      </div>
+      <div class="card-left" *ngIf="profileType=='RECIEVEDTO'">
+        <div class="group-img">
+          <ion-img src="friend.recievedTo.imgUrl"></ion-img>
+        </div>
+        <div class="card-inner">
+          <ion-label class="user-name">{{friend.recievedTo.displayName}}</ion-label>
+          <ion-label class="section-label">Online</ion-label>
+        </div>
+      </div>
+
+      <div class="card-right">
+        <ion-icon class="ellips-icon" name="ellipsis-vertical" id="trigger"></ion-icon>
+        <ion-popover trigger="trigger" [dismissOnSelect]="true">
+          <ng-template>
+            <ion-content class="popover-inner">
+              <ion-label (click)="deleteAllChat()">Delete Chat</ion-label>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </div>
+    <div class="chat">
+      <div class="msg" *ngFor="let msg of chats.messages; let i = index" [ngClass]="{'active': msg.id === friend.recievedTo.id}">
+        <ion-label>{{ msg.displayName}}</ion-label>
+        <span>{{ msg.content }}
+          <ion-button id="cahtTriger{{i}}"  *ngIf="msg.id === userDetails.id">
+            <ion-icon name="ellipsis-horizontal"></ion-icon>
+          </ion-button>
+          <ion-popover trigger="cahtTriger{{i}}" [dismissOnSelect]="true"  *ngIf="msg.id === userDetails.id">
+            <ng-template>
+              <ion-content class="popover-inner">
+                <ion-label (click)="deleteMessage(msg)">Delete</ion-label>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
+        </span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <!-- <ion-icon name="happy-outline"></ion-icon>
+    <ion-icon class="mx-2" name="attach"></ion-icon> -->
+    <!-- <input class="chat-input" [(ngModel)]="newMsg" placeholder="Type a message" (keydown.enter)="sendMessage()">
+    <ion-icon class="send-icon" name="send" (click)="sendMessage()"></ion-icon> -->
+
+    <ion-textarea placeholder="Type a message"  rows="{{chatAreaRow}}" maxLength="500" (keyup)="resize()" [(ngModel)]="newMsg"></ion-textarea>
+    <ion-icon class="send-icon" name="send" (click)="sendMessage()"></ion-icon>
+  </div>
+</ion-footer>

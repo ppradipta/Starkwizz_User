@@ -1,0 +1,407 @@
+<!-- <ng-container *ngIf="eventType !== 'QUIZWHIZZ EXAM'">
+
+  <ion-header class="main-header">
+    <div class="d-flex align-items-center justify-content-between w-100">
+      <ion-buttons slot="start">
+        <ion-button (click)="goBack()">
+          <ion-icon name="chevron-back-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <div class="header-logo">
+        <ion-img src="/assets/images/header-logo.svg"></ion-img>
+      </div>
+      <div class="notify-btn" (click)="goToNotification()">
+        <ion-icon class="notify-icon" name="notifications-circle-outline"></ion-icon>
+        <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+          <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+        </ion-badge>
+      </div>
+      ''
+    </div>
+  </ion-header>
+
+  <ion-header>
+  <app-header></app-header>
+</ion-header>
+  <ion-content>
+
+    <div class="page-inner" *ngIf="contenskeleton">
+      <div class="question-card" [ngStyle]="{'background': selectedSubject.colorCode}">
+        <ion-skeleton-text animated
+          style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+        <div class="inner-card">
+          <div class="card-top">
+            <ion-skeleton-text animated
+              style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-inner" *ngIf="!contenskeleton">
+      <div class="question-card" [ngStyle]="{'background': selectedSubject?.colorCode}">
+        <h5>{{userDetails.displayName}}</h5>
+        <h4 class="event-name">{{userEventData.eventName}}</h4>
+        <div class="card-heading">
+          <div class="score-info">
+            <ion-label>your score</ion-label>
+            <div class="d-flex align-items-end">
+              <h4>{{totalScore}}</h4>
+              <span>pt</span>
+            </div>
+          </div>
+        </div>
+        <h4 class="event-code">{{userEventData.eventCode}}</h4>
+        <ion-label class="heading">Test Analysis</ion-label>
+        <div class="test-card">
+          <div class="card-top">
+            <div class="card-section total">
+              <h4>{{totalQuestions}}</h4>
+              <span>Total Question</span>
+            </div>
+            <div class="card-section time">
+              <h4>{{ totalExamTimeSecondsDisplay }}</h4>
+              <span>Time taken</span>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <div class="card-section currect">
+              <h4>{{correctAnswers}}</h4>
+              <span>Correct</span>
+            </div>
+            <div class="card-section incurrect">
+              <h4>{{inCorrectAnswers}}</h4>
+              <span>Incorrect</span>
+            </div>
+            <div class="card-section skipped">
+              <h4>{{skippedQuestions}}</h4>
+              <span>Skipped</span>
+            </div>
+          </div>
+        </div>
+        <div class="inner-card">
+          <div class="card-top">
+            <div class="test-info" (click)="reviewAnswer()" *ngIf="userEventData.isDownloadAnsAllow">
+              <div class="info-icon review-icon">
+                <ion-icon name="eye"></ion-icon>
+              </div>
+              <span>Review Answer</span>
+            </div>
+
+            <div class="test-info" (click)="shareScore()">
+              <div class="info-icon share-icon">
+                <ion-icon name="share-social"></ion-icon>
+              </div>
+              <span>Share score</span>
+            </div>
+
+            <div class="test-info" *ngIf="userEventData.isReviewAnsAllow">
+              <div class="info-icon download-icon">
+                <ion-icon name="download" (click)="openDownloadModal()"></ion-icon>
+              </div>
+              <span>Downlaod answer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </ion-content>
+</ng-container> -->
+
+<!-- <ng-container *ngIf="eventType === 'QUIZWHIZZ EXAM'"> -->
+
+<ion-header class="quiz-header">
+  <ion-button (click)="goBack()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </ion-button>
+  <div class="header-logo">
+    <ion-img src="/assets/images/theme-logo.svg"></ion-img>
+  </div>
+</ion-header>
+<ion-content>
+
+  <div class="page-inner" *ngIf="contenskeleton">
+    <div class="question-card" [ngStyle]="{'background': selectedSubject.colorCode}">
+      <ion-skeleton-text animated
+        style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+      <div class="inner-card">
+        <div class="card-top">
+          <ion-skeleton-text animated
+            style=" height: 192px; width: 100%; border-radius: 15px; margin-bottom: 12px;"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-body" *ngIf="!contenskeleton">
+    <div class="quiz-top">
+      <!-- <ion-title>{{eventType == 'QUIZWHIZZ EXAM' ? 'Quizwhizz' : eventType == 'DYNAMO EXAM' ? 'Dynamo' : 'Event'
+        }}</ion-title> -->
+        <ion-title>{{userDetails.displayName}}</ion-title>
+      <!-- <h5>{{userDetails.displayName}}</h5> -->
+       <h5 *ngIf="(userEventData?.type || eventType) !== 'EVENT'">{{testCategoryLabel || '-'}}</h5>
+      <!-- <div class="classBoard">
+        <span>STD: {{userDetails.className}}</span>
+        <span class="mx-1">-</span>
+        <span>Board: {{userDetails.boardName}}</span>
+      </div> -->
+    </div>
+
+    <div class="question-card">
+      <h4 class="event-name" *ngIf="eventType == 'QUIZWHIZZ EXAM'; else nonQuizwhizzEventName">
+        {{userEventData?.quizwhizzContestCategoriesLabel || 'GK * CURRENT AFFAIRS * REASONING'}}
+      </h4>
+      <ng-template #nonQuizwhizzEventName>
+        <h4 class="event-name">{{userEventData.eventName}}</h4>
+      </ng-template>
+      <div class="classBoard">
+        <span>Date: {{eventDateText || '-'}}</span>
+      </div>
+
+      <div class="timer">
+        <div class="circle__item">
+          <svg class="circle__spinner" viewBox="0 0 100 100">
+            <g transform="rotate(-90, 50, 50)">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#f0f0f0" stroke-width="3"></circle>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#14B8A6" stroke-width="3"
+                [attr.stroke-dasharray]="circelLine" [attr.stroke-dashoffset]="percentile"></circle>
+            </g>
+          </svg>
+        </div>
+        <div class="circle__item circle__item1">
+          <svg class="circle__spinner" viewBox="0 0 100 100">
+            <g transform="rotate(-90, 50, 50)">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#f0f0f0" stroke-width="4"></circle>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#FFA600" stroke-width="4"
+                [attr.stroke-dasharray]="circelLine" [attr.stroke-dashoffset]="accuracy"></circle>
+            </g>
+          </svg>
+        </div>
+        <div class="circle__item circle__item2">
+          <svg class="circle__spinner" viewBox="0 0 100 100">
+            <g transform="rotate(-90, 50, 50)">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#f0f0f0" stroke-width="5"></circle>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#3B82F6" stroke-width="5"
+                [attr.stroke-dasharray]="circelLine" [attr.stroke-dashoffset]="attempted"></circle>
+            </g>
+          </svg>
+        </div>
+        <div class="score-info">
+          <h4>{{totalScore}}</h4>
+          <ion-label>Your score</ion-label>
+        </div>
+      </div>
+      <div class="score-label">
+        <div class="score-col">
+          <ion-label>Attempted</ion-label>
+          <h4>{{totalAttempted | number:'1.0-2'}}%</h4>
+          <div class="procees-line">
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="score-col">
+          <ion-label>Accuracy</ion-label>
+          <h4>{{totalAccuracy | number:'1.0-2'}}%</h4>
+          <div class="procees-line Accuracy">
+            <div class="line"></div>
+          </div>
+        </div>
+        <div class="score-col">
+          <ion-label>Result</ion-label>
+          <h4>{{totalPercentage | number:'1.0-2'}}%</h4>
+          <div class="procees-line Percentile">
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="score-table">
+        <div class="score-row mb-2" *ngIf="isQuizwhizzExam">
+          <span>Secured Point : <b>{{totalScore}}</b></span>
+          <span>Bonus Point : <b>{{bonusPoint}}</b></span>
+          <span>Terminal Point : <b>{{terminalPoint}}</b></span>
+        </div>
+        <div class="score-row mb-2">
+          <span>Total Qu. <b>{{totalQuestions}}</b></span>
+          <span>Total Points : <b>{{totalMarks}}</b></span>
+          <span>Correct : <b>{{correctAnswers}}</b></span>
+        </div>
+        <div class="score-row">
+          <span class="wrong">Wrong : <b>{{inCorrectAnswers}}</b></span>
+          <span class="skipped">Skipped : <b>{{skippedQuestions}}</b></span>
+          <span class="time">Time taken : <b>{{totalExamTime || '-'}}</b></span>
+        </div>
+      </div>
+
+      <div class="score-section">
+        <div class="test-info" (click)="reviewAnswer()" *ngIf="userEventData.isDownloadAnsAllow">
+          <div class="info-icon">
+            <ion-img src="/assets/svg/list-right.svg"></ion-img>
+          </div>
+          <span>Review Answer</span>
+        </div>
+
+        <div class="test-info share" (click)="shareScore()">
+          <div class="info-icon">
+            <ion-img src="/assets/svg/shape.svg"></ion-img>
+          </div>
+          <span>Share score</span>
+        </div>
+
+        <div class="test-info" (click)="viewLeaderBoard()" *ngIf="isQuizwhizzExam && userEventData?.isLeaderBoardAllow">
+          <div class="info-icon">
+            <ion-img src="/assets/svg/crown.svg"></ion-img>
+          </div>
+          <span>Leaderboard</span>
+        </div>
+
+        <div class="test-info download" (click)="openDownloadModal()" *ngIf="userEventData.isReviewAnsAllow">
+          <div class="info-icon">
+            <ion-img src="/assets/svg/download.svg"></ion-img>
+          </div>
+          <span>Downlaod answer</span>
+        </div>
+
+      </div>
+      <!-- <ion-button class="view-btn" (click)="viewTotalScore()">View all score</ion-button> -->
+
+
+    </div>
+  </div>
+</ion-content>
+
+<ion-modal #downloadModal class="selectBottomSheet" [isOpen]="isDownloadModalOpen" [initialBreakpoint]=""
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="modalDismiss()">
+            <ion-icon name="chevron-back"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+        <ion-title>Download</ion-title>
+        <ion-button slot="end" fill="outline" class="invoiceBtn" (click)="downldPdf()">
+          <ion-img src="/assets/svg/download.svg"></ion-img>
+          DownLoad
+        </ion-button>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="page-inner">
+        <div class="question-card">
+          <h4 class="event-name">{{userEventData.eventName}}</h4>
+          <div class="card-heading">
+            <div class="score-info">
+              <ion-label>your score</ion-label>
+              <div class="d-flex align-items-end">
+                <h4>{{totalScore}}</h4>
+                <span>pt</span>
+              </div>
+            </div>
+            <h4 class="event-code">{{userEventData.eventCode}}</h4>
+            <h4 class="event-code">{{userEventData.subjectName}}</h4>
+          </div>
+
+          <div class="classContainer" *ngFor="let item of questionList; let i = index">
+            <div>
+              <span class="heading">{{ item.status === 'SKIPPED' ? 'Skipped' : 'Attempt'}}</span>
+              <div class="inner-card">
+                <div class="meta-row">
+                  <span>Question :<b>{{i + 1}}</b></span>
+                  <span>Time Taken: <b>{{ item.timeTakenUsDisplay ?? (item.timeTakenSeconds != null ? (item.timeTakenSeconds + ' sec') : '-') }}</b></span>
+                  <span>Point : <b>{{item.mark}}</b></span>
+                </div>
+                <span *ngIf="item.answers.length>1">Multi Choice :<b>Yes</b></span>
+                <div class="question-img" *ngIf="item.url">
+                  <ion-img [src]="item.url"></ion-img>
+                </div>
+                <div [innerHTML]="item?.text">
+                </div>
+                <!-- <span>Question Explain </span>
+                <div class="page-inner" [innerHTML]="item?.ansExplanationText">
+                </div> -->
+              </div>
+              <ion-list class="option-list">
+                <ion-item class="{{option.selected}}" *ngFor="let option of item.options">
+                  <ion-label>
+                    <span>{{option.sequence}}</span>
+                    <div class="option-inner">
+                      <p>{{option.text}}</p>
+                      <div class="option-img" *ngIf="option.url">
+                        <ion-img [src]="option.url"> </ion-img>
+                      </div>
+                    </div>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+              <!-- <label class="heading">Answer Explain</label> -->
+              <div [innerHTML]="item?.ansExplainText">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+    <div class="page-inner d-none" id="msg">
+      <div class="question-card">
+        <h4 class="event-name">{{userEventData.eventName}}</h4>
+        <div class="card-heading">
+          <div class="score-info">
+            <ion-label>your score</ion-label>
+            <div class="d-flex align-items-end">
+              <h4>{{totalScore}}</h4>
+              <span>pt</span>
+            </div>
+          </div>
+          <h4 class="event-code">{{userEventData.eventCode}}</h4>
+          <h4 class="event-code">{{userEventData.subjectName}}</h4>
+        </div>
+
+        <div class="classContainer" *ngFor="let item of questionList; let i = index">
+            <div>
+              <span class="heading">{{ item.status === 'SKIPPED' ? 'Skipped' : 'Attempt'}}</span>
+              <div class="inner-card">
+                <div class="meta-row">
+                  <span>Question <b>{{i + 1}}</b></span>
+                  <span>Time Taken: <b>{{ item.timeTakenUsDisplay ?? (item.timeTakenSeconds != null ? (item.timeTakenSeconds + ' sec') : '-') }}</b></span>
+                  <span>Point : <b>{{item.mark}}</b></span>
+                </div>
+                <span *ngIf="item.answers.length>1">Multi Choice :<b>Yes</b></span>
+                <div class="question-img" *ngIf="item.url">
+                  <ion-img [src]="item.url"></ion-img>
+              </div>
+              <div [innerHTML]="item?.text">
+              </div>
+              <!-- <span>Question Explain </span>
+              <div class="page-inner" [innerHTML]="item?.ansExplanationText">
+              </div> -->
+            </div>
+            <ion-list class="option-list">
+              <ion-item class="{{option.selected}}" *ngFor="let option of item.options">
+                <ion-label>
+                  <span>{{option.sequence}}</span>
+                  <div class="option-inner">
+                    <p>{{option.text}}</p>
+                    <div class="option-img" *ngIf="option.url">
+                      <ion-img [src]="option.url"> </ion-img>
+                    </div>
+                  </div>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <label class="heading">Answer Explain</label>
+            <div [innerHTML]="item?.ansExplainText">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,114 @@
+﻿<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Share Feedback</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page">
+    <div class="hero">
+      <div class="hero-icon">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </div>
+      <div class="hero-badge">
+        <ion-icon name="bulb-outline"></ion-icon>
+      </div>
+      <h2>Share Your Feedback</h2>
+      <p>
+        Please share your thoughts about the Answer Explanation feature to help us better understand your needs.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <div class="label">Write your feedback here...</div>
+      <div class="textarea-card">
+        <ion-textarea
+          [(ngModel)]="message"
+          [maxlength]="maxChars"
+          placeholder="Write your feedback here..."
+          autoGrow="true"
+        ></ion-textarea>
+        <div class="counter">{{ charsUsed }} / {{ maxChars }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">Feedback Reason <span class="optional">(Optional)</span></div>
+      <div class="select-card">
+        <ion-select
+          [(ngModel)]="reason"
+          (ionChange)="onReasonChange()"
+          interface="popover"
+          [interfaceOptions]="reasonInterfaceOptions"
+          placeholder="Select a reason"
+        >
+          <ion-select-option *ngFor="let r of reasons" [value]="r">{{ r }}</ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="isOtherReason">
+      <div class="other-card">
+        <ion-input
+          [(ngModel)]="otherSuggestion"
+          placeholder="Please share your suggestion"
+          inputmode="text"
+          clearInput="true"
+        ></ion-input>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="note">
+      Your suggestions can help us understand the needs of students and parents better.
+    </p>
+
+    <ion-button expand="block" class="submit-btn" [disabled]="isSubmitting" (click)="submit()">
+      {{ isSubmitting ? 'Submitting...' : 'Submit Feedback' }}
+    </ion-button>
+    <ion-button expand="block" fill="clear" class="cancel-btn" (click)="cancel()">Cancel</ion-button>
+  </div>
+</ion-content>
+
+<ion-modal
+  class="feedback-thanks-modal"
+  [isOpen]="isThankYouOpen"
+  backdrop-dismiss="false"
+  (didDismiss)="isThankYouOpen = false"
+>
+  <ng-template>
+    <ion-content class="thanks-content" [scrollY]="false">
+      <div class="thanks-wrapper">
+        <div class="thanks-card">
+          <button class="thanks-close" type="button" (click)="closeThankYou()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+
+          <div class="thanks-hero">
+            <div class="thanks-icon">
+              <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+            </div>
+            <div class="thanks-badge">
+              <ion-icon name="bulb-outline"></ion-icon>
+            </div>
+          </div>
+
+          <h2 class="thanks-title">Thank You for Your Feedback</h2>
+          <p class="thanks-text">
+            Your suggestions help us build a better learning platform for students.
+          </p>
+
+          <ion-button expand="block" class="thanks-btn" (click)="closeThankYou()">Close</ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

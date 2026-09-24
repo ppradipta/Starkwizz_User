@@ -1,0 +1,136 @@
+.page-inner {
+    padding: 20px;
+}
+.search-bar {
+    margin-bottom: 20px;
+    ::ng-deep ion-searchbar {
+        border-radius: 20px;
+        padding: 0;
+        height: 40px;
+        --placeholder-opacity: 1;
+        --background: #fff;
+        box-shadow: 0 0 5px #00000029;
+        overflow: hidden;
+        .searchbar-input.sc-ion-searchbar-ios {
+            padding-inline-start: 40px;
+            color: #979797;
+            font-size: 15px;
+            font-family: 'Nunito-SemiBold';
+        }
+        .searchbar-search-icon.sc-ion-searchbar-ios {
+            left: 10px;
+            width: 20px;
+            color: #979797;
+        }
+        .searchbar-clear-button.sc-ion-searchbar-ios {
+            right: 5px;
+        }
+    }
+}
+ion-card {
+    margin-inline: 0;
+    margin: 0 0 20px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 10px #00000029;
+    ion-card-header {
+        img {
+            width: 100%;
+            border-radius: 12px;
+            height: 150px;
+            object-fit: cover;
+        }
+    }
+    ion-card-content {
+        padding-bottom: 16px;
+        .hubs-info {
+            h3 {
+                font-size: 18px;
+                line-height: 24px;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+                margin: 0 0 4px;
+                letter-spacing: 0.5px;
+            }
+            p {
+                font-size: 14px;
+                line-height: 18px;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+                margin: 0;
+                letter-spacing: 1px;
+            }
+        }
+        .rating {
+            text-align: center;
+            span {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: "Nunito-Bold";
+                color: #0A395A;
+                letter-spacing: 1.2px;
+            }
+            label {
+                font-size: 14px;
+                line-height: 18px;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+                letter-spacing: 1px;
+            }
+            .fillStar {
+                color: #C5D124;
+            }
+            .halfStar {
+                color: #C5D124;
+            }
+        }
+        .button-outline {
+            margin: 0 6px;
+            --border-color: #51C1E9;
+            --color: #0A395A;
+            text-transform: capitalize;
+            letter-spacing: 1.1px;
+            font-family: "Nunito-SemiBold";
+            width: 130px;
+            --border-radius: 8px;
+        }
+        .button-solid {
+            margin-inline: 0;
+            margin: 0;
+            --border-color: #51C1E9;
+            --background: #51c1e9;
+            --color: #0A395A;
+            text-transform: capitalize;
+            letter-spacing: 1.1px;
+            font-family: "Nunito-SemiBold";
+            --border-radius: 8px;
+            --box-shadow: none;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            margin: 12px 0;
+        }
+        .eventcard-footer {
+            display: flex;
+            justify-content: space-between;
+            ion-button {
+                margin: 0;
+                width: calc(50% - 6px);
+                &.button-outline {
+                    margin-right: 6px;
+                }
+                &.button-solid {
+                    margin-left: 6px;
+                }
+                ion-icon {
+                    color: #000000;
+                    font-size: 16px;
+                    margin-right: 6px;
+                }
+            }
+        }
+    }
+}
+.justify-content-center {
+    justify-content: flex-start;
+}

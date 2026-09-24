@@ -1,0 +1,45 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-title">
+    <h2>Achievement</h2>
+  </div>
+
+  <div class="page-inner" *ngIf="loadingBadges">
+    <ion-skeleton-text animated style="width: 90%; height: 18px; margin: 8px 0;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 80%; height: 18px; margin: 8px 0;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 95%; height: 90px; border-radius: 12px; margin: 12px 0;"></ion-skeleton-text>
+  </div>
+
+  <ng-container *ngIf="!loadingBadges">
+    <div class="badge-section" *ngIf="quizwhizzBadges.length > 0; else emptyState">
+      <h3 class="section-title">Quiz-Whizz Digital Badges</h3>
+
+      <ion-card class="badge-card" *ngFor="let badge of quizwhizzBadges">
+        <div class="badge-thumb">
+          <ion-img [src]="getBadgeImage(badge)"></ion-img>
+        </div>
+        <ion-card-header>
+          <ion-card-title>{{badge.badgeName}}</ion-card-title>
+          <ion-card-subtitle>{{badge.contestLevel}} • {{badge.contestDate}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="badge-meta">
+            <span>Result: <b>{{getBadgeResultPercentage(badge)}}%</b></span>
+            <span>Terminal Point: <b>{{getBadgeTerminalPoint(badge)}}</b></span>
+          </div>
+          <ion-button size="small" fill="outline" (click)="shareBadge(badge)">Share</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="page-inner is-empty">
+        <p><b>Oops, So Sorry!</b></p>
+        <p>No digital badges found yet. Complete a Quiz-Whizz contest and tap “View all score”.</p>
+      </div>
+    </ng-template>
+  </ng-container>
+</ion-content>

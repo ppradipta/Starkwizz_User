@@ -1,0 +1,26 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-logo">
+        <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+    <div class="notify-btn" (click)="goToNotification()">
+      <ion-icon class="notify-icon" name="notifications-circle-outline" ></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+        <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+      </ion-badge>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="modal-inner">
+    <video preload="auto" webkit-playsinline="playsinline" class="videoPlayer" #videoElements controls autoplay>
+      <source src="{{video.videoUrl}}" type="video/mp4" />
+    </video>
+  </div>
+</ion-content>

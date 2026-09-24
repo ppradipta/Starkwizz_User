@@ -1,0 +1,72 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+<ion-content>
+  <div class="group-card">
+    <div class="card-left" (click)="onClickDetail()">
+      <div class="group-img">
+        <ion-img *ngIf="groupMembers.groupImage=='' || groupMembers.groupImage==null" src="assets/images/menu-user.gif">
+        </ion-img>
+        <ion-img *ngIf="groupMembers.groupImage!='' || groupMembers.groupImage!=null" [src]="groupMembers.groupImage">
+        </ion-img>
+      </div>
+      <!-- <div class="group-img second-img">
+        <ion-img *ngIf="groupMembers.groupImage=='' || groupMembers.groupImage==null" src="assets/images/menu-user.svg">
+        </ion-img>
+        <ion-img *ngIf="groupMembers.groupImage!='' || groupMembers.groupImage!=null" [src]="groupMembers.groupImage">
+        </ion-img>
+      </div>
+      <div class="group-img third-img">
+        <ion-img *ngIf="groupMembers.groupImage=='' || groupMembers.groupImage==null" src="assets/images/menu-user.svg">
+        </ion-img>
+        <ion-img *ngIf="groupMembers.groupImage!='' || groupMembers.groupImage!=null" [src]="groupMembers.groupImage">
+        </ion-img>
+      </div> -->
+      <div class="card-inner">
+        <ion-label class="group-name">{{groupMembers.groupName}}</ion-label>
+        <span class="section-label" (click)="onClickDetail()">{{groupMembers.groupUsers.length}} members</span>
+      </div>
+    </div>
+    <div class="card-right" id="trigger-button">
+      <ion-icon class="ellips-icon" name="ellipsis-vertical"></ion-icon>
+    </div>
+  </div>
+
+  <div class="group-card member-card" *ngFor="let member of groupMembers.groupUsers">
+    <div class="card-left m-0">
+      <div class="group-img" (click)="onClickDetail()">
+        <ion-img *ngIf="member.groupImage=='' || member.groupImage==null" src="assets/images/menu-user.gif">
+        </ion-img>
+        <ion-img *ngIf="member.groupImage!='' || member.groupImage!=null" [src]="member.groupImage">
+        </ion-img>
+      </div>
+      <div class="card-inner">
+        <ion-label class="group-name">{{member.displayName}}</ion-label>
+        <span class="section-label">Online</span>
+      </div>
+    </div>
+    <div class="card-right">
+      <ion-label class="section-label">{{member.role}}</ion-label>
+    </div>
+  </div>
+
+
+  <ion-popover trigger="trigger-button" [dismissOnSelect]="true">
+    <ng-template>
+      <ion-content class="popover-inner">
+        <ion-label>
+          <ion-icon name="search"></ion-icon>Search
+        </ion-label>
+        <ion-label>
+          <ion-icon name="timer-outline"></ion-icon>Clear history
+        </ion-label>
+        <ion-label>
+          <ion-icon name="volume-mute"></ion-icon>Mute notifications
+        </ion-label>
+        <ion-label>
+          <ion-icon name="trash"></ion-icon>Delete and leave group
+        </ion-label>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+</ion-content>

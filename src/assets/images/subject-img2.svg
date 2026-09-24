@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_680" data-name="Rectangle 680" width="200" height="200" rx="15" transform="translate(490 946)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="-1.01" y1="-4.318" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fefefe" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-3.785" y1="-3.321" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fcf9f9" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_4" data-name="Mask Group 4" transform="translate(-490 -946)" clip-path="url(#clip-path)">
+    <g id="Group_510" data-name="Group 510" transform="translate(11894 -4944.998)">
+      <path id="Rectangle_642" data-name="Rectangle 642" d="M0,0H540a0,0,0,0,1,0,0V185a15,15,0,0,1-15,15H15A15,15,0,0,1,0,185V0A0,0,0,0,1,0,0Z" transform="translate(-11636 5890.998)" fill="#e65f5c"/>
+      <path id="Intersection_21" data-name="Intersection 21" d="M15,200A15,15,0,0,1,0,185V0H190.125l64.824,55.5L21.642,200Z" transform="translate(-11557 5890.999)" fill="url(#linear-gradient)"/>
+      <path id="Intersection_20" data-name="Intersection 20" d="M0,200,8.266,0H146.695V122.387L26.741,200Z" transform="translate(-11280.699 5891)" fill="url(#linear-gradient-2)"/>
+    </g>
+  </g>
+</svg>

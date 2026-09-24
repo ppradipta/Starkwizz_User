@@ -1,0 +1,57 @@
+<ion-header>
+  <div class="head-raw">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="d-flex">
+      <div class="logo">
+        <ion-img src="/assets/images/home/logo.svg"></ion-img>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="bell notify-btn" (click)="goToNotification()">
+        <ion-img src="/assets/images/home/bell.svg"></ion-img>
+        <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+          <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+        </ion-badge>
+      </div>
+      <div class="profile" (click)="goToProfile()">
+        <ion-img *ngIf="userDetails.imageUrl" [src]="userDetails.imageUrl"></ion-img>
+        <ion-img *ngIf="!userDetails.imageUrl" src="/assets/images/home/Avatar.svg"></ion-img>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="page-inner">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4>Hi, {{userDetails.displayName}}</h4>
+        <span>{{greetingText}}!</span>
+      </div>
+      <!-- <div *ngIf="subscription.subscriptionCancel == 'ACTIVE'">
+        <ion-button class="border-btn" (click)="goToSubscription()">Cancel Subscription</ion-button>
+      </div> -->
+    </div>
+
+    <div class="homeImg" (click)="onClickDynamo()">
+      <ion-img src="/assets/images/home/Dynamo.svg"></ion-img>
+    </div>
+    <div class="homeImg" (click)="onClickQuizWhizz()">
+      <ion-img src="/assets/images/home/Quizwhizz.svg"></ion-img>
+    </div>
+    <div class="homeImg" (click)="onClickEvents()">
+      <ion-img src="/assets/images/home/Event.svg"></ion-img>
+    </div>
+    <!-- <div class="homeImg" (click)="onClickHubs()">
+      <ion-img src="/assets/images/home/Hubs.svg"></ion-img>
+    </div> -->
+    <!-- <div class="homeImg" (click)="onClickReward()">
+      <ion-img src="/assets/images/home/Reward.png"></ion-img>
+    </div> -->
+  </div>
+</ion-content>

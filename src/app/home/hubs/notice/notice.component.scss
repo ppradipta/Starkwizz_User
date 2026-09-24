@@ -1,0 +1,38 @@
+.page-inner {
+    padding: 20px;
+    .page-heading {
+        h2 {
+            font-size: 22px;
+            line-height: 24px;
+            font-family: "Nunito-Bold";
+            color: #0A395A;
+            margin-bottom: 16px;
+        }
+    }
+    ion-card {
+        margin-inline: 0;
+        margin: 0 0 20px;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        ion-card-header {
+            padding: 20px;
+            img {
+                width: 100%;
+                border-radius: 0;
+                height: 200px;
+                object-fit: cover;
+            }
+        }
+        ion-card-content {
+            padding: 0;
+            p {
+                font-size: 18px;
+                line-height: 24px;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+                margin-bottom: 0;
+            }
+        }
+    }
+}

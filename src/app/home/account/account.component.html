@@ -1,0 +1,28 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="d-flex justify-content-end mb-3">
+      <ion-button class="add-btn" fill="outline" (click)="onClickAdd()" *ngIf="userDetails.userType=='PARENT'" [disabled]="studentProfiles.length >= 3">Add
+        Account</ion-button>
+    </div>
+    <div class="max-accounts-note" *ngIf="userDetails.userType=='PARENT' && studentProfiles.length >= 3">Maximum 3 accounts allowed per parent.</div>
+    <div class="accounts-container" *ngFor="let student of studentProfiles">
+      <div class="account-card" (click)="viewProfile(student)">
+        <div class="card-left">
+          <div class="user-img">
+            <ion-img [src]="null!=student.imageUrl?student.imageUrl:'assets/images/menu-user.gif'"></ion-img>
+          </div>
+          <div>
+            <ion-label class="user-name"> <b>{{student.displayName}}</b></ion-label>
+            <ion-label class="school-name">Board : <b>{{student.boardName}}</b></ion-label>
+            <span class="section-label">Class : <b>{{student.className}}</b></span>
+            <span class="section-label">Last visit: <b>{{student.lastseen}}</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

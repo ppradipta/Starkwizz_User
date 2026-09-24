@@ -1,0 +1,50 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  
+<ng-container>
+  <ion-content>
+    <div class="page-container">
+      <div class="title" slot="top">
+        <h4>Fixture for {{currentMonth | uppercase }} has Started, let's dive in!</h4>
+      </div>
+      <div class="page-inner">
+        <ion-label class="subject-type">Scholastics</ion-label>
+        <div class="subject-container" >
+            <ion-list class="subject-inner">
+              <ion-item class="subject-box" *ngFor="let subject of subjectList" 
+              [ngStyle]="{'background': subject.colorCode}"  (click)="checkSubject(subject)">
+                <ion-label class="box-label">{{subject.displayName}}</ion-label>
+                <ion-checkbox slot="end"  [checked]="subject.isChecked"></ion-checkbox>
+                <!-- <div class="price">Rs {{subject.price}}</div> -->
+                <div class="price"></div>
+              </ion-item>
+            </ion-list>
+        </div>
+
+        <!-- <ion-label class="subject-type">Co-Scholastics</ion-label>
+        <div class="subject-container">
+          <ion-list class="subject-inner">
+            <ion-item class="subject-box" *ngFor="let coScholastics of coScholasticsLists" 
+            [ngStyle]="{'background': coScholastics.colorCode}">
+              <ion-label class="box-label">{{coScholastics.displayName}}</ion-label>
+              <ion-checkbox slot="end"
+              [ngClass]="{'disabled': subscribedSubjects.includes(coScholastics.id)}" (ionChange)="checkSubject($event, coScholastics)"></ion-checkbox>
+              <div class="price">Rs {{coScholastics.price}}/ mo.</div>
+            </ion-item>
+          </ion-list>
+      </div> -->
+
+      </div>
+    </div>
+  </ion-content>
+</ng-container>
+</ion-content>
+
+<ion-footer style="height: 168px;">
+  <app-payment-card></app-payment-card>
+</ion-footer>
+
+<!-- <app-before-paid></app-before-paid> -->

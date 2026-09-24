@@ -1,0 +1,42 @@
+<ion-header mode="md">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-button mode="md" (click)="goBack()" class="btn-blue">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Add Image
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [ngClass]="{'content': imageSelected == true }">
+  <div class="profileDetail h-100 d-flex justify-content-center">
+    <div class="cropper-container d-flex align-items-center" *ngIf="imageSelected">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="16/12"
+        format="png" (imageCropped)="imageCropped($event)"></image-cropper>
+    </div>
+    <div class="d-flex justify-content-center align-items-center" *ngIf="!imageSelected">
+      <label class="fileButton">
+        <ion-label>Upload image</ion-label>
+        <ion-icon name="camera">
+          <ion-input type="file" (change)="fileChangeEvent($event)"></ion-input>
+        </ion-icon>
+      </label>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="d-flex" *ngIf="imageSelected">
+  <div class="no-border w-50" [ngClass]="{'btn-content': imageSelected == true}" style="text-align: bottom;">
+    <ion-button class="cancelBtn" [ngClass]="{'cancelBtnActive': imageSelected == true}" (click)="cancel()">
+      <span class="btn-text">Cancel</span>
+    </ion-button>
+  </div>
+  <div class="no-border w-50 d-flex justify-content-end" [ngClass]="{'btn-content': imageSelected == true}"
+    style="text-align: bottom;">
+    <ion-button class="confirmBtn" [ngClass]="{'confirmBtnActive': imageSelected == true}" (click)="saveUserImg()">
+      <span class="btn-text">Confirm</span>
+    </ion-button>
+  </div>
+</ion-footer>

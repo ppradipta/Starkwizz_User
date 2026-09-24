@@ -1,0 +1,52 @@
+<div class="actions">
+  <div *ngIf="userDetails.id != video.userId">
+    <ion-icon size="large" name="heart" [class.highlight-color]="video.videoLike" (click)="likeVideo(video)">
+    </ion-icon>
+    <p [class.highlight-color]="video.videoLike">{{video.likes}}</p>
+  </div>
+  <!-- <div>
+    <ion-icon size="large" src="../assets/svg/comment.svg" (click)="videoComment(video)"></ion-icon>
+    <p>{{video.comments}}</p>
+  </div> -->
+  <div>
+    <ion-icon size="large" src="../assets/svg/share.svg" (click)="shareVideo(video)"></ion-icon>
+    <p>Share</p>
+  </div>
+</div>
+
+<div class="video-profile">
+  <div class="">
+    <div class="profile-left">
+      <div class="user-img" (click)="onClickprofile(video)">
+        <ion-img src="{{video.userImage}}"></ion-img>
+      </div>
+      <div class="profile-inner">
+        <ion-label class="user-name">{{video.userName}}</ion-label>
+        <span class="section-label">Class {{video.className}}, {{video.boardName}}</span>
+      </div>
+      <div *ngIf="userDetails.id != video.userId">
+        <!-- <ion-button fill="outline" class="border-btn" 
+        (click)="flowUser(video)">{{ userDetails.followUsers.includes(video.userId)? 'Follow' : 'Following'}}
+        </ion-button> -->
+        <ion-button *ngIf="userDetails.followUsers.includes(video.userId)" fill="outline" class="border-btn"
+          (click)="flowUser(video)">
+          Following
+        </ion-button>
+        <ion-button *ngIf="!userDetails.followUsers.includes(video.userId)" fill="outline" class="border-btn"
+          (click)="flowUser(video)">
+          Follow
+        </ion-button>
+      </div>
+
+    </div>
+    <div class="profile-left">
+      <dic class="video-info" (click)="onClickprofile(video)">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </dic>
+      <span class="section-label">{{video.categoryName}}</span>
+    </div>
+  </div>
+  <div class="profile-right">
+    <ion-icon class="ellips-icon" name="ellipsis-vertical" (click)="onClickOption()"></ion-icon>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <div class="title" slot="top" [ngStyle]="{'background': selectedSubject.colorCode}">
+      <h4>Dance</h4>
+      <ion-label>Fixture for {{currenMonth}} has started, Lets dive in!</ion-label>
+    </div>
+    <div class="page-inner">
+      <div>
+        <div class="subject-container" *ngFor="let events of eventsList | keyvalue">
+          <!-- <ion-label class="heading"></ion-label> -->
+          <div class="section-title">
+            <h4 class="subject-type">{{events.key}}</h4>
+            <ion-button (click)="onClickEventInfo(events.key)">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button>
+          </div>
+          <!-- <ion-slides pager="true" [options]="slideOpts">
+            <ion-slide *ngFor="let event of events.value"> -->
+          <swiper-container #swiper style="height: 100%;" autoplay="false">
+            <swiper-slide *ngFor="let event of events.value">
+              <div class="subject-card">
+                <div *ngIf="event.status == 'ACTIVE'" class="status-label">
+                  <ion-img src="/assets/images/active-icon.svg"></ion-img>
+                </div>
+                <div *ngIf="event.status == 'INACTIVE' " class="status-label">
+                  <ion-img src="/assets/images/inactive-icon.svg"></ion-img>
+                </div>
+                <div *ngIf="event.status == 'INPROGRESS' " class="status-label">
+                  <ion-img src="/assets/images/inprogress-icon.svg"></ion-img>
+                </div>
+                <div *ngIf="event.status == 'COMPLETED'" class="status-label">
+                  <ion-img src="/assets/images/completed-icon.svg"></ion-img>
+                </div>
+                <div *ngIf="event.isExpired" class="status-label">
+                  <ion-img src="/assets/images/expired-icon.svg"></ion-img>
+                </div>
+                <div class="card-body">
+                  <ion-label class="style-label section-label"><span>Style : </span> {{event.moduleName}}</ion-label>
+                  <ion-label class="showbiz-duration"><span>Duration : </span>{{event.totalHour}} Hour</ion-label>
+                  <div class="section-label">
+                    <ion-button class="clear-btn" fill="clear">View More...</ion-button>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <ion-button class="upload-btn" (click)="uploadeventVideos(event)">Upload</ion-button>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+          <!-- </ion-slide>
+              </ion-slides> -->
+
+        </div>
+      </div>
+
+      <div *ngIf="eventsList.length == 0">
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">Event Test</h4>
+            <ion-button>Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button>
+          </div>
+          <!-- <ion-slides [options]="slideOpts">
+            <ion-slide> -->
+          <swiper-container #swiper style="height: 100%;" autoplay="false">
+            <swiper-slide>
+              <div class="subject-card">
+                <div class="card-body p-3">
+                  <ion-label class="style-label mb-2">Ooops...</ion-label>
+                  <ion-label class="custom-label">There is nothing found in list</ion-label>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+          <!-- </ion-slide>
+          </ion-slides> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+
+
+<ion-modal #eventInfoModal class="selectBottomSheet" [isOpen]="isEventInfoModalOpen" [initialBreakpoint]="1.0"
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Event Info </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="page-inner" [innerHTML]="selectedEvent.information">
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

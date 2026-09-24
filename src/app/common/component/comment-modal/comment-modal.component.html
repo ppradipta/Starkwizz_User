@@ -1,0 +1,56 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>Comments <span>{{comments.length}}</span></ion-title>
+    <div class="close-icon" (click)="close()">
+      <ion-icon class="close-icon" name="close"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="modal-inner">
+    <div class="comment-heading">
+      <ion-label>Remember to keep comment respectful and to follow our guidelines.</ion-label>
+    </div>
+    <div class="add-comment">
+      <!-- <div class="first-latter"></div>
+      <ion-label class="section-label"></ion-label> -->
+
+      <!-- <div class="user-img">
+        <ion-img [src]="user.imageUrl?user.imageUrl:'assets/images/menu-user.gif'">
+        </ion-img>
+      </div> -->
+      <ion-label class="user-name">Add a Comment...….</ion-label>
+      <ion-textarea class="section-value value-textarea" placeholder="Add a Comment...…." [(ngModel)]="commentText" ></ion-textarea>
+    </div>
+    <div class="comment-section" *ngFor="let commn of comments">
+      <div class="first-latter">B</div>
+      <div class="section-right">
+        <ion-label class="user-name">{{commn.name}} <span>{{commn.date}} ago</span></ion-label>
+        <ion-label class="section-label">{{commn.text}}.</ion-label>
+        <div class="video-panel">
+          <div class="video-info">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/like-icon.svg"></ion-img>
+            </div>
+            <span>{{commn.like}}</span>
+          </div>
+          <div class="video-info second-icon">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/unlike-icon.svg"></ion-img>
+            </div>
+            <span>{{commn.dislike}}</span>
+          </div>
+          <div class="video-info">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/comment-icon.svg"></ion-img>
+            </div>
+            <span>02</span>
+          </div>
+        </div>
+        <ion-button fill="clear" class="clear-btn" (click)="onClickReplie(commn)">{{commn.repliesCount}}
+          REPLIES</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

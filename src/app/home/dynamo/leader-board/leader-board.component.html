@@ -1,0 +1,324 @@
+<!-- 
+  <ion-header>
+    <app-header></app-header>
+  </ion-header>
+
+  <ion-content>
+
+    <div class="default-text" *ngIf="myRankPostion==null">
+      <p>Overall ranking will be available on leaderboard soon.</p>
+    </div>
+
+    <div class="page-inner" *ngIf="myRankPostion">
+      <div class="question-card">
+        <div class="section-title">
+          <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+            <ion-segment-button class="first-btn" value="top3">
+              <ion-label>Top 3</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="myPosition">
+              <ion-label>My position</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div class="top-three" *ngIf="segmentValue == 'top3'">
+          <div class="second-column">
+            <div class="user-img">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <span class="user-name">{{rankTwoPostion.displayName}}</span>
+            <div class="column">
+              <div class="number">
+                <h1>2</h1>
+                <span>nd</span>
+              </div>
+              <ion-label *ngIf="rankTwoPostion">{{rankTwoPostion.point}}pt</ion-label>
+              <ion-label *ngIf="!rankTwoPostion">0pt</ion-label>
+            </div>
+          </div>
+          <div class="first-column">
+            <div class="user-img">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <span class="user-name">{{rankOnePostion.displayName}}</span>
+            <div class="column">
+              <div class="number">
+                <h1>1</h1>
+                <span>st</span>
+              </div>
+              <ion-label *ngIf="rankOnePostion">{{rankOnePostion.point}}pt</ion-label>
+              <ion-label *ngIf="!rankOnePostion">0pt</ion-label>
+            </div>
+          </div>
+          <div class="third-column">
+            <div class="user-img">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <span class="user-name">{{rankThreewoPostion.displayName}}</span>
+            <div class="column">
+              <div class="number">
+                <h1>3</h1>
+                <span>rd</span>
+              </div>
+              <ion-label *ngIf="rankThreewoPostion">{{rankThreewoPostion.point}}pt</ion-label>
+              <ion-label *ngIf="!rankThreewoPostion">0pt</ion-label>
+            </div>
+          </div>
+        </div>
+        <div class="card-inner" *ngIf="segmentValue == 'myPosition'">
+          <div class="position">
+            <div class="step" *ngFor="let rank of rankRecords"
+              [ngClass]="{'active' : rank.userId===myRankPostion.userId}">
+              <span *ngIf="rankOnePostion.userId === rank.userId">Grand</span>
+              <div class="activeStep" *ngIf="rank.userId===myRankPostion.userId">
+                <ion-img src="assets/images/verify.svg"></ion-img>
+                <div class="rang">
+                  <span>{{myRankPostion.calculateRank}}<small>th</small></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="process"></div>
+          <div class="process-length">
+            <span>1</span>
+            <span>{{rankRecords.length}}</span>
+          </div>
+        </div>
+
+        <div class="card-bottom">
+          <div class="position-container">
+            <div class="my-position">
+              <ion-label class="label">My Position</ion-label>
+              <div class="top-position">
+                <div class="number">
+                  <ion-label>{{myRankPostion.calculateRank}}</ion-label>
+                </div>
+                <div class="name">
+                  <ion-label>{{myRankPostion.displayName}}</ion-label>
+                </div>
+                <div class="point">
+                  <ion-label class="card-tab">{{myRankPostion.point}} pt</ion-label>
+                </div>
+                <div class="time">
+                  <ion-label class="card-tab">{{getRankExamTimeDisplay(myRankPostion)}}</ion-label>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngFor="let rank of rankRecords;let i=index;">
+              <div class="top-position" *ngIf="rank.userId!=myRankPostion.userId">
+                <div class="number">
+                  <ion-label>{{rank.calculateRank}}</ion-label>
+                </div>
+                <div class="name">
+                  <ion-label>{{rank.displayName}}</ion-label>
+                </div>
+                <div class="point">
+                  <ion-label class="card-tab">{{rank.point}} pt</ion-label>
+                </div>
+                <div class="time">
+                  <ion-label class="card-tab">{{getRankExamTimeDisplay(rank)}}</ion-label>
+                </div>
+              </div>
+            </ng-container>
+            <ion-infinite-scroll (ionInfinite)="findNext($event)">
+              <ion-infinite-scroll-content>
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content> -->
+
+  <ion-header class="lead-header">
+    <ion-button (click)="goBack()">
+      <ion-icon name="chevron-back"></ion-icon>
+    </ion-button>
+    <ion-title>Leaderboard</ion-title>
+  </ion-header>
+
+  <ion-content>
+
+    <div class="default-text" *ngIf="myRankPostion==null">
+      <p>Overall ranking will be available on leaderboard soon.</p>
+    </div>
+
+    <div class="lead-inner" *ngIf="myRankPostion">
+      <div class="lead-line"></div>
+      <div class="lead-line lead-line1"></div>
+      <div class="lead-line lead-line2"></div>
+      <div class="rank-raw">
+        <div class="rank-col second">
+          <div class="user-img">
+            <ion-img src="assets/images/menu-user.gif"></ion-img>
+          </div>
+          <div class="detail">
+            <span class="user-name">{{rankTwoPostion.displayName}}</span>
+            <ion-label *ngIf="rankTwoPostion">{{rankTwoPostion.point}} Pts.</ion-label>
+            <ion-label *ngIf="!rankTwoPostion">0 Pts.</ion-label>
+            <span class="timer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <g clip-path="url(#clip0_627_6087)">
+                  <path
+                    d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z"
+                    stroke="#5144B6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M8 4.66663V7.99996L10 9.99996" stroke="#5144B6" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_627_6087">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              {{getRankExamTimeDisplay(rankTwoPostion)}}
+            </span>
+          </div>
+          <div class="secondImg">
+            <ion-img src="assets/images/Rank-2.png"></ion-img>
+          </div>
+        </div>
+
+        <div class="rank-col first">
+          <div class="user-img">
+            <ion-img src="assets/images/menu-user.gif"></ion-img>
+          </div>
+          <div class="detail">
+            <span class="user-name">{{rankOnePostion.displayName}}</span>
+            <ion-label *ngIf="rankOnePostion">{{rankOnePostion.point}} Pts.</ion-label>
+            <ion-label *ngIf="!rankOnePostion">0 Pts.</ion-label>
+            <span class="timer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <g clip-path="url(#clip0_627_6087)">
+                  <path
+                    d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z"
+                    stroke="#5144B6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M8 4.66663V7.99996L10 9.99996" stroke="#5144B6" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_627_6087">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              {{getRankExamTimeDisplay(rankOnePostion)}}
+            </span>
+          </div>
+          <div class="secondImg">
+            <ion-img src="assets/images/Rank.png"></ion-img>
+          </div>
+          <div class="medal">
+            <ion-img src="assets/images/Medal.png"></ion-img>
+          </div>
+        </div>
+
+        <div class="rank-col third">
+          <div class="user-img">
+            <ion-img src="assets/images/menu-user.gif"></ion-img>
+          </div>
+          <div class="detail">
+            <span class="user-name">{{rankThreewoPostion.displayName}}</span>
+            <ion-label *ngIf="rankThreewoPostion">{{rankThreewoPostion.point}} Pts.</ion-label>
+            <ion-label *ngIf="!rankThreewoPostion">0 Pts.</ion-label>
+            <span class="timer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <g clip-path="url(#clip0_627_6087)">
+                  <path
+                    d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z"
+                    stroke="#5144B6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M8 4.66663V7.99996L10 9.99996" stroke="#5144B6" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_627_6087">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              {{getRankExamTimeDisplay(rankThreewoPostion)}}
+            </span>
+          </div>
+          <div class="secondImg">
+            <ion-img src="assets/images/Rank-3.png"></ion-img>
+          </div>
+        </div>
+      </div>
+      <div class="lead-position">
+        <div class="position">
+          <ion-img src="assets/images/leaderBoard-base.png"></ion-img>
+        </div>
+
+        <div class="card-section">
+          <div class="lead-card">
+            <span class="rank active">{{myRankPostion.calculateRank}}</span>
+            <div class="user-img">
+              <ion-img src="assets/images/menu-user.gif"></ion-img>
+            </div>
+            <div class="user-Detail">
+              <h5>You {{myRankPostion.displayName}}</h5>
+              <div class="d-flex justify-content-between">
+                <ion-label>{{myRankPostion.point}} points</ion-label>
+                <span class="timer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <g clip-path="url(#clip0_594_4943)">
+                      <path
+                        d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z"
+                        stroke="#9087E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M8 4.66663V7.99996L10 9.99996" stroke="#9087E5" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_594_4943">
+                        <rect width="16" height="16" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  {{getRankExamTimeDisplay(myRankPostion)}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngFor="let rank of rankRecords;let i=index;">
+
+            <div class="lead-card" *ngIf="rank.userId != myRankPostion.userId">
+              <span class="rank">{{rank.calculateRank}}</span>
+              <div class="user-img">
+                <ion-img src="assets/images/menu-user.gif"></ion-img>
+              </div>
+              <div class="user-Detail">
+                <h5>{{rank.displayName}}</h5>
+                <div class="d-flex justify-content-between">
+                  <ion-label>{{rank.point}} points</ion-label>
+                  <span class="timer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <g clip-path="url(#clip0_594_4943)">
+                        <path
+                          d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z"
+                          stroke="#9087E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M8 4.66663V7.99996L10 9.99996" stroke="#9087E5" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_594_4943">
+                          <rect width="16" height="16" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    {{getRankExamTimeDisplay(rank)}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ion-infinite-scroll (ionInfinite)="findNext($event)">
+            <ion-infinite-scroll-content>
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </div>
+      </div>
+    </div>
+  </ion-content>

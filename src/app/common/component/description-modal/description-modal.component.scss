@@ -1,0 +1,141 @@
+ion-header {
+    &.header-md::after {
+        height: 0;
+    }
+    .header-toolbar {
+        padding: 20px 20px 12px;
+        text-align: center;
+        ion-title {
+            font-size: 20px;
+            line-height: 24px;
+            font-family: 'Nunito-Bold';
+            display: block;
+            color: #0A395A;
+            padding: 0;
+            position: unset;
+        }
+    }
+}
+
+ion-content {
+    .modal-inner {
+        padding: 10px 16px;
+        .section-row {
+            margin-bottom: 20px;
+            .section-label {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-Regular';
+                display: block;
+                color: #0A395A;
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+                span {
+                    font-family: 'Nunito-SemiBold';
+                    display: block;
+                    margin-left: 8px;
+                }
+            }
+        }
+        .video-panel {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            .video-info {
+                min-width: 20%;
+                padding: 0 4px;
+                text-align: center;
+                .video-icon {
+                    margin-bottom: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    ion-img {
+                        width: 30px;
+                        height: 30px;
+                        margin: 0 auto;
+                    }
+                    ion-icon {
+                        font-size: 26px;
+                        margin: 0 2px;
+                        color: #C5D124;
+                    }
+                }
+                span {
+                    color: #0A395A;
+                    font-size: 14px;
+                    line-height: 16px;
+                    font-family: "Nunito-SemiBold";
+                    display: block;
+                }
+            }
+        }
+        .video-detail {
+            display: flex;
+            overflow: hidden;
+            .user-info {
+                flex: 1;
+                overflow: hidden;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                padding: 2px 0;
+            }
+            h4 {
+                color: #0A395A;
+                font-size: 16px;
+                line-height: 18px;
+                font-family: "Nunito-Bold";
+                margin-bottom: 4px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                span {
+                    margin-right: 4px;
+                    font-family: "Nunito-Regular";
+                }
+            }
+            ion-label {
+                color: #0A395A;
+                font-size: 14px;
+                line-height: 16px;
+                font-family: "Nunito-SemiBold";
+                display: block;
+               
+            }
+            .user-img {
+                width: 50px;
+                background: #fff;
+                height: 50px;
+                border-radius: 50%;
+                border: 2px solid #0A395A;
+                overflow: hidden;
+                margin-right: 16px;
+                ion-img {
+                  object-fit: cover;
+                }
+            }
+        }
+    }
+}
+
+.section-row {
+    height: calc(100% - 56px);
+    overflow-y: auto;
+}
+.section-label {
+    font-size: 16px;
+    line-height: 20px;
+    font-family: 'Nunito-Regular';
+    display: block;
+    color: #0A395A;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    span {
+        font-family: 'Nunito-SemiBold';
+        display: block;
+        margin-left: 8px;
+    }
+}

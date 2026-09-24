@@ -1,0 +1,50 @@
+.page-inner {
+    padding: 20px;
+    .page-heading {
+        h2 {
+            font-size: 22px;
+            line-height: 24px;
+            font-family: "Nunito-Bold";
+            color: #0A395A;
+            margin-bottom: 24px;
+        }
+    }
+    ion-card {
+        margin-inline: 0;
+        margin: 0 0 20px;
+        border-radius: 15px;
+        box-shadow: 0px 3px 10px #00000029;
+        .offer-info {
+            margin-right: 20px;
+            h3 {
+                font-size: 18px;
+                line-height: 24px;
+                font-family: "Nunito-SemiBold";
+                color: #0A395A;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 18px;
+                line-height: 24px;
+                font-family: "Nunito-SemiBold";
+                color: #70CFED;
+                margin-bottom: 0;
+            }
+        }
+        .offer-img {
+            width: 90px;
+            margin-bottom: 20px;
+            ion-img {
+                width: 100%;
+            }
+        }
+        .right-arrow {
+            text-align: right;
+            height: 32px;
+            ion-icon {
+                font-size: 32px;
+                color: #70CFED;
+            }
+        }
+    }
+}

@@ -1,0 +1,76 @@
+﻿<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Answer Explanation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page">
+    <div class="feature-icons">
+      <div class="feature">
+        <div class="icon">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+        <div class="label">Assessment</div>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="label">Teachers</div>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+        </div>
+        <div class="label">Self-Evaluation</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2 class="title">Answer Explanation Feature<br />Temporarily Paused</h2>
+
+    <div class="text">
+      <p>
+        At present, the Answer Explanation feature is temporarily paused based on the recommendation of our academic
+        experts and guidance team.
+      </p>
+      <p>Students already receive explanations from <b>school teachers</b> and <b>tuition teachers</b>.</p>
+      <p>
+        Since different teachers may use different solving styles, providing another explanation here may cause confusion
+        or unnecessary comparison for students.
+      </p>
+      <p>
+        For now, Strakwizz focuses on helping students <b>evaluate their</b> preparation and identify weak areas, while
+        teachers continue to guide them through explanations.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 class="feedback-title">Your Feedback Matters</h3>
+    <p class="feedback-sub">
+      Your suggestions can help us understand the needs of students and parents better.
+    </p>
+    <ion-checkbox
+      class="feedback-checkbox"
+      [(ngModel)]="wantsToShareFeedback"
+      labelPlacement="end"
+      justify="start"
+    >
+      <ion-label>I would like to share my feedback about the Answer Explanation feature.</ion-label>
+    </ion-checkbox>
+
+    <ion-button expand="block" class="primary-btn" [disabled]="!wantsToShareFeedback" (click)="shareFeedback()">
+      Share Feedback
+    </ion-button>
+    <ion-button expand="block" fill="clear" class="secondary-btn" (click)="goBack()">Not Now</ion-button>
+  </div>
+</ion-content>
+

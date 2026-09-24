@@ -1,0 +1,76 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content class="category-content">
+  <div class="container" *ngIf="!showIndividualPlan && !showFamilyPlan && !showSchoolPlan && !showPrivateInstitutionPlan">
+    <div class="page-header">
+      <h1 class="title">Hi<span *ngIf="userName">, {{ userName }}</span>!</h1>
+      <!-- <p class="subtitle">Select one option to continue.</p> -->
+      <!-- <p class="subtitle">Please choose a subscription plan</p> -->
+       <p class="subtitle">Select Category</p>
+    </div>
+
+    <div class="plan-list">
+      <div
+        class="plan-card"
+        *ngFor="let plan of plans"
+        [class.selected]="selectedCategory === plan.key"
+        (click)="selectCategory(plan.key)"
+        role="button"
+        tabindex="0"
+      >
+        <!-- <div class="badge" *ngIf="plan.badge">{{ plan.badge }}</div> -->
+
+        <div class="plan-top">
+          <div class="plan-avatar" aria-hidden="true">
+            <ion-icon [name]="plan.icon"></ion-icon>
+          </div>
+
+          <div class="plan-meta">
+            <div class="plan-row">
+              <div class="plan-title">{{ plan.title }}</div>
+              <div class="plan-price" *ngIf="plan.price">{{ plan.price }}</div>
+            </div>
+            <div class="plan-desc">{{ plan.subtitle }}</div>
+          </div>
+
+          <div class="plan-check" aria-hidden="true">
+            <ion-icon [name]="selectedCategory === plan.key ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
+          </div>
+        </div>
+
+        <ul class="plan-features">
+          <li *ngFor="let feature of plan.features">
+            <ion-icon name="checkmark" aria-hidden="true"></ion-icon>
+            <span>{{ feature }}</span>
+          </li>
+        </ul>
+
+        <div class="plan-note" *ngIf="plan.note">
+          <ion-icon name="information-circle-outline" aria-hidden="true"></ion-icon>
+          <span>{{ plan.note }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-info">
+      <div class="info-row">
+        <ion-icon name="checkmark" aria-hidden="true"></ion-icon>
+        <span>You can upgrade or change plans anytime.</span>
+      </div>
+      <div class="info-row">
+        <ion-icon name="checkmark" aria-hidden="true"></ion-icon>
+        <span>No auto-renewal without permission.</span>
+      </div>
+    </div>
+
+    <ion-button expand="block" class="continue-btn" [disabled]="!selectedCategory" (click)="onNext()">
+      Continue
+    </ion-button>
+  </div>
+  <app-individual-plan *ngIf="showIndividualPlan"></app-individual-plan>
+  <app-family-plan *ngIf="showFamilyPlan"></app-family-plan>
+  <app-school-plan *ngIf="showSchoolPlan"> </app-school-plan>
+  <app-private-institution-plan *ngIf="showPrivateInstitutionPlan"></app-private-institution-plan>
+</ion-content>

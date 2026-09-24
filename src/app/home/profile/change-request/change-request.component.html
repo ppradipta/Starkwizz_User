@@ -1,0 +1,54 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <h2 class="heading">Current Details </h2>
+    <div class="select-container mb-2">
+      <div class="user-info">
+        <div class="user-img">
+          <ion-img [src]="profileData.imageUrl?profileData.imageUrl:'assets/images/menu-user.gif'">
+          </ion-img>
+        </div>
+        <div class="info-right">
+          <ion-label class="user-name">{{profileData.displayName}}</ion-label>
+          <ion-label class="school-name">{{profileData.mobileNo}}</ion-label>
+        </div>
+      </div>
+      <ion-item class="section-row">
+        <ion-label class="section-label">Current Board</ion-label>
+        <ion-input placeholder="Current Board" readonly mode="ios" [value]="profileData.boardName"></ion-input>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">Current Class</ion-label>
+        <ion-input placeholder="Current Class" readonly mode="ios" [value]="profileData.className"></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="select-container">
+      <h2 class="heading">Change Request</h2>
+      <ion-item class="section-row">
+        <ion-label class="section-label">Board</ion-label>
+        <ion-select placeholder="Select Board" mode="ios"  [(ngModel)]="boardId" (click)="changeBoard()" >
+          <ion-select-option [value]="board.id" *ngFor="let board of boardOfEducation" [disabled]="board.status=='INACTIVE'">{{board.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">Class</ion-label>
+        <ion-select placeholder="Select Class" mode="ios" (click)="changeClass()"  [(ngModel)]="classId">
+          <ion-select-option [value]="class.id" *ngFor="let class of classOfEducations">{{class.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-textarea class="section-value" placeholder="Enter Change Reason"  [(ngModel)]="reasone" ></ion-textarea>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="secondary-btn"  (click)="profileChangeRequest()">Confirm</ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-button (click)="goBack()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </ion-button>
+  <ion-title>Feedback</ion-title>
+</ion-header>
+<ion-content class="date-ion-content">
+  <div class="inner-page">
+
+    <div class="section">
+      <ion-label class="section-label">Message</ion-label>
+      <ion-textarea name="message" [(ngModel)]="message" placeholder="Enter Message"
+        class="section-value">
+      </ion-textarea>
+    </div>
+
+    <div>
+      <ion-button class="secondary-btn" [disabled]="!message" (click)="confirm()">Submit</ion-button>
+    </div>
+  </div>
+</ion-content>

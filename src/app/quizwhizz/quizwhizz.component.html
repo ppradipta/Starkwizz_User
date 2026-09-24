@@ -1,0 +1,428 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+    <div class="notify-btn" (click)="goToNotification()">
+      <ion-icon class="notify-icon" name="notifications-circle-outline"></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+        <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+      </ion-badge>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+  <!-- <swiper-container *ngIf="scrollskleton">
+    <swiper-slide *ngFor="let list of [1,2,3,4,5]">
+      <ion-skeleton-text animated style=" height: 100%; width: 80%;"></ion-skeleton-text>
+    </swiper-slide>
+  </swiper-container>
+  <swiper-container class="mySwiper" autoplay-delay="2500" autoplay-disable-on-interaction="false" *ngIf="!scrollskleton">
+    <swiper-slide *ngFor="let qimage of quizWhizzImages">
+      <ion-img [src]="qimage" *ngIf="qimage"></ion-img>
+    </swiper-slide>
+  </swiper-container> -->
+  <div class="quiz-section">
+    <div class="quiz-img">
+      <ion-img src="/assets/images/quizwhizz-img.png"></ion-img>
+    </div>
+    <div class="quiz-info">
+      <!-- <span class="quiz-span mb-2">Earn points, unlock rewards and get <br>exclusive Starkwizz prizes</span> -->
+       <!-- <span class="quiz-span"> Let's Start and Accelerate</span> -->
+      <!-- <span class="quiz-span mb-2">Hi “{{userDetails?.firstName}} {{userDetails?.lastName}}”! Welcome to Quiz-Whizz weekly contest 🤩</span>
+      <span class="quiz-span">Let’s Dive in and Win the Race!</span> -->
+      <span class="quiz-span">Sunday Quiz-Whizz – Smart Thinking</span>
+      <span class="quiz-span">Learning beyond textbooks</span>
+
+      <!-- <ion-button class="quiz-btn" (click)="onClickEventInfo('EVENT')">See details</ion-button> -->
+    </div>
+  </div>
+  <div class="page-container">
+    <div class="motivation-text">
+      <span>Make your Sunday a Great Day!</span>
+      <span>Let&rsquo;s dive in and Win the Race!</span>
+    </div>
+    <div class="custom-segment">
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+        <ion-segment-button [value]="subjects.key" *ngFor="let subjects of subjForSubscriptionMap | keyvalue">
+          <ion-label>{{subjects?.key | date:'d MMM'}}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div class="head-top">
+      <!-- <ion-label>{{lastSunday.length > 0 ? 'Horse Riding' : 'Turtle Drive' }}</ion-label> -->
+      <ion-label></ion-label>
+      <!-- <ion-button class="score-btn" *ngIf="segmentValue"
+        (click)="viewTotalScore(segmentValue,subjForSubscriptionMap)">View all score</ion-button> -->
+    </div>
+    <ng-container *ngFor="let subjects of subjForSubscriptionMap | keyvalue">
+      <ng-container *ngIf="subjects?.key == segmentValue">
+        <div class="custom-card" *ngFor="let suevent of subjects.value">
+          <div class="contest-box-body">
+            <div class="contest-title">{{suevent.quizwhizzContestLevelLabel || suevent.eventName}}</div>
+            <div class="contest-meta">
+              <div class="contest-date">Date: {{suevent.quizwhizzContestDateLabel || (suevent.eventEndDate | date:'dd-MM-yyyy')}}</div>
+              <div class="contest-duration">Duration: {{suevent.quizwhizzContestDurationLabel || suevent.displayTotalHour}}</div>
+            </div>
+            <div class="contest-categories">{{suevent.quizwhizzContestCategoriesLabel || 'GK * CURRENT AFFAIRS * REASONING'}}</div>
+          </div>
+          <label class="statusLabel {{suevent.examStatus}}" *ngIf="suevent.examStatus"> {{suevent.examStatus | titlecase }}</label>
+          <label class="statusLabel {{suevent.status}}" *ngIf="!suevent.examStatus"> {{suevent.status | titlecase }}</label>
+          <div class="card-footer" *ngIf="suevent.isAllowToApper">
+            <ion-button (click)="onClickAppear(suevent)"> <ion-spinner name="dots"
+                *ngIf="appearLoader"></ion-spinner>Start now</ion-button>
+           </div>
+           <div class="card-footer" *ngIf="suevent.examStatus=='COMPLETED' || suevent.examStatus=='INPROGRESS'">
+            <ion-button (click)="onClickViewScore(suevent)"><ion-spinner name="dots"
+                *ngIf="viewScoreLoader"></ion-spinner>View Score</ion-button>
+           </div>
+         </div>
+       </ng-container>
+     </ng-container>
+
+    <!-- <div class="page-inner">
+      <ion-accordion-group class="customAccordion">
+        <ion-accordion [value]="subjects.key" *ngFor="let subjects of subjForSubscriptionMap | keyvalue">
+          <ion-item slot="header" class="item-background-color">
+            <ion-label>{{subjects?.key}}</ion-label>
+
+          </ion-item>
+          <div slot="content">
+            <div class="linkBtn">
+              <span (click)="viewTotalScore(subjects.key,subjForSubscriptionMap)">View Score</span>
+            </div>
+            <ion-list>
+              <ng-container>
+                <div class="event-card" *ngFor="let suevent of subjects.value"
+                  [ngStyle]="{'background': suevent?.colorCode}">
+                  <div class="card-inner">
+                    <span class="viewMore-btn" (click)="onClickEventInfo(suevent)"> Info </span>
+                    <div class="event-ribbon" *ngIf="suevent.applicableType === 'FREE_TRAIL'">
+                      <span>Free</span>
+                    </div>
+                    <div class="event-ribbon" *ngIf="suevent.applicableType === 'SUBSCRIBTION'">
+                      <span>Subscribed</span>
+                    </div>
+                    <div class="event-expired" *ngIf="suevent.applicableType === 'EXPIRED'">
+                      <span>Expired</span>
+                    </div>
+                    <div class="card-heading">
+            
+                      <span class="event-code" *ngIf="suevent.eventCode"> {{suevent.eventCode}} </span>
+                      <div class="name" *ngIf="suevent.subjectName">
+                        <h4>{{suevent.eventName}}</h4>
+                      </div>
+                    </div>
+                    <div class="card-body">
+        
+                      <div class="event-info">
+                        <ion-label class="card-label">Duration: </ion-label>
+                        <div>
+                          <span class="card-value fw-semibold">{{suevent.displayTotalHour}}</span>
+                          <span class="card-value format">Hr Min Sec</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer" *ngIf="suevent.isAllowToApper">
+                    <ion-button (click)="onClickAppear(suevent)"> <ion-spinner name="dots"
+                        *ngIf="appearLoader"></ion-spinner>Appear</ion-button>
+                  </div>
+                  <div class="card-footer" *ngIf="suevent.examStatus=='COMPLETED' || suevent.examStatus=='INPROGRESS'">
+                    <ion-button (click)="onClickViewScore(suevent)"><ion-spinner name="dots"
+                        *ngIf="viewScoreLoader"></ion-spinner>View Score</ion-button>
+                  </div>
+                </div>
+              </ng-container>
+            </ion-list>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </div>  -->
+  </div>
+</ion-content>
+
+
+<ion-modal #quizwhizzInfoModal class="selectBottomSheet" [isOpen]="isQuizWHizzInfoModalOpen" [initialBreakpoint]=""
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>QuizWhizz Info</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <!-- <div class="page-inner" [innerHTML]="selectedQuizWhizzEvent?.information">
+      </div> -->
+      <div class="page-inner">
+        <h2>QUIZ WHIZZ</h2>
+        <h5 class="text-start">The Game Changer</h5>
+        <p><b>Quiz Whizz platform</b> encourages the children (Standard 3-10) to participate in the weekly “Sunday –
+          Quiz Whizz” gaming competition program on General Knowledge, Current Affairs and Mental Ability including
+          academic GK Syllabus. This fun, creative and interactive competition program is totally based on the
+          children’s “recall and time management” skill. Children from CBSE and ICSE education board can regularly play
+          and assess their IQ and memory skills by attending the Quiz Whizz program throughout the year. This platform
+          test an aspirant’s knowledge and awareness of the world around them, encompassing topics like history,
+          geography, science, innovations and inventions, economy, polities, world affairs, sports, logical reasoning
+          and recent global events. This effective platform not only gives an opportunity to complete the academic GK
+          syllabus in time, but also helps a lot to bring an improvement in their individual’s knowledge and skill. This
+          is really helps in the holistic development of children by building skills like; problem solving, decision
+          making, critical thinking, memory, time management, comprehensive and conversational skill. It gives the
+          children a chance to enhance their awareness of various national and international topics and events. This
+          platform genuinely supports children’s academic performance and lays the foundation for future challenges and
+          lifelong learning.
+        </p>
+        <div class="key-section mt-3">
+          <ion-title>KEY ADVANTAGES</ion-title>
+          <ul class="mb-4">
+            <li>Quiz Whizz gaming competition program promotes… creativity, critical thinking and effective learning.
+            </li>
+            <li>Allows children to visually organize their thoughts, connects ideas, and gains a deeper understanding of
+              various topic &amp; content.</li>
+            <li>Build a strong base on general knowledge, current affairs, and mental ability.</li>
+            <li>Get an opportunity to complete the school GK. Syllabus well before the final school examinations.</li>
+            <li>Watch and review own performance analysis upon completion of each competition.</li>
+            <li>Compare own rank with others on national, state, district, and school level.</li>
+            <li>Able to get detailed report of correct and incorrect answers.</li>
+            <li>Able to download and save the answer sheet, share the performance record with others.</li>
+            <li>This platform promotes general awareness, social skill, and enhancing cognitive development.</li>
+            <li>Help the children improve recall and time management.</li>
+            <li>Help the children developing reasoning skill, comprehensive and conversational skill.</li>
+            <li>Improve children’s analytical, decision making, critical thinking, and problem solving abilities.</li>
+            <li>Gives the children a chance to enhance their knowledge of various real- world situations.</li>
+            <li>Makes children more resourceful, more confident in their abilities.</li>
+            <li>Help children expand their perspectives beyond their curriculum, makes them smart and intelligent.</li>
+            <li>Get performance-based points, score card, and badges upon completion of each competition.</li>
+            <li>Earned points and unlock rewards: achievement cards, certificate, medals and trophy.</li>
+          </ul>
+        </div>
+        <div class="exam-section">
+          <ion-title>COMPETITION INFO</ion-title>
+          <ul>
+            <li>Children are able to participate in the Quiz Whizz completions on every Sunday throughout the year.</li>
+            <li>There are two levels of Quiz Whizz competition to be participating by the children in a month.
+              <span class="text-start mt-2">Level 1: <u>Turtle Drive</u> - Every SUNDAY ((except the last SUNDAY of the
+                month))</span>
+              <span class="text-start my-2">Level 2: <u>Horse Ride</u> - Last SUNDAY of a month</span>
+              *Here in this Quiz Whizz platform, the Turtle Drive competitions are known as “Learn &amp; Practice” and
+              the Horse Ride competitions are referred as “Terminal” session.
+            </li>
+            <li>Children can start the game in a month through Turtle Drive competitions and accelerate to win the game
+              at the end of the month through Horse Ride competition.</li>
+            <li>It is the children’s responsibility to take participates in a Quiz Whizz competition, at the right time.
+            </li>
+            <li>Time duration for a Quiz Whizz competition: Maximum 15 minutes.</li>
+            <li>It is the children’s responsibility to monitor and manage the time scheduled for completes a competition
+              in time.</li>
+            <li>It’s the children’s responsibility to follow the 24-hour scheduled system [00:00 Hour – 23:59 Hour] to
+              start and finish a competition in due time.
+              <span class="text-start"><b><u>For e.g.</u></b> Competition Date: 11 th April, Expected Competition
+                Duration: 00:15 minutes
+                <br>Child elects to start the competition at 11.05 on 11 th April. As it is a fifteen minutes program,
+                the scheduled time for the competition therefore ends at 11:20.</span>
+              <table class="table table-bordered mt-3">
+                <tbody>
+                  <tr>
+                    <td>Competition submitted on or before 23:59 on 11th April</td>
+                    <td>Competition submitted on or after 00:00 on 12th April</td>
+                  </tr>
+                  <tr>
+                    <td>Within scheduled time</td>
+                    <td>Not possible to submit or No further access to the competition</td>
+                  </tr>
+                  <tr>
+                    <td>Treated as fair competition</td>
+                    <td>May result in withheld / refused</td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
+            <li>In an event that a child <u>does not attempt the competition</u>, due to illness or other adverse
+              circumstances beyond their control, may submit a Good Cause claim in <b><u>Exam Helpdesk</u></b> within 3
+              working days of the game. If the Good Cause claim is accepted, the most common outcome is that the
+              competition will need to be completed at a later date.
+              <span class="text-start">* In some cases, some competition missed with Good Cause may be
+                disregarded.</span>
+            </li>
+
+
+
+            <li>The children who experiences <u>technical difficulties during a competition</u> with accessing,
+              completing, and/or submitting; should immediately contact to the <b><u>Exam Helpdesk</u></b> within 3
+              working days of
+              the
+              competition, using the contact details provided herewith and in the Application’s Contact Info.
+              <div class="d-flex mt-2"><b><u>Exam Helpdesk</u></b>:
+                <div class="ms-1">
+                  <span class="m-0">6371469050. [10:00 – 17:00]</span>
+                  <span>Monday – Friday [excluding national holidays]</span>
+                </div>
+              </div>
+            </li>
+            <li>Points are given for every correct answer in a competition.</li>
+            <li>There is no negative marking for wrong answers (No points are reduced for wrong answers).</li>
+            <li>There’s no option of review or change the answer, once progressed for the next question during a
+              competition.</li>
+            <li>Skipping or returning from a game in between before completion of the competition, might result into
+              withholding and also unable to attain the same competition later again.</li>
+            <li><b>Secured points</b>: Total points achieved by the children for every correct answer in a competition.
+            </li>
+            <li class="reward-table"><b>Bonus Points</b>: On the basis of secured points and percentage in a
+              competition, the children are entitled for typically entry to a symbolic club and earned bonus points as
+              follows:-
+              <div class="w-100 overflow-auto">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="head" colspan="4"><b>Symbolic Club Bonus Points</b></th>
+                    </tr>
+                    <tr>
+                      <th class="title w100"><b>Percentage</b></th>
+                      <th class="title"><b>Club Name</b></th>
+                      <th class="title"><b>Turtle Drive - Bonus Point</b></th>
+                      <th class="title"><b>Horse Ride - Bonus Point</b></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="w100"><b>01% - 10%</b></td>
+                      <td><b>CANDY</b></td>
+                      <td>11</td>
+                      <td>44</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>11% - 20%</b></td>
+                      <td><b>POPSICLE</b></td>
+                      <td>22</td>
+                      <td>88</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>21% - 30%</b></td>
+                      <td><b>BUBBLEGUM</b></td>
+                      <td>33</td>
+                      <td>132</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>31% - 40%</b></td>
+                      <td><b>CARAMEL</b></td>
+                      <td>44</td>
+                      <td>176</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>41% - 50%</b></td>
+                      <td><b>BEGINNER</b></td>
+                      <td>55</td>
+                      <td>220</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>51% - 60%</b></td>
+                      <td><b>ENTHUSIAST</b></td>
+                      <td>66</td>
+                      <td>264</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>61% - 70%</b></td>
+                      <td><b>POSITIVE PEERS</b></td>
+                      <td>77</td>
+                      <td>308</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>71% - 80%</b></td>
+                      <td><b>RISING STAR</b></td>
+                      <td>88</td>
+                      <td>352</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>81% - 90%</b></td>
+                      <td><b>LUCKY CHARM</b></td>
+                      <td>99</td>
+                      <td>396</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>91% - 95%</b></td>
+                      <td><b>GENIUS</b></td>
+                      <td>111</td>
+                      <td>444</td>
+                    </tr>
+                    <tr>
+                      <td class="w100"><b>96% - 100%</b></td>
+                      <td><b>GRAND MASTER</b></td>
+                      <td>222</td>
+                      <td>555</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+            <li><b>Terminal Points</b>: The final output of a competition = <u>Secured Points + Bonus Points</u>
+              <span class="text-start"><b><u>For Example</u></b>:- </span>
+              <span class="text-start">
+                <u>Turtle drive competition</u>: A child scored 57 points out of 100 (57%) in a turtle drive
+                competition, and entitled for entering the ENTHUSIAST club.
+              </span>
+              <span class="text-start">The terminal points of the competition will be; 57 (secured points) + 66 (bonus
+                points) = 123 Points.</span>
+              <span class="text-start">
+                <u>Horse ride competition</u>: A child scored 95 points out of 100 (95%) in a horse ride competition,
+                and entitled for entering the GENIUS club.
+              </span>
+              <span class="text-start">The terminal points of the competition will be; 95 (secured points) + 444 (bonus
+                points) = 539 points.</span>
+            </li>
+            <li>Monthly performance record: Will be defines on the basis of overall terminal points achieved by the
+              children in a month.</li>
+            <li>Yearly performance record: Will be defines on the basis of overall terminal points achieved by the
+              children in a year (12 consecutive months).</li>
+            <li>When two or more children obtain the same points in a competition, then their rank will be decided on
+              the basis their consumption of time to finish the competition.
+              <span class="text-start"><b><u>For e.g.</u></b> – XXX, YYY, ZZZ (3 children’s name) has secured 204
+                terminal points each, in a competition.</span>
+              <div class="d-flex mt-2">But,
+                <div class="ms-1">
+                  <span class="text-start">XXX has finished the competition in 00:13:27 hour (13 minutes and 27
+                    seconds).</span>
+                  <span class="text-start">YYY has finished the competition in 00:14:05 hour (14 minutes and 05
+                    seconds).</span>
+                  <span class="text-start">ZZZ has finished the competition in 00:13:12 hour (13 minutes and 12
+                    seconds).</span>
+                </div>
+              </div>
+              <span class="text-start">Here the ranks will be decided as: <b>1st</b> – ZZZ (00:13:12), <b>2nd</b> – XXX
+                (00:13:27), and 3rd – YYY (00:14:05)</span>
+            </li>
+          </ul>
+        </div>
+        <div class="key-section mt-3">
+          <ion-title>REWARD</ion-title>
+          <ul class="rewardlist">
+            <li>
+              <h5 class="text-start">The Game Changer of the Month</h5>
+              <span class="mb-3">[Top hundred (100) deserved children to be granted for the digital motivational
+                recognition, on the basis of their best overall monthly performance record.]</span>
+              <!-- <span>Rank - 1-5: <b>Certificate of Recognition, and G. Medal</b></span>
+              <span>Rank - 6-10: <b>Certificate of Recognition, and S. Medal</b></span>
+              <span>Rank - 11-15: <b>Certificate of Recognition, and B. Medal</b></span> -->
+              <span>Rank - 1-100: <b>Achievement Cards [Digital]</b></span>
+            </li>
+            <li>
+              <h5 class="text-start">The Game Changer of the Year</h5>
+              <span class="mb-3">[Top hundred (100) deserved children to be granted for the reward and recognition, on the basis of their
+                best overall yearly performance record.]</span>
+              <span>Rank - 1-30: <b>Certificate of Recognition, G. Medal, Trophy, and Cash Prize</b></span>
+              <span>Rank - 31-65: <b>Certificate of Recognition, S. Medal, Trophy, and Cash Prize</b></span>
+              <span>Rank - 66-100: <b>Certificate of Recognition, B. Medal, Trophy, and Cash Prize</b></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

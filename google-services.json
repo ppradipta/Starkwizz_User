@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1088999852663",
+    "project_id": "starkwizz-production",
+    "storage_bucket": "starkwizz-production.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088999852663:android:1b6c5f1a689dd01f5d1472",
+        "android_client_info": {
+          "package_name": "com.lavni.starkwizz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088999852663-efd0nkpg5q107hi1cjefr878tj3h2ilf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5_2NeZvkCLBWYjQPZCED-6ZJObq30Kt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088999852663-efd0nkpg5q107hi1cjefr878tj3h2ilf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

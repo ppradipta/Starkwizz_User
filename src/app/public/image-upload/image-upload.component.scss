@@ -1,0 +1,65 @@
+ion-footer {
+    height: 45px;
+}
+.content {
+    --background: #000000;
+}
+.cancelBtn {
+    --border-radius: 0;
+    --background: #fff;
+    color: #f5770b;
+    height: 45px;
+    margin: 0;
+    width: 100px;
+    text-transform: capitalize;
+}
+.cancelBtnActive {
+    --background: #000000f7 !important;
+    color: #fff !important;
+}
+.confirmBtnActive {
+    --background: #000000f7 !important;
+    color: #fff !important;
+}
+.confirmBtn {
+    --border-radius: 0;
+    height: 45px;
+    margin: 0;
+    width: 100px;
+    text-transform: capitalize;
+}
+
+.fileButton {
+    display: flex;
+    /* width: 75px; */
+    /* border: 1px solid lightgray; */
+    /* border-radius: 50%; */
+    height: 32px;
+    margin: 0 auto;
+    position: relative;
+    right: 6px;
+    text-align: center;
+    background: transparent;
+    border: 1px solid lightgray;
+    color: #239400;
+    padding: 2px;
+}
+
+.fileButton ion-label {
+    width: 100%;
+    position: relative;
+    left: 6px;
+    top: 5px;
+}
+
+ion-avatar {
+    margin: 0 auto;
+}
+
+.cropper-container {
+    background: #000000f7;
+}
+
+.btn-content {
+    background: #000000f7;
+}

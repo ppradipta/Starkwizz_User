@@ -1,0 +1,25 @@
+ion-header {
+    .close-icon {
+        font-size: 32px;
+        color: #70cfed;
+    }
+}
+
+.page-inner {
+    padding: 20px;
+    h2 {
+        font-size: 22px;
+        line-height: 26px;
+        color: #0A395A;
+        font-family: 'Nunito-Bold';
+        margin-bottom: 20px;
+    }
+    p {
+        color: #0A395A;
+        letter-spacing: 1px;
+        font-size: 18px;
+        line-height: 26px;
+        font-family: "Nunito-SemiBold";
+        margin-bottom: 16px;
+    }
+}

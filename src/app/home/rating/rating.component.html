@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Rate & Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="rating-content">
+      <ion-label class="rate-title">Please Rate Overall Service!</ion-label>
+      <ion-label class="rating-text">Your Review will help to improve.</ion-label>
+    </div>
+
+    <div class="rating-section">
+      <div class="rating-icon" *ngFor="let list of rating; let i = index" (click)="onClickRating(list.id)">
+        <ion-icon name="star-outline" *ngIf="!list.isTrue"></ion-icon>
+        <ion-icon class="active" name="star" *ngIf="list.isTrue"></ion-icon>
+      </div>
+    </div>
+
+    <div class="title-row">
+      <ion-textarea placeholder="Enter your comments if any..." [(ngModel)]="review"></ion-textarea>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="primary-btn" expand="block" (click)="confirm()" [disabled]="!selectRating.length">
+      Submit Review
+    </ion-button>
+  </div>
+</ion-footer>

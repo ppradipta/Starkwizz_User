@@ -1,0 +1,247 @@
+.page-inner {
+    padding: 16px;
+
+    h2 {
+        // font-size: 28px;
+        font-size: 20px;
+        line-height: 30px;
+        font-family: "Nunito-Bold";
+        display: block;
+        color: #0A395A;
+        margin-bottom: 12px;
+    }
+
+    h4 {
+        // font-size: 22px;
+        font-size: 16px;
+        line-height: 26px;
+        font-family: "Nunito-Bold";
+        display: block;
+        color: #0A395A;
+        margin-bottom: 16px;
+    }
+
+    .setting-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        ion-label {
+            // font-size: 18px;
+            font-size: 15px;
+            line-height: 22px;
+            font-family: "Nunito-SemiBold";
+            display: block;
+            color: #0A395A;
+        }
+
+        .setting-value {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            flex: 1;
+            min-width: 50px;
+            margin-left: 12px;
+            overflow: hidden;
+
+            ion-label {
+                // font-size: 18px;
+                font-size: 16px;
+                line-height: 22px;
+                font-family: "Nunito-Regular";
+                display: block;
+                color: #0A395A;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            ion-icon {
+                font-size: 30px;
+                color: #40D47B;
+                margin-left: 6px;
+            }
+        }
+    }
+
+
+    .custom-raw {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: nowrap;
+
+        .selectBtn {
+            width: calc(34% - 10px);
+            border: 1px solid #E2E2E2;
+            border-radius: 12px;
+            --border-radius: 12px;
+            --padding-start: 16px;
+            --inner-padding-end: 16px;
+            --background: #F6F7FA;
+            color: #1C1D1F;
+            min-height: 44px;
+            --box-shadow: none;
+            margin: 0;
+            // font-size: 16px;
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Nunito-Bold";
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+
+            // &:last-child {
+            //     margin-top: 16px;
+            // }
+
+            &.ACTIVE {
+                border: 1px solid #00AEFF;
+                --background: #E7F7FC;
+                color: #00AEFF;
+            }
+        }
+    }
+
+    // ion-list {
+    //     padding: 0;
+    //     margin-bottom: 16px;
+
+    //     ion-radio-group {
+    //         ion-item {
+    //             width: 100%;
+    //             --min-height: unset;
+    //             height: 32px;
+    //             --border-style: none;
+    //             --background: #fff;
+    //             --ripple-color: transparent;
+    //             --padding-start: 16px;
+    //             --inner-padding-end: 0;
+    //             display: flex;
+    //             align-items: center;
+    //             margin: 0 0 10px;
+
+    //             &.item-radio-checked {
+    //                 ion-radio {
+    //                     background: #70CFED;
+    //                     border: none;
+    //                 }
+    //             }
+
+    //             ion-label {
+    //                 height: 100%;
+    //                 color: #0A395A;
+    //                 margin: 0;
+    //                 font-size: 20px;
+    //                 line-height: 25px;
+    //                 font-family: 'Nunito-SemiBold';
+    //                 padding: 0;
+    //             }
+
+    //             ion-radio {
+    //                 width: 24px;
+    //                 --color-checked: #fff;
+    //                 height: 24px;
+    //                 padding-bottom: 3px;
+    //                 border-radius: 3px;
+    //                 margin: 0;
+    //                 margin-right: 12px;
+    //                 background: transparent;
+    //                 border: 2px solid #70CFED;
+    //                 --color-checked: #fff;
+    //             }
+    //         }
+    //     }
+    // }
+
+    .update-btn {
+        // max-width: 200px;
+        // height: 50px;
+        // font-size: 20px;
+        // --color: #fff;
+        // margin: 0 auto;
+        max-width: 120px;
+        height: 40px;
+        font-size: 14px;
+        --color: #fff;
+        margin: 0 auto;
+    }
+
+    .btn-toolbar {
+        margin: 20px 0;
+        display: block;
+        padding: 0 10px;
+
+        ion-button {
+            --color: #ffffff;
+            margin-bottom: 14px;
+            // font-size: 22px;
+            font-size: 14px;
+            font-family: "Nunito-Bold";
+
+            &.logout-btn {
+                --color: #0A395A;
+                margin: 0;
+            }
+        }
+
+        .actions-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: nowrap;
+
+            ion-button {
+                flex: 1 1 0;
+                min-width: 0;
+                margin: 0;
+                max-width: none;
+                white-space: nowrap;
+                --padding-start: 12px;
+                --padding-end: 12px;
+            }
+
+            .update-btn {
+                max-width: none;
+                margin: 0;
+            }
+
+            .secondary-btn2 {
+                height: 40px;
+                // font-size: 14px;
+                font-size: 10px;
+                width: auto;
+            }
+        }
+    }
+}
+
+::ng-deep ion-toggle {
+    padding: 4px 0;
+    width: 40px;
+    height: 16px;
+    --background: #dfdede;
+    --background-checked: #70CFED;
+    --handle-background: #70CFED;
+    --handle-background-checked: #0A395A;
+    --handle-box-shadow: 0;
+}
+
+.secondary-btn2 {
+    --background: #f55757;
+    --color: #0A395A;
+    width: 100%;
+    --border-radius: 30px;
+    height: 60px;
+    text-transform: capitalize;
+    font-size: 22px;
+    font-family: 'Nunito-Bold';
+    margin: 0;
+    --box-shadow: none;
+    --background-activated: transparent;
+    letter-spacing: 0;
+}

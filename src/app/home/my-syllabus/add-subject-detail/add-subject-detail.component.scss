@@ -1,0 +1,127 @@
+.inner-container {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+
+    .headerBtn {
+        height: 64px;
+        padding-top: 20px;
+        
+        ion-button {
+            height: 44px;
+            --background: transparent;
+            color: #292929;
+            margin: 0;
+            --box-shadow: none;
+
+            ion-icon {
+                margin-right: auto;
+                font-size: 24px;
+            }
+        }
+    }
+
+    .inner-page {
+        padding: 36px 26px 40px;
+        height: calc(100% - 44px);
+        overflow: auto;
+
+        // .left-bottom {
+        //     width: 106px;
+        //     height: 178px;
+        //     position: absolute;
+        //     bottom: 0px;
+        //     left: 0;
+        //     z-index: -1;
+        //     overflow: hidden;
+        // }
+
+        .right-top {
+            width: 80px;
+            height: 128px;
+            position: absolute;
+            top: 0px;
+            right: 0;
+            z-index: -1;
+        }
+
+        h4 {
+            font-size: 22px;
+            line-height: 24px;
+            font-family: 'Nunito-ExtraBold';
+            color: #152F48;
+            margin: 0 0 30px;
+        }
+
+        .input-content {
+            .subs-input {
+                margin-bottom: 12px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .caption {
+                    font-size: 15px;
+                    line-height: 20px;
+                    font-family: "Nunito-SemiBold";
+                    display: block;
+                    color: #1C1D1F;
+                    margin: 0 0 8px;
+                }
+
+                ion-input {
+                    height: 44px;
+                    width: 100%;
+                    font-size: 16px;
+                    font-family: "Nunito-SemiBold";
+                    border-radius: 12px;
+                    background: #fff;
+                    color: #1C1D1F;
+                    border: 1px solid #625D5D;
+                    --padding-top: 14px;
+                    --padding-end: 20px;
+                    --padding-bottom: 13px;
+                    --padding-start: 20px;
+                    text-align: left;
+                    --placeholder-color: #1C1D1F40;
+                    --placeholder-opacity: 1;
+                }
+
+                ul {
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                    list-style-type: decimal;
+
+                    li {
+                        margin-bottom: 8px;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .btn-content {
+            text-align: center;
+
+            ion-text {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-ExtraBold';
+                color: #5DCCFC;
+                margin-bottom: 44px;
+                display: block;
+            }
+
+            .secondary-btn {
+                --color: #fff;
+                height: 52px;
+                font-size: 16px;
+            }
+        }
+    }
+}

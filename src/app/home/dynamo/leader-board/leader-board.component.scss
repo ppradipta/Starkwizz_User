@@ -1,0 +1,650 @@
+// .page-inner {
+//     padding: 16px;
+//     .question-card {
+//         background: url(/assets/images/modal-header.svg);
+//         background-position: center;
+//         background-size: cover;
+//         background-repeat: no-repeat;
+//         border-radius: 16px;
+//         overflow: hidden;
+//         ion-segment {
+//             background-color: transparent;
+//             justify-content: left;
+//             ion-segment-button {
+//                 color: #fff;
+//                 max-width: 100px;
+//                 height: 25px;
+//                 font-family: "Nunito-Regular";
+//                 font-size: 13px;
+//                 margin-bottom: 6px;
+//                 &.first-btn {
+//                     max-width: 60px;
+//                 }
+//                 &.segment-button-checked {
+//                     font-family: "Nunito-SemiBold";
+//                     font-size: 16px;
+//                 }
+//                 ion-label {
+//                     margin-right: auto !important;
+//                     &::after {
+//                         display: none;
+//                     }
+//                 }
+//             }
+//         }
+//         .top-three {
+//             display: flex;
+//             justify-content: center;
+//             align-items: flex-end;
+//             padding: 20px 20px 0;
+//             .user-img {
+//                 height: 30px;
+//                 width: 30px;
+//                 border: 2px solid #000;
+//                 border-radius: 50%;
+//                 margin: 0 auto 8px;
+//                 overflow: hidden;
+//                 ion-img {
+//                     width: 100%;
+//                     height: 100%;
+//                     object-fit: cover;
+//                 }
+//             }
+//             .user-name {
+//                 font-family: "Nunito-SemiBold";
+//                 font-size: 13px;
+//                 display: block;
+//                 line-height: 15px;
+//                 text-align: center;
+//                 color: #6acdecf5;
+//                 margin: 0 auto 10px;
+//                 width: 100%;
+//                 padding: 0 4px;
+//             }
+//             .column {
+//                 background: #ffffffb3;
+//                 box-shadow: 0px 0px 15px #00000029;
+//                 width: 100%;
+//                 height: 210px;
+//                 padding: 25px 10px 10px;
+//                 text-align: center;
+//                 .number {
+//                     display: flex;
+//                     align-items: flex-start;
+//                     justify-content: center;
+//                     margin-bottom: 10px;
+//                     h1 {
+//                         font-size: 80px;
+//                         line-height: 70px;
+//                         font-weight: 700;
+//                         color: #fff;
+//                         margin: 0;
+//                     }
+//                     span {
+//                         font-size: 18px;
+//                         line-height: 20px;
+//                         color: #fff;
+//                         display: block;
+//                         font-family: "Nunito-Regular";
+//                     }
+//                 }
+//                 ion-label {
+//                     font-size: 18px;
+//                     line-height: 20px;
+//                     color: #fff;
+//                     display: block;
+//                     font-family: "Nunito-Regular";
+//                 }
+//             }
+//             .first-column {
+//                 z-index: 1;
+//                 width: 33%;
+//                 max-width: 100px;
+//             }
+//             .second-column {
+//                 width: 33%;
+//                 max-width: 100px;
+//                 .column {
+//                     background: #ffffff99;
+//                     height: 170px;
+//                 }
+//             }
+//             .third-column {
+//                 width: 33%;
+//                 max-width: 100px;
+//                 .column {
+//                     background: #ffffff80;
+//                     height: 145px;
+//                 }
+//             }
+//         }
+//         .card-bottom {
+//             background-color: #fff;
+//             border-radius: 25px 25px 15px 15px;
+//             padding: 18px 0 0;
+//             .top-position {
+//                 display: flex;
+//                 align-items: center;
+//                 justify-content: space-between;
+//                 padding: 12px 10px;
+//                 min-height: 58px;
+//                 &.card-end {
+//                     box-shadow: 0px -2px 6px #00000029;
+//                 }
+//                 ion-label {
+//                     font-family: "Nunito-Bold";
+//                     font-size: 14px;
+//                     line-height: 18px;
+//                     color: #0A395A;
+//                 }
+//                 .number {
+//                     width: 6%;
+//                     min-width: 20px;
+//                     text-align: start;
+//                     padding: 0 4px;
+//                     label {
+//                         white-space: nowrap;
+//                     }
+//                 }
+//                 .img {
+//                     width: 15%;
+//                     min-width: 50px;
+//                     padding: 0 6px;
+//                     text-align: center;
+//                     .user-img {
+//                         height: 32px;
+//                         width: 32px;
+//                         border: 2px solid #000;
+//                         border-radius: 50%;
+//                         margin: 0 auto;
+//                         overflow: hidden;
+//                         ion-img {
+//                             width: 100%;
+//                             height: 100%;
+//                             object-fit: cover;
+//                         }
+//                     }
+//                 }
+//                 .name {
+//                     width: 25%;
+//                     min-width: 95px;
+//                     padding: 0 6px;
+//                     ion-label {
+//                         width: 100%;
+//                         word-wrap: break-word;
+//                         display: block;
+//                     }
+//                 }
+//                 .point {
+//                     width: 25%;
+//                     text-align: center;
+//                     min-width:70px;
+//                     padding: 0 4px;
+//                     display: flex;
+//                     justify-content: center;
+//                 }
+//                 .time {
+//                     width: 25%;
+//                     text-align: end;
+//                     min-width:90px;
+//                     padding: 0 4px;
+//                     display: flex;
+//                     justify-content: flex-end;
+//                 }
+//                 .card-tab {
+//                     padding: 6px 8px;
+//                     text-align: center;
+//                     width: 100%;
+//                     max-width: 100px;
+//                     border: 2px solid #0A395A;
+//                     border-radius: 30px;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// .section-title {
+//     // display: flex;
+//     // align-items: center;
+//     // justify-content: space-between;
+//     padding: 20px 16px 6px;
+//     // ion-label {
+//     //     font-family: "Nunito-Bold";
+//     //     font-size: 16px;
+//     //     color: #fff;
+//     //     display: block;
+//     // }
+// }
+
+// .my-position {
+//     box-shadow: 0 1px 4px #00000029;
+//     margin-bottom: 8px;
+//     .label {
+//         font-family: "Nunito-Bold";
+//         font-size: 16px;
+//         color: #0A395A;
+//         padding-left: 16px;
+//     }
+// }
+
+// .default-text {
+//     padding: 20px;
+//     height: 100%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     text-align: center;
+//     p {
+//         font-size: 18px;
+//         color: #0A395A;
+//         line-height: 25px;
+//         font-family: "Nunito-SemiBold";
+//         margin: 0;
+//     }
+// }
+
+// .card-inner {
+//     padding: 0 10px 20px;
+//     display: flex;
+//     .position {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: flex-end;
+//         flex: 1;
+//         margin-right: 12px;
+//         .step {
+//             padding: 6px 3px;
+//             height: 26px;
+//             font-size: 15px;
+//             color: #0A395A;
+//             line-height: 16px;
+//             font-family: "Nunito-SemiBold";
+//             text-align: center;
+//             &.active {
+//                 position: relative;
+//                 .activeStep {
+//                     position: absolute;
+//                     left: -24px;
+//                     right: -44px;
+//                     top: 2px;
+//                     display: flex;
+//                     justify-content: space-between;
+//                     ion-img {
+//                         width: 22px;
+//                         height: 22px;
+//                     }
+//                     .rang {
+//                         width: 20px;
+//                         height: 20px;
+//                         background: #fff;
+//                         border-radius: 0 44px 30px 44px;
+//                         transform: rotate(-45deg);
+//                         display: flex;
+//                         // align-items: center;
+//                         span {
+//                             transform: rotate(45deg);
+//                             display: block;
+//                             font-size: 9px;
+//                             font-family: "Nunito-Black";
+//                             small {
+//                                 font-family: "Nunito-SemiBold";
+//                                 line-height: 10px;
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//             &:nth-of-type(odd) {
+//                background-color: #ffffffbf;
+//             }
+//             &:nth-of-type(even) {
+//                 background-color: #ffffff80;
+//             }
+//             &:nth-of-type(1) {
+//                 width: 20%;
+//                 font-size: 12px;
+//                 color: #0A395A;
+//                 line-height: 15px;
+//             }
+//             &:nth-of-type(2) {
+//                 width: 28%;
+//             }
+//             &:nth-of-type(3) {
+//                 width: 36%;
+//             }
+//             &:nth-of-type(4) {
+//                 width: 44%;
+//             }
+//             &:nth-of-type(5) {
+//                 width: 52%;
+//             }
+//             &:nth-of-type(6) {
+//                 width: 60%;
+//             }
+//             &:nth-of-type(7) {
+//                 width: 68%;
+//             }
+//             &:nth-of-type(8) {
+//                 width: 76%;
+//             }
+//             &:nth-of-type(9) {
+//                 width: 84%;
+//             }
+//             &:nth-of-type(10) {
+//                 width: 92%;
+//             }
+//             &:nth-of-type(11) {
+//                 width: 100%;
+//             }
+//         }
+//     }
+//     .process {
+//         width: 6px;
+//         border-radius: 6px;
+//         margin-right: 12px;
+//         background: linear-gradient(180deg, #3DFFAB, #2F8BD2);
+//     }
+//     .process-length {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-between;
+//         align-items: center;
+//         padding: 6px 0;
+//         span {
+//             font-size: 11px;
+//             color: #fff;
+//             line-height: 13px;
+//             font-family: "Nunito-SemiBold";
+//         }
+//     }
+// }
+
+
+.lead-header {
+    height: 64px;
+    background: #818AF9;
+    padding: 30px 16px 10px;
+    display: flex;
+
+    &::after {
+        height: 0;
+    }
+
+    ion-button {
+        height: 30px;
+        width: 30px;
+        font-size: 18px;
+        margin: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --box-shadow: none;
+
+        ion-icon {
+            color: #fff;
+        }
+    }
+
+    ion-title {
+        font-size: 18px;
+        line-height: 27px;
+        font-family: "Nunito-Bold";
+        color: #fff;
+        text-align: center;
+    }
+}
+
+ion-content {
+    --background: #818AF9;
+}
+
+.default-text {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    p {
+        font-size: 18px;
+        color: #fff;
+        line-height: 25px;
+        font-family: "Nunito-Bold";
+        margin: 0;
+    }
+}
+
+.lead-inner {
+    position: relative;
+    height: 670px;
+    overflow: hidden;
+
+    @media screen and (max-width: 350px) {
+        height: 660px;
+    }
+
+    @media screen and (max-width: 335px) {
+        height: 650px;
+    }
+
+    .lead-line {
+        margin: 0 auto;
+        border: 1.5px solid #fff;
+        border-radius: 50%;
+        width: 600px;
+        height: 600px;
+        opacity: 0.3;
+        position: absolute;
+        right: -150px;
+        left: -150px;
+        z-index: -1;
+
+        &.lead-line1 {
+            width: 420px;
+            height: 420px;
+            right: -25%;
+            left: -25%;
+            top: 50px;
+        }
+
+        &.lead-line2 {
+            width: 240px;
+            height: 240px;
+            right: 0;
+            left: 0;
+            top: 140px;
+            background: #8E96FA;
+        }
+    }
+
+    .user-img {
+        width: 56px;
+        height: 56px;
+        background: #fff;
+        border-radius: 50%;
+        margin: 0 auto 6px;
+
+        ion-img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .timer {
+        font-size: 10px;
+        line-height: 15px;
+        display: flex;
+        color: #E6E6E6;
+        justify-content: center;
+        font-family: 'Nunito-SemiBold';
+        align-items: center;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+
+    }
+
+    .rank-raw {
+        display: flex;
+        align-items: flex-end;
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 10px 30px 0;
+
+        .rank-col {
+            width: 95%;
+            text-align: center;
+
+            &.first {
+                width: 100%;
+                position: relative;
+
+                .medal {
+                    position: absolute;
+                    top: -10px;
+                    right: -5px;
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+
+            &.second {
+                margin-bottom: 35px;
+            }
+
+            &.third {
+                margin-bottom: 10px;
+            }
+
+            .detail {
+                margin-bottom: 10px;
+
+                .user-name {
+                    font-size: 14px;
+                    line-height: 21px;
+                    font-family: 'Nunito-Bold';
+                    color: #fff;
+                    display: block;
+                    margin-bottom: 7px;
+                }
+
+                ion-label {
+                    background: #5144B6;
+                    padding: 4px 8px;
+                    border-radius: 8px;
+                    font-size: 10px;
+                    line-height: 15px;
+                    font-family: 'Nunito-SemiBold';
+                    color: #fff;
+                    display: inline-block;
+                    margin-bottom: 7px;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+    }
+
+
+
+    .lead-position {
+        margin: -100px auto 0;
+        position: relative;
+        background: url(/assets/images/leaderBoard-base.png);
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 400px;
+        max-width: 350px;
+        padding: 33px 16px 16px;
+        overflow: hidden;
+
+        @media screen and (max-width: 370px) {
+            margin: -95px 8px 0;
+
+        }
+
+        .position {
+            height: 500px;
+            display: none;
+
+            @media screen and (max-width: 350px) {
+                margin: 0 8px;
+            }
+
+        }
+
+        .card-section {
+            background-color: #EFEEFC;
+            margin: 0 -16px;
+            padding: 0 16px;
+            border-radius: 10px 10px 0 0;
+            overflow: auto;
+            height: 370px;
+        }
+
+        .lead-card {
+            margin-bottom: 16px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 16px 14px 20px 16px;
+            display: flex;
+            align-items: center;
+
+            &:last-child {
+                margin: 0;
+            }
+
+            .rank {
+                border: 1.5px solid #E6E6E6;
+                width: 26px;
+                border-radius: 50%;
+                font-size: 12px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                padding: 3px;
+                display: flex;
+                justify-content: center;
+
+                &.active {
+                    border: 1.5px solid #4B55CD;
+                    background: #4B55CD;
+                    color: #fff;
+                }
+            }
+
+            .user-img {
+                margin: 0 16px;
+            }
+
+            .user-Detail {
+                flex: 1;
+
+                h5 {
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-family: 'Nunito-Bold';
+                    color: #0C092A;
+                    margin: 0 0 4px;
+                }
+
+                ion-label {
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: 'Nunito-SemiBold';
+                    color: #858494;
+                    display: block;
+
+                }
+
+                .timer {
+                    color: #363636;
+                }
+            }
+        }
+    }
+}

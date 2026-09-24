@@ -1,0 +1,36 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>Send Us Message
+    </ion-title>
+    <div class="close-icon" style="padding-left: 90%;" (click)="close()">
+      <ion-icon class="close-icon" name="close"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="modal-inner" *ngIf="enquiryType == 'HUB_ENQUIRY'">
+    <ion-input class="section-value" [(ngModel)]="hubDetls.displayName" placeholder="Full Name"></ion-input>
+    <ion-input class="section-value" [(ngModel)]="hubDetls.email"
+      pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{​|}​~-]+@[a-zA-Z0-9-?:]+\.[a-zA-Z0-9-]+$" placeholder="Email ID"></ion-input>
+    <ion-textarea class="value-textarea" [(ngModel)]="hubDetls.message" placeholder="Your Message"
+      rows="4"></ion-textarea>
+  </div>
+
+  <div class="modal-inner" *ngIf="enquiryType == 'SYLLABUS_ENQUIRY'">
+    <ion-input class="section-value" [(ngModel)]="userDetails.displayName" placeholder="Full Name" readonly></ion-input>
+    <ion-input class="section-value" [(ngModel)]="userDetails.emailId"
+      pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{​|}​~-]+@[a-zA-Z0-9-?:]+\.[a-zA-Z0-9-]+$" placeholder="Email ID"></ion-input>
+    <ion-textarea class="value-textarea" [(ngModel)]="userDetails.message" placeholder="Your Message"
+      rows="4"></ion-textarea>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar" *ngIf="enquiryType == 'HUB_ENQUIRY'">
+    <ion-button class="secondary-btn" [disabled]="null == hubDetls.email || null == hubDetls.message"
+      (click)="sendEnquiry()">Okay</ion-button>
+  </div>
+
+  <div class="footer-toolbar" *ngIf="enquiryType == 'SYLLABUS_ENQUIRY'">
+    <ion-button class="secondary-btn" [disabled]="null == userDetails.message" (click)="sendEnquiry()">Okay</ion-button>
+  </div>
+</ion-footer>

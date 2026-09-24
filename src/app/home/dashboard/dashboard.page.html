@@ -1,0 +1,76 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-inner">
+    <ion-segment class="dashboard-segment" mode="md" [(ngModel)]="segment" [value]="segment">
+      <ion-segment-button value="ALL">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="DYNAMO">
+        <ion-label>Dynamo</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="QUIZWHIZZ">
+        <ion-label>Quiz-Whizz</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="EVENTS">
+        <ion-label>Events</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ng-container *ngIf="isLoading; else content">
+      <ion-skeleton-text animated style="height: 20px; width: 60%; margin: 16px 0;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="height: 72px; width: 100%; border-radius: 12px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="height: 72px; width: 100%; border-radius: 12px; margin-top: 12px;"></ion-skeleton-text>
+    </ng-container>
+
+    <ng-template #content>
+      <ng-container *ngFor="let source of ['DYNAMO','QUIZWHIZZ','EVENTS']">
+        <div class="section" *ngIf="shouldShowSource(source)">
+          <div class="section-title">
+            <h4>{{ getSectionTitle(source) }} ({{ getSectionCount(source) }})</h4>
+          </div>
+
+          <ion-list *ngIf="getRecordsForSource(source).length > 0; else emptyState">
+            <ion-item
+              button
+              detail
+              *ngFor="let r of getRecordsForSource(source); trackBy: trackById"
+              (click)="openRecord(r)"
+            >
+              <ion-label>
+                <h3>{{ r.eventName || 'Event' }}</h3>
+                <p class="sub">
+                  <span *ngIf="r.subjectName">{{ r.subjectName }}</span>
+                  <span *ngIf="r.subjectName && r.completedAtText"> • </span>
+                  <span *ngIf="r.completedAtText">{{ r.completedAtText }}</span>
+                </p>
+                <p class="meta">
+                  <span *ngIf="r.eventCode">Code: {{ r.eventCode }}</span>
+                  <span *ngIf="r.source === 'DYNAMO' && r.category"> • </span>
+                  <span *ngIf="r.source === 'DYNAMO' && r.category">Category: {{ r.category }}</span>
+                  <span *ngIf="(r.eventCode || (r.source === 'DYNAMO' && r.category)) && (getScoreText(r) || getTimeText(r))"> • </span>
+                  <span *ngIf="getScoreText(r)">{{ getScoreText(r) }}</span>
+                  <span *ngIf="getScoreText(r) && getTimeText(r)"> • </span>
+                  <span *ngIf="getTimeText(r)">{{ getTimeText(r) }}</span>
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+          <ng-template #emptyState>
+            <div class="empty">
+              <p>No completed records found.</p>
+              <!-- <p class="hint">Fetched: Dynamo {{rawCounts.dynamo}}, Quiz-Whizz {{rawCounts.quizwhizz}}, User Events {{rawCounts.userEvents}}</p> -->
+            </div>
+          </ng-template>
+        </div>
+      </ng-container>
+    </ng-template>
+  </div>
+</ion-content>

@@ -1,0 +1,190 @@
+<ion-content class="date-ion-content">
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+      <div class="right-top">
+        <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+      </div>
+      <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div>
+
+      <div class="header">
+        <h4 class="title">Cancel Subscription</h4>
+        <div class="note">
+          <p>*Note – You can cancel the subscription and claim for a full refund within a cooling-off period of 72 hours
+            post subscription.</p>
+        </div>
+        <h4>Hi, {{userDetails.displayName}} ...</h4>
+        <span class="disc">Please raise your request for cancel the subscription and claim for a full refund through the
+          options below.</span>
+      </div>
+
+      <div class="custom-body text-center">
+        <ion-button class="outline-btn" fill="outline" (click)="onClickReturnPolicyInfo()">See Refund
+          Policy</ion-button>
+
+        <ion-button class="outline-btn" fill="outline" (click)="callNumber()">
+          <ion-icon class="me-2" name="call"></ion-icon>
+          <span>Call (11 am – 5 pm) [Except Holidays] </span>
+        </ion-button>
+      </div>
+
+      <div class="section">
+        <div class="section-row">
+          <ion-label class="section-label">Reason</ion-label>
+          <ion-select name="state" [(ngModel)]="reason" placeholder="Please Select Reason Name" mode="ios">
+            <ion-select-option *ngFor="let reason of reasonList" [value]="reason.displayName">{{reason.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row">
+          <ion-label class="section-label">Message</ion-label>
+          <ion-textarea name="location" [(ngModel)]="message" placeholder="Enter Message"
+            class="section-value value-textarea">
+          </ion-textarea>
+        </div>
+
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!reason" (click)="confirm()">Submit</ion-button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
+
+<ion-modal #refundPolicyModal class="selectBottomSheet" [isOpen]="isRefundPolicyModalOpen" [initialBreakpoint]=""
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Cancellation And Refund Policy</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="modal-inner">
+        <h2>CANCELLATION AND REFUND POLICY</h2>
+
+        <h4>• CANCELLATION AND REFUND POLICY</h4>
+        <p><i>[As per company’s (LAVNI ASIRANS’s) general rule, all sales/subscription made on Starkwizz platform are
+            final and you shall not be entitled to cancel your plan/product or eligible for a refund request once you
+            have received confirmation of the same. We do not entertain and are not liable to provide refunds, once you
+            subscribe a plan and make the required payment.]*</i></p>
+
+
+        <p class="text-center"><i>But, keeping in mind the customers satisfaction at first and the Starkwizz launching
+            occasion,</i></p>
+
+        <p class="text-center"><b><i>We provide to the customers a 3 days period or option for cancel the subscription
+              and claim for a refund</i></b></p>
+
+        <p class="text-center"><b><i>(Valid up to 31 st July 2025)</i></b></p>
+
+        <p>In case you feel that the plan or product purchased by you is not according to your preferable syllabus, or
+          you are not satisfied with our application and/or you have a valid reason for a cancel or claim the refund,
+          then you must bring it to the notice of our customer service in between 3 days of purchasing the plan. The
+          customer service team, after looking into your complaint, try to resolve the issue through any possible manner
+          before make an appropriate decision. Any cancel or refund request outside of this timeframe may not be
+          considered.</p>
+
+        <p>Because we take users feedback very seriously and use it to improve the service or content quality of our
+          Starkwizz platform, therefore during the time of cancellation or refund request, it is compulsory for you to
+          tell/provide us detail information via the Starkwizz’s “Cancel Subscription and Claim Refund” option (through
+          the application), regarding subject or reason of your such request, along with the details of your purchased
+          plan or product. You also send your request through e-mail regarding the subject or reason of your request,
+          along with the details of your purchased plan or product. The email request has to be made at <a
+            href="https://www.support@starkwizz.com" target="_blank">support&#64;starkwizz.com</a> along with your
+          details such as registered name, class, board, and phone number along with the details of the plan purchased.
+        </p>
+
+        <ul class="decimal">
+          <li>Claim Process:
+            <br>
+            <p>User is eligible to claim for a cancellation or refund if meet the following criteria:</p>
+            <ul class="disc">
+              <li>User has purchased a subscription of “Starkwizz” within the last 3 days.</li>
+              <li>User has used our app during their subscription period.</li>
+              <li>For the cancellation or refund, the user must to be submitting a claim request along with a valid
+                reason through the “Cancel Subscription - Refund Claim” platform of the Starkwizz app or email only.
+              </li>
+            </ul>
+          </li>
+
+          <li>Refund Procedure:
+            <br>
+            <ul class="disc">
+              <li>Once Starkwizz team received a refund request (must be in between 3 days from the date of
+                subscription), they will review the request and determine if it meets the refundable eligibility
+                criteria or not!</li>
+              <li>One of the Starkwizz team members will get in touch (telephonically) with the user to know more
+                about the user’s concern and will try to resolve the same in between the next 7 working days from the
+                date of received the request.</li>
+              <li>Once if the concern is resolved within the stippled time period, the Starkwizz team member will
+                further requesting the user to re-use and/or re-check the application and see whether it meets the user
+                satisfaction or not?</li>
+              <li>Further post re-use, if the user is not satisfied and still have the same concerns/issues as before,
+                then our official will process the cancellation/refund within the next 7-14 working days.</li>
+            </ul>
+          </li>
+
+          <li>Refundable Amount:
+            <br>
+            <ul class="disc">
+              <li>The refund amount will not be exceeding to the total original amount paid by the user (claimer) for
+                the “Starkwizz” subscription only.</li>
+              <li>The subscription amount includes GST (Goods and Services Tax). Upon cancellation, the refund will may
+                be processed after deducting the GST portion, as per government tax regulation.</li>
+            </ul>
+          </li>
+
+          <li>Refund Method:
+            <br>
+            <p>Refunds will be issued through the same payment method used to purchase the subscription. If the payment
+              method is no longer valid, the team member will work with the user to determine an alternative method.</p>
+          </li>
+
+          <li>Non-Refundable Items:
+            <br>
+            <p>Certain items may not be eligible for a refund, such as in-app purchases or other digital content
+              purchased through the app.</p>
+          </li>
+
+          <li>Changes to Refund Policy:
+            <br>
+            <p>We reserve the right to modify or update our refund policy at any time. Users will be notified of any
+              changes to the policy through our app or website.</p>
+          </li>
+
+        </ul>
+
+
+        <h4>• GRIEVANCE</h4>
+        <p>If you believe that any content or information accessible on this platform violates the Cancellation and
+          Refund policy and/or any applicable laws, or if you have any concerns or query regarding our application /
+          website / products / service and/or to know more details about this Cancellation and Refund policy, please
+          feel free to contact at:</p>
+        <p>Grievance Officer: <strong>Mr. ROHIT KUMAR (+91 70134 69329)</strong> </p>
+
+
+        <h4>• CONTACT</h4>
+        <p><strong>LAVNI ASIRANS PRIVATE LIMITED</strong>
+          <br>Telephone: +91 70134 69329
+          <br>Website: <a href="https://www.starkwizz.com" target="_blank">https://www.starkwizz.com</a>
+          <br>Reach out to us at <a href="https://www.support@starkwizz.com"
+            target="_blank">support&#64;starkwizz.com</a>
+          in case of any queries
+        </p>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

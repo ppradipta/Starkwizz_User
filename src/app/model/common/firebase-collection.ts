@@ -1,0 +1,33 @@
+export class FirebaseCollection {
+    public static HUB = 'hubs';
+    public static HUB_OFFERS = 'hubOffers';
+    public static HUB_NOTICES = 'hubNotices';
+    public static HUB_DETAILS = 'hubDetails';
+    public static OTP = 'otp';
+    public static USERS = 'users';
+    public static CLASSES = 'classes';
+    public static SUBJECTS = 'subjects';
+    public static DISCOUNTS = 'discounts';
+    public static USER_SUBSCRIPTION = 'user_subscription';
+    public static HUB_ENQUIRY = 'hub_enquiry';
+    public static EVENTS = 'events';
+    public static BOOKS_CATEGORY = 'books_category';
+    public static MY_ADDS = 'myadds';
+    public static EVENT_INSTRUCTIONS = 'event_instructions';
+    public static USER_EVENTS = 'user_events';
+    public static VIDEO_UPLOAD = 'video_upload';
+    public static FRIEND_REQUESTS = 'friend_requests';
+    public static  USER_NOTIFICATION = 'user_notification';
+    public static USER_RANK_CLASS = 'user_rank_class';
+    public static PARAMETER = 'parameter';
+    public static PARAMETER_TYPES = 'parameter_types';
+    public static MY_FRIENDS = 'my_friends';
+    public static USER_EVENTS_SUBSCRIPTION = 'user_event_subscription';
+    public static QUIZWHIZZ_SUBSCRIPTION = 'quizWhizz_subscription';
+    public static COMBO_OFFERS_SUBSCRIPTION = 'combo_offers_subscription';
+    public static USER_QUIZWHIZZ_EVENTS = 'user_quizwhizz_events';
+    public static MODULES = 'modules';
+    public static EXAM_REWARD = 'user_quizwhizz_exam_reward';
+    public static QUIZWHIZZ_DIGITAL_BADGES = 'user_quizwhizz_digital_badges';
+    public static TRANSACTION = 'transaction';
+}

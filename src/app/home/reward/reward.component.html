@@ -1,0 +1,92 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-title">
+    <h2>QuizWhizz</h2>
+    <!-- <h2>Reward</h2> -->
+  </div>
+  <div class="page-inner">
+    <!-- <p><b>Oops, So Sorry!</b></p>
+    <p>No rewards found on your name for the academic year 2024-25.</p> -->
+
+    <div class="text-start mb-4">
+      <h4><b>Hi, {{this.userDetails.displayName}} …</b></h4>
+      <h4><b>Welcome to My Wallet</b></h4>
+    </div>
+
+    <div class="stars">
+      <ion-icon name="star"></ion-icon>
+      <ion-icon class="star1" name="star"></ion-icon>
+      <ion-icon class="star2" name="star"></ion-icon>
+      <ion-icon class="star3" name="star"></ion-icon>
+      <ion-icon class="star4" name="star"></ion-icon>
+      <ion-icon class="star5" name="star"></ion-icon>
+      <ion-icon class="star6" name="star"></ion-icon>
+      <span>{{allTotalRewardPoint}} Stars</span>
+    </div>
+
+    <div class="totalPoint">
+      <div class="total">
+        <h4>Total</h4>
+        <span>{{allRewardList.length}} Games</span>
+      </div>
+      <div class="months">
+        <div class="currentMonths">
+          <h4>{{currentTotalRewardPoint}} Stars</h4>
+          <ion-label>Current Month</ion-label>
+          <span>{{currentMonthReward.length}} Games</span>
+        </div>
+        <div class="lastMonths">
+          <h4>{{lastTotalRewardPoint}} Stars</h4>
+          <ion-label>Last Month</ion-label>
+          <span>{{lastMonthReward.length}} Games</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <ion-select class="month" interface="popover" placeholder="{{currentMonth}}" mode="ios" [(ngModel)]="selectMonth">
+        <ion-select-option *ngFor="let month of months" [value]="month">{{month.title}}</ion-select-option>
+      </ion-select>
+
+      <ion-button class="border-btn" (click)="searchOrders()">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </div>
+
+
+    <h2 class="mb-3 text-uppercase">{{selectMonth.name}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Game</th>
+          <th>Secured Points</th>
+          <th>Club Name</th>
+          <th>Bonus Points</th>
+          <th>Total Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pnt of currentMonthReward">
+          <td>{{pnt.eventDate | date: 'dd-MM-yyyy'}}</td>
+          <td>{{pnt.type == 'TURTLE_DRIVE' ? 'TD' : 'HR'}}</td>
+          <td>{{pnt.securedMark}}</td>
+          <td>{{pnt.rewardName}}</td>
+          <td>{{pnt.point}}</td>
+          <td>{{pnt.totalPoint}}</td>
+        </tr>
+        <tr *ngFor="let pnt of lastMonthReward">
+          <td>{{pnt.eventDate | date: 'dd-MM-yyyy'}}</td>
+          <td>{{pnt.type == 'TURTLE_DRIVE' ? 'TD' : 'HR'}}</td>
+          <td>{{pnt.securedMark}}</td>
+          <td>{{pnt.rewardName}}</td>
+          <td>{{pnt.point}}</td>
+          <td>{{pnt.totalPoint}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>

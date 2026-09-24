@@ -1,0 +1,64 @@
+<ion-content class="date-ion-content">
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+
+      <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div>
+      <div class="yellowCircel"></div>
+      <div class="procesBar">
+        <h5>Profile</h5>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+            style="width:67%">
+          </div>
+        </div>
+        <div class="processSize">
+          <span>Complete 2/3</span>
+        </div>
+      </div>
+
+      <div class="parent-info">
+        <form name="parentForm" #parentForm="ngForm" autocomplete="off">
+          <div class="input-content">
+            <div class="login-input">
+              <ion-label class="caption">Parent Name</ion-label>
+              <ion-input type="text" name="parentName" id="parentName" placeholder="Enter Parent Name"
+                [ngModel]="userDetails.parentName" (ngModelChange)="userDetails.parentName=$event" required>
+              </ion-input>
+            </div>
+
+            <div class="login-input">
+              <ion-label class="caption">Relation with student</ion-label>
+              <ion-select name="school" [(ngModel)]="userDetails.relationType" [interfaceOptions]="actionSheetRelation"
+              (ngModelChange)="userDetails.relationType=$event" placeholder="Please select">
+                <ion-select-option *ngFor="let type of relationTypes" [value]="type.id">{{type.name}}
+                </ion-select-option>
+              </ion-select>
+            </div>
+
+            <div class="login-input verify-input">
+              <ion-label class="caption">Mobile</ion-label>
+              <div class="country-code">
+                <span>+91</span>
+              </div>
+              <ion-input class="phone" type="text" name="phoneNo" [ngModel]="userDetails.altarnativeNumber"
+              (ngModelChange)="userDetails.altarnativeNumber=$event" id="number" minlength="10"
+              maxlength="10" inputmode="tel" placeholder="XXXXXXXXXX"></ion-input>
+            </div>
+          </div>
+        </form>
+        <div>
+          <ion-button class="secondary-btn" [disabled]="!parentForm.valid" (click)="onClickProceed()">Proceed
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

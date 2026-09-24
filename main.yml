@@ -1,0 +1,375 @@
+parameters:
+  - name: deployToDev
+    type: boolean
+    default: true
+  - name: deployToProd
+    type: boolean
+    default: false
+
+trigger: none
+
+stages:
+- stage: DEVDeploy
+  displayName: "Dev Deployment"
+  condition: eq(${{ parameters.deployToDev }}, true)
+  pool:
+    name: Default
+  variables:
+    Node_Version: '18.x'
+    Angular_Env: 'production'
+    DistPath: 'www'
+    Deploy_Path: 'C:\Apps\starkwizz.appman.in'
+    Site_Name: 'starkwizz.appman.in'
+    Host_Header: 'starkwizz.appman.in'
+  
+  jobs:
+  - job: Deploy
+    displayName: "Deployment Steps"
+    steps:
+
+    # 1️⃣ Install Node.js
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: $(Node_Version)
+
+    # 2️⃣ Install Dependencies
+    - script: |
+        npm ci --legacy-peer-deps
+      displayName: 'Install Dependencies'
+
+    # 3️⃣ Run Unit Tests only on dev branch
+    - script: |
+        echo "Running tests only on dev branch..."
+        npm run test -- --watch=false || echo "Tests ignored on main"
+      condition: eq(variables['Build.SourceBranchName'], 'dev')
+      displayName: 'Run Unit Tests (dev only)'
+      continueOnError: true
+
+    # 4️⃣ Build Angular App
+    - script: |
+        npm run build -- --configuration=$(Angular_Env)
+      displayName: 'Build Angular App'
+
+    # 5️⃣ Auto-generate web.config in dist/browser
+    - task: PowerShell@2
+      displayName: 'Generate web.config for Angular/IIS'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $configPath = "$(Build.SourcesDirectory)\$(DistPath)\web.config"
+          Write-Host "Generating web.config at: $configPath"
+
+          $content = @"
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <system.webServer>
+              <directoryBrowse enabled="false" />
+
+              <staticContent>
+                <remove fileExtension=".json" />
+                <mimeMap fileExtension=".json" mimeType="application/json" />
+                <remove fileExtension=".webp" />
+                <mimeMap fileExtension=".webp" mimeType="image/webp" />
+                <remove fileExtension=".woff" />
+                <mimeMap fileExtension=".woff" mimeType="font/woff" />
+                <remove fileExtension=".woff2" />
+                <mimeMap fileExtension=".woff2" mimeType="font/woff2" />
+                <remove fileExtension=".svg" />
+                <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+              </staticContent>
+
+              <rewrite>
+                <rules>
+                  <rule name="AngularRoutes" stopProcessing="true">
+                    <match url=".*" />
+                    <conditions logicalGrouping="MatchAll">
+                      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+                      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" url="/index.html" />
+                  </rule>
+                </rules>
+              </rewrite>
+
+              <httpErrors errorMode="DetailedLocalOnly" existingResponse="PassThrough" />
+            </system.webServer>
+          </configuration>
+          "@
+
+          $dir = Split-Path $configPath
+          if (!(Test-Path $dir)) {
+            Write-Host "Creating directory: $dir"
+            New-Item -ItemType Directory -Path $dir -Force | Out-Null
+          }
+
+          Set-Content -Path $configPath -Value $content -Encoding UTF8 -Force
+          Write-Host "✓ web.config generated successfully."
+
+    # 6️⃣ Verify dist exists
+    - task: PowerShell@2
+      displayName: 'Verify Build Output'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $distPath = "$(Build.SourcesDirectory)\$(DistPath)"
+          if (!(Test-Path $distPath)) {
+            Write-Host "##[error]Output folder $distPath not found!"
+            exit 1
+          }
+          Write-Host "✓ Build output found in $distPath"
+          Get-ChildItem -Path $distPath | ForEach-Object { Write-Host "  $($_.Name)" }
+
+    # 7️⃣ Deploy to Windows Server (IIS)
+    - task: PowerShell@2
+      displayName: 'Deploy to Windows Server'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "=== Deployment Started ==="
+
+          $source = "$(Build.SourcesDirectory)\$(DistPath)"
+          $destination = "$(Deploy_Path)"
+
+          Write-Host "Source: $source"
+          Write-Host "Destination: $destination"
+
+          if (!(Test-Path $destination)) {
+            New-Item -Path $destination -ItemType Directory -Force | Out-Null
+          }
+
+          # Stop app pool before deployment
+          Import-Module WebAdministration -ErrorAction SilentlyContinue
+          $appPoolState = Get-WebAppPoolState -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+          if ($appPoolState.Value -eq "Started") {
+            Stop-WebAppPool -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 2
+          }
+
+          # Backup existing deployment
+          $backupFolder = "C:\Apps\Backups"
+          if (!(Test-Path $backupFolder)) {
+            New-Item -Path $backupFolder -ItemType Directory -Force | Out-Null
+          }
+          
+          if (Test-Path "$destination\index.html") {
+            $backup = "$backupFolder\$(Site_Name)-backup-" + (Get-Date -Format "yyyyMMdd-HHmmss")
+            Copy-Item -Path $destination -Destination $backup -Recurse -Force
+            Write-Host "Backup created: $backup"
+          }
+
+          # Clear old deployment
+          Get-ChildItem -Path $destination -Recurse -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
+          # Copy new files
+          Copy-Item -Path "$source\*" -Destination $destination -Recurse -Force
+
+          if (!(Test-Path "$destination\index.html")) {
+            Write-Host "##[error]index.html missing after deployment!"
+            exit 1
+          }
+
+          if (!(Test-Path "$destination\web.config")) {
+            Write-Host "##[error]web.config missing!"
+            exit 1
+          }
+
+          # Set permissions
+          Write-Host "Setting permissions..."
+          icacls $destination /grant "IIS_IUSRS:(OI)(CI)RX" /T /Q
+          icacls $destination /grant "IUSR:(OI)(CI)RX" /T /Q
+          icacls $destination /grant "IIS AppPool\DefaultAppPool:(OI)(CI)RX" /T /Q
+
+          # Start app pool
+          Start-WebAppPool -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+
+          # Check if URL Rewrite module is loaded
+          $rewriteLoaded = Get-WebGlobalModule -Name "RewriteModule" -ErrorAction SilentlyContinue
+          if ($rewriteLoaded) {
+            Write-Host "✓ URL Rewrite module is loaded."
+          } else {
+            Write-Host "##[warning]URL Rewrite module not loaded in IIS."
+          }
+
+          Write-Host "✓ Deployment Completed Successfully."
+
+    # 8️⃣ Publish Artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifacts'
+      inputs:
+        PathtoPublish: $(Build.SourcesDirectory)\$(DistPath)
+        ArtifactName: 'drop-dev'
+
+- stage: ProductionDeploy
+  displayName: "Production Deployment"
+  condition: eq(${{ parameters.deployToProd }}, true)
+  pool:
+    name: Prod
+  variables:
+    Node_Version: '18.x'
+    Angular_Env: 'production'
+    DistPath: 'www'
+    Deploy_Path: 'C:\Applications\starkwizz.appman.tech'
+    Site_Name: 'starkwizz.appman.tech'
+    Host_Header: 'starkwizz.appman.tech'
+  
+  jobs:
+  - job: Deploy
+    displayName: "Deployment Steps"
+    steps:
+
+    # 1️⃣ Install Node.js
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: $(Node_Version)
+
+    # 2️⃣ Install Dependencies
+    - script: |
+        npm ci --legacy-peer-deps
+      displayName: 'Install Dependencies'
+
+    # 3️⃣ Build Angular App
+    - script: |
+        npm run build -- --configuration=$(Angular_Env)
+      displayName: 'Build Angular App'
+
+    # 4️⃣ Auto-generate web.config
+    - task: PowerShell@2
+      displayName: 'Generate web.config for Angular/IIS'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $configPath = "$(Build.SourcesDirectory)\$(DistPath)\web.config"
+          Write-Host "Generating web.config at: $configPath"
+
+          $content = @"
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <system.webServer>
+              <directoryBrowse enabled="false" />
+
+              <staticContent>
+                <remove fileExtension=".json" />
+                <mimeMap fileExtension=".json" mimeType="application/json" />
+                <remove fileExtension=".webp" />
+                <mimeMap fileExtension=".webp" mimeType="image/webp" />
+                <remove fileExtension=".woff" />
+                <mimeMap fileExtension=".woff" mimeType="font/woff" />
+                <remove fileExtension=".woff2" />
+                <mimeMap fileExtension=".woff2" mimeType="font/woff2" />
+                <remove fileExtension=".svg" />
+                <mimeMap fileExtension=".svg" mimeType="image/svg+xml" />
+              </staticContent>
+
+              <rewrite>
+                <rules>
+                  <rule name="AngularRoutes" stopProcessing="true">
+                    <match url=".*" />
+                    <conditions logicalGrouping="MatchAll">
+                      <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+                      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+                    </conditions>
+                    <action type="Rewrite" url="/index.html" />
+                  </rule>
+                </rules>
+              </rewrite>
+
+              <httpErrors errorMode="DetailedLocalOnly" existingResponse="PassThrough" />
+            </system.webServer>
+          </configuration>
+          "@
+
+          $dir = Split-Path $configPath
+          if (!(Test-Path $dir)) {
+            New-Item -ItemType Directory -Path $dir -Force | Out-Null
+          }
+
+          Set-Content -Path $configPath -Value $content -Encoding UTF8 -Force
+          Write-Host "✓ web.config generated successfully."
+
+    # 5️⃣ Verify dist exists
+    - task: PowerShell@2
+      displayName: 'Verify Build Output'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $distPath = "$(Build.SourcesDirectory)\$(DistPath)"
+          if (!(Test-Path $distPath)) {
+            Write-Host "##[error]Output folder $distPath not found!"
+            exit 1
+          }
+          Write-Host "✓ Build output found in $distPath"
+
+    
+    # 7️⃣ Deploy to Windows Server
+    - task: PowerShell@2
+      displayName: 'Deploy to Windows Server'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "=== Deployment Started ==="
+
+          $source = "$(Build.SourcesDirectory)\$(DistPath)"
+          $destination = "$(Deploy_Path)"
+
+          Write-Host "Source: $source"
+          Write-Host "Destination: $destination"
+
+          if (!(Test-Path $destination)) {
+            New-Item -Path $destination -ItemType Directory -Force | Out-Null
+          }
+
+          Import-Module WebAdministration -ErrorAction SilentlyContinue
+          $appPoolState = Get-WebAppPoolState -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+          if ($appPoolState.Value -eq "Started") {
+            Stop-WebAppPool -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 2
+          }
+
+          $backupFolder = "C:\Applications\Backups"
+          if (!(Test-Path $backupFolder)) {
+            New-Item -Path $backupFolder -ItemType Directory -Force | Out-Null
+          }
+          
+          if (Test-Path "$destination\index.html") {
+            $backup = "$backupFolder\$(Site_Name)-backup-" + (Get-Date -Format "yyyyMMdd-HHmmss")
+            Copy-Item -Path $destination -Destination $backup -Recurse -Force
+            Write-Host "Backup created: $backup"
+          }
+
+          Get-ChildItem -Path $destination -Recurse -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+          Copy-Item -Path "$source\*" -Destination $destination -Recurse -Force
+
+          if (!(Test-Path "$destination\index.html")) {
+            Write-Host "##[error]index.html missing after deployment!"
+            exit 1
+          }
+
+          if (!(Test-Path "$destination\web.config")) {
+            Write-Host "##[error]web.config missing!"
+            exit 1
+          }
+
+          Write-Host "Setting permissions..."
+          icacls $destination /grant "IIS_IUSRS:(OI)(CI)RX" /T /Q
+          icacls $destination /grant "IUSR:(OI)(CI)RX" /T /Q
+          icacls $destination /grant "IIS AppPool\DefaultAppPool:(OI)(CI)RX" /T /Q
+
+          Start-WebAppPool -Name "DefaultAppPool" -ErrorAction SilentlyContinue
+
+          $rewriteLoaded = Get-WebGlobalModule -Name "RewriteModule" -ErrorAction SilentlyContinue
+          if ($rewriteLoaded) {
+            Write-Host "✓ URL Rewrite module is loaded."
+          } else {
+            Write-Host "##[warning]URL Rewrite module not loaded in IIS."
+          }
+
+          Write-Host "✓ Deployment Completed Successfully."
+
+    # 8️⃣ Publish Artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifacts'
+      inputs:
+        PathtoPublish: $(Build.SourcesDirectory)\$(DistPath)
+        ArtifactName: 'drop-prod'

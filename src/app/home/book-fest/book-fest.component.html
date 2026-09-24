@@ -1,0 +1,61 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <div class="search-bar">
+      <ion-searchbar mode="ios" [(ngModel)]="searchValue" (ionInput)="searchBookAds($event)"
+        (ionCancel)="cancelSearch()" (ionClear)="cancelSearch()"></ion-searchbar>
+    </div>
+    <div class="page-inner">
+      <div>
+        <div class="d-flex align-items-center justify-content-between p-2">
+          <ion-label class="inner-title">Browse categories</ion-label>
+          <ion-button fill="clear" class="clear-btn">View all</ion-button>
+        </div>
+        <div class="category-container">
+          <div class="category-box" *ngFor="let list of category" [ngClass]="{ 'diseabled' : !list.isActive }">
+            <div class="box-img">
+              <ion-img src="{{list.img}}"></ion-img>
+            </div>
+            <ion-label>{{list.name}}</ion-label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <ion-label class="inner-title p-2">Recommendations</ion-label>
+        <div class="book-container">
+
+          <div class="book-box" *ngFor="let book of recomndedBooksList" (click)="onClickDeatil(book)">
+            <div class="box-img">
+              <!-- <swiper [config]="bookphotosSwiperConfig" [autoplay]="true">
+                <ng-template swiperSlide *ngFor="let photo of book.photos">
+                  <ion-img [src]="photo"></ion-img>
+                </ng-template>
+              </swiper> -->
+              <swiper-container slides-per-view="1" speed="500" loop="true" css-mode="true">
+                <swiper-slide *ngFor="let photo of book.photos"> <ion-img [src]="photo"></ion-img></swiper-slide>
+              </swiper-container>
+            </div>
+            <span class="book-desc">{{book.bookName}}</span>
+            <ion-label class="box-label">Actual price</ion-label>
+            <span class="actual-price">{{book.bookPrice}}</span>
+            <ion-label class="box-label">Offer price</ion-label>
+            <div class="offer-price">
+              <ion-label>{{book.discount}}</ion-label>
+              <span>({{book.discountPercentage}}% off)</span>
+            </div>
+            <!-- <ion-label class="box-label">Location</ion-label> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="onClickAds()">
+    <ion-fab-button>
+      <ion-img src="/assets/images/ads-icon.svg"></ion-img>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

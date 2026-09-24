@@ -1,0 +1,48 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <h4>Hi, {{userDetails.firstName}}</h4>
+    <ion-label>What would you like to learn today?</ion-label>
+    <div class="section-label">
+      <span>{{userDetails.boardName}}</span>
+    </div>
+    <div class="section-label">
+      <span>Class {{userDetails.className}}</span>
+    </div>
+    <div class="select-container">
+      <ion-select placeholder="Select Subject" interface="popover" mode="ios" (ionChange)="selectSubjects($event)">
+        <ion-select-option *ngFor="let subject of subjects" [value]="subject.id">{{subject.displayName}}</ion-select-option>
+      </ion-select>
+      <ion-select placeholder="Select Chapter" interface="popover" mode="ios" (ionChange)="selectModul($event)">
+        <ion-select-option *ngFor="let module of modules" [value]="module.id">{{module.displayName}}</ion-select-option>
+      </ion-select>
+      <!-- <ion-select placeholder="Select Language" interface="popover" mode="ios">
+        <ion-select-option>All</ion-select-option>
+        <ion-select-option>English-Hindi</ion-select-option>
+        <ion-select-option>English-Odia</ion-select-option>
+      </ion-select> -->
+    </div>
+  </div>
+  <div class="header-toolbar">
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+      <ion-segment-button value="videoClass">
+        <ion-label>Video Classes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button class="mx-1" value="Questionnaire">
+        <ion-label>Questionnaire</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="doubtSession">
+        <ion-label>Doubt Session</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-btn">
+      <ion-button class="secondary-btn" (click)="onClickProceed()">Proceed</ion-button>
+  </div>
+</ion-footer>

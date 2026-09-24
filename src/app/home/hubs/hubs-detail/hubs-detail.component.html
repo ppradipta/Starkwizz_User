@@ -1,0 +1,110 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+
+    <div class="card-container">
+      <ion-card>
+        <ion-card-header>
+          <img [src]="hubDetls.imgUrl">
+        </ion-card-header>
+        <ion-card-content>
+          <div class="hubs-info">
+            <h3>{{hubDetls.displayName}}</h3>
+            <h4>{{hubDetls.dealsIn}}</h4>
+            <p>{{hubDetls.locationText}}</p>
+          </div>
+          <div class="rating">
+            <div class="rating-box">
+              <span>{{hubDetls.rating}}</span>
+            </div>
+            <div class="d-flex">
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star" class="fillStar"></ion-icon>
+              <ion-icon name="star-half" class="halfStar"></ion-icon>
+            </div>
+          </div>
+          <div class="d-flex align-items-center my-4">
+            <div class="info-icon" (click)="callNumber()">
+              <img src="/assets/images/call-icon.svg">
+              <span>Call</span>
+            </div>
+            <div class="info-icon" (click)="openInMap()">
+              <img src="/assets/images/map-icon.svg">
+              <span>Map</span>
+            </div>
+            <div class="info-icon" (click)="whatsAppChat()">
+              <img src="/assets/images/whatsapp-icon.svg">
+              <span>WhatsApp</span>
+            </div>
+          </div>
+          <div class="btn-group">
+            <ion-button class="card-btn" fill="outline" (click)="onClickOffer()">Offers</ion-button>
+            <ion-button class="card-btn" fill="outline" (click)="onClickNotice()">Notice</ion-button>
+          </div>
+          <div class="eventcard-footer">
+            <ion-button fill="outline" class="card-btn" (click)="onClickEnquiry()">Enquire Now</ion-button>
+          </div>
+          <div class="hub-photos">
+            <ion-label class="eventcard-title">Photos</ion-label>
+            <div class="photos-container">
+              <div class="photos" *ngFor="let photo of hubDetls.photos">
+                <img [src]="photo">
+              </div>
+            </div>
+            <!-- <ion-button class="card-btn" fill="outline">Upload Photos
+              <ion-input type="file" (change)="fileChangeEvent($event)"></ion-input>
+            </ion-button> -->
+          </div>
+          <div class="hub-info">
+            <ion-icon name="map-outline"></ion-icon>
+            <p>{{hubDetls.locationText}}</p>
+          </div>
+          <div class="hub-info">
+            <ion-icon name="time-outline"></ion-icon>
+            <ion-list>
+              <ion-item *ngFor="let workingday of hubDetls.workingDays">
+                <ion-label *ngIf="workingday.startTime != null && workingday.endTime != null">{{workingday.name}} :
+                  {{workingday.startTime}} - {{workingday.endTime}}</ion-label>
+                <ion-label *ngIf="workingday.startTime == null && workingday.endTime == null">{{workingday.name}} :
+                  Closed </ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+          <div class="hub-info" (click)="callNumber()">
+            <ion-icon name="call-outline"></ion-icon>
+            <p>{{hubDetls.phoneNumber}}</p>
+          </div>
+          <div class="hub-website">
+            <ion-label class="eventcard-title">Follow us</ion-label>
+            <div class="d-flex align-items-center mt-3">
+              <div class="app-icon">
+                <img src="/assets/images/facebook-icon.svg">
+              </div>
+              <div class="app-icon">
+                <img src="/assets/images/instagram-icon.svg">
+              </div>
+              <div class="app-icon">
+                <img src="/assets/images/twitter-icon.svg">
+              </div>
+            </div>
+          </div>
+          <div class="hub-rating">
+            <ion-label class="eventcard-title">Reviews & Ratings</ion-label>
+            <div class="d-flex align-items-center mt-3">
+              <div class="rating-box">
+                <span>{{hubDetls.rating}}</span>
+              </div>
+              <p>{{hubDetls.ratedCount}}</p>
+            </div>
+
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

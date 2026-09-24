@@ -1,0 +1,430 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    min-height: 0;
+}
+
+.header-md::after {
+    height: 1px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    box-shadow: 0 2px 10px #ccc;
+    z-index: 2;
+
+    h4 {
+        font-size: 18px;
+        line-height: 20px;
+        font-family: "Nunito-Bold";
+        color: #0A395A;
+        margin-bottom: 8px;
+    }
+
+    span {
+        font-size: 15px;
+        line-height: 16px;
+        font-family: "Nunito-SemiBold";
+        display: block;
+        margin: 0;
+        color: #0A395A;
+    }
+
+    ion-button {
+        margin: 0;
+        --background: #51C1E9;
+        --color: #0A395A;
+        text-transform: capitalize;
+        letter-spacing: 0;
+        font-family: "Nunito-SemiBold";
+        font-size: 16px;
+        --border-radius: 4px;
+        --box-shadow: 0;
+        height: 32px;
+        --padding-start: 10px;
+        --padding-end: 10px;
+    }
+}
+
+.page-container {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(56px + var(--ion-safe-area-bottom));
+
+    h4 {
+        font-size: 18px;
+        line-height: 20px;
+        font-family: "Nunito-SemiBold";
+        display: block;
+        margin: 0 0 10px;
+        color: #0A395A;
+    }
+
+    .event-card {
+        width: 100%;
+        border-radius: 15px;
+        overflow: visible;
+        // background: url(/assets/images/subject-img1.svg);
+        background: #1C9EBA;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: cover !important;
+        margin-bottom: 16px;
+
+        .card-inner {
+            padding: 40px 16px 12px;
+            position: relative;
+
+            .price {
+                padding: 6px 12px;
+                background-color: #fff;
+                border-radius: 0 0 0 10px;
+                overflow: hidden;
+                color: #0A395A;
+                font-size: 16px;
+                line-height: 18px;
+                font-family: "Nunito-SemiBold";
+                position: absolute;
+                top: 34px;
+                right: 0;
+                left: unset;
+            }
+
+            .event-ribbon {
+                width: 90px;
+                height: 90px;
+                overflow: hidden;
+                position: absolute;
+                top: -8px;
+                left: -8px;
+
+                &::before,
+                &::after {
+                    position: absolute;
+                    z-index: -1;
+                    content: "";
+                    display: block;
+                    border: 5px solid #ffc107;
+                    border-top-color: transparent;
+                    border-left-color: transparent;
+                }
+
+                &::before {
+                    top: 0;
+                    right: 0;
+                }
+
+                &::after {
+                    bottom: 0;
+                    left: 0;
+                }
+
+                span {
+                    position: absolute;
+                    display: block;
+                    width: 135px;
+                    padding: 4px 0;
+                    background-color: #ffc107;
+                    box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
+                    color: #fff;
+                    text-shadow: 0 1px 1px rgb(0 0 0 / 20%);
+                    text-transform: capitalize;
+                    text-align: center;
+                    right: -12px;
+                    top: 22px;
+                    transform: rotate(-45deg);
+                    font-size: 14px;
+                    font-family: "Nunito-Bold";
+                }
+            }
+
+            .viewMore-btn {
+                padding: 6px 14px;
+                background-color: #00000073;
+                border-radius: 0 16px 0 10px;
+                overflow: hidden;
+                color: #fff;
+                font-size: 15px;
+                line-height: 18px;
+                font-family: "Nunito-SemiBold";
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+
+        .card-label {
+            font-size: 14px;
+            line-height: 16px;
+            font-family: "Nunito-SemiBold";
+            display: block;
+            margin: 0 0 4px 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .card-value {
+            font-size: 16px;
+            line-height: 20px;
+            font-family: "Nunito-regular";
+            display: block;
+            margin: 0;
+            color: #fff;
+
+            &.format {
+                font-size: 13px;
+                line-height: 15px;
+            }
+        }
+
+        .event-class {
+            font-size: 17px;
+            line-height: 26px;
+            font-family: "Nunito-Bold";
+            display: block;
+            margin: 0;
+            color: #fff;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+            padding: 0 16px;
+
+            .name {
+                text-align: center;
+                width: 100%;
+
+                h4 {
+                    text-align: center;
+                    font-size: 17px;
+                    line-height: 22px;
+                    font-family: "Nunito-Bold";
+                    display: block;
+                    margin-bottom: 6px;
+                    color: #fff;
+                }
+            }
+
+            .subject {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                span {
+                    font-size: 14px;
+                    line-height: 16px;
+                    font-family: "Nunito-regular";
+                    display: block;
+                    margin: 0 4px 0 0;
+                    color: #fff;
+                    text-align: center;
+                }
+
+                ion-label {
+                    font-size: 15px;
+                    line-height: 20px;
+                    font-family: "Nunito-Bold";
+                    display: block;
+                    margin: 0;
+                    color: #fff;
+                }
+            }
+        }
+
+        .card-body {
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+
+            .event-info {
+                text-align: center;
+            }
+        }
+
+        .card-footer {
+            padding: 4px;
+            border: 0;
+            border-radius: 0;
+
+            &.two-btn {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                ion-button {
+                    width: calc(50% - 2px) !important;
+                    --border-radius: 0 0 0 10px;
+
+                    &:last-child {
+                        --background: transparent;
+                        --color: #144466;
+                        --border-color: #144466;
+                        --border-width: 2px;
+                        --border-style: solid;
+                        --border-radius: 0 0 10px 0;
+                    }
+                }
+            }
+
+            ion-button {
+                width: 100%;
+                --background: #fff;
+                --color: #0A395A;
+                text-transform: capitalize;
+                font-size: 16px;
+                letter-spacing: 0;
+                font-family: 'Nunito-Bold';
+                height: 34px;
+                --border-radius: 10px;
+                --box-shadow: none;
+                margin: 0;
+            }
+        }
+    }
+}
+
+swiper-container {
+    swiper-slide {
+        width: 100%;
+        height: 200px !important;
+        background: transparent linear-gradient(226deg, #FFFFFF 0%, #51C1E9 100%) 0% 0% no-repeat padding-box;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px 20px;
+
+        ion-label {
+            font-size: 18px;
+            line-height: 22px;
+            font-family: "Nunito-SemiBold";
+            color: #0A395A;
+            margin-bottom: 8px;
+
+            span {
+                color: red;
+            }
+        }
+
+        span {
+            font-size: 18px;
+            line-height: 20px;
+            font-family: "Nunito-SemiBold";
+            color: #0A395A;
+            margin-bottom: 0;
+        }
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #fff;
+    }
+
+    .swiper-pagination-bullet {
+        background: #fff;
+    }
+
+}
+
+ion-list {
+    --background: transparent;
+    padding: 10px 16px;
+
+    &.center {
+        // min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+.default-text {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    font-family: "Nunito-SemiBold";
+    display: block;
+    color: #999;
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    text-align: left;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 18px;
+    line-height: 20px;
+    font-family: "Nunito-SemiBold";
+    color: #0A395A;
+}
+
+.header-toolbar {
+    padding: 20px 10px 0;
+    margin-bottom: 30px;
+
+    ion-segment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+
+        ion-segment-button {
+            width: 33.33%;
+            background: transparent;
+            color: #70CFED;
+            height: 34px;
+            font-size: 14px;
+            --border-radius: 30px;
+            --border-width: 2px;
+            --border-color: #70CFED;
+            --border-style: solid;
+            --box-shadow: none;
+            margin: 0;
+
+            @media screen and (max-width: 350px) {
+                font-size: 12px;
+                height: 30px;
+            }
+
+            &.segment-button-checked {
+                background: #70CFED;
+                color: #0A395A;
+
+                ion-label {
+                    &::after {
+                        height: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.expire-btn {
+    --color: #e41526 !important;
+}
+
+ion-skeleton-text {
+    margin: 0;
+}
+
+.event-code {
+    color: #fff;
+    font-size: 10px;
+    line-height: 15px;
+    font-family: "Nunito-SemiBold";
+    position: absolute;
+    top: 8px;
+    text-align: right;
+    right: 60px;
+}

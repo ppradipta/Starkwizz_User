@@ -1,0 +1,78 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="question-card" [ngStyle]="{'background': selectedSubject?.colorCode}">
+      <div class="card-heading">
+        <ion-label>{{userEventData.eventName}}</ion-label>
+        <span class="code">{{userEventData.eventCode}}</span>
+        <span>{{userEventData.subjectName}}</span>
+      </div>
+
+      <div class="classContainer" *ngFor="let item of questionList; let i = index">
+        <div>
+          <span class="question-status">{{ item.status === 'SKIPPED' ? 'Skipped' : 'Attempt'}}</span>
+
+          <div class="inner-card">
+            
+              <div class="meta-row">
+                <span>Question No : <b>{{i + 1}}</b></span>
+                <span>Time Taken : <b>{{ item.timeTakenUsDisplay ?? (item.timeTakenSeconds != null ? (item.timeTakenSeconds + ' sec') : '-') }}</b></span>
+                <span>Point : <b>{{item.mark}}</b></span>
+              </div>
+            
+            <span *ngIf="item.answers.length>1">Multi Choice :<b>Yes</b></span>
+            <div class="question-img" *ngIf="item.url">
+              <ion-img [src]="item.url"></ion-img>
+            </div>
+            <div [innerHTML]="item?.text"></div>
+            <!-- <span>Question Explain </span>
+            <div class="page-inner" [innerHTML]="item?.questionExplanationText">
+            </div> -->
+          </div>
+
+          <ion-list class="option-list">
+            <ion-item class="{{option.selected}}" *ngFor="let option of item.options">
+              <ion-label>
+                <span>{{option.sequence}}</span>
+                <div class="option-inner">
+                  <p>{{option.text}}</p>
+                  <div class="option-img" *ngIf="option.url">
+                    <ion-img [src]="option.url"> </ion-img>
+                  </div>
+                </div>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+          <div class="ansExplain" (click)="onClickAnswerExplanation(item)">
+            <label class="code">Answer Explanation</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Answer Explanation modal: used for QuizWhizz + Events paid users -->
+<ion-modal class="selectBottomSheet" [isOpen]="isAnsExplainModalOpen" [initialBreakpoint]="1.0"
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Answer Explanation</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="page-inner" *ngIf="selectedQuestion?.ansExplanationText" [innerHTML]="selectedQuestion?.ansExplanationText"></div>
+      <div class="page-inner" *ngIf="!selectedQuestion?.ansExplanationText && selectedQuestion?.questionExplanationText"
+        [innerHTML]="selectedQuestion?.questionExplanationText"></div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+

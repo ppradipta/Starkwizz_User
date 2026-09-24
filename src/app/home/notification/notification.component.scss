@@ -1,0 +1,76 @@
+.main-header {
+    background: #fff;
+    height: 90px;
+    padding: 30px 16px 10px;
+    display: flex;
+    ion-buttons {
+        ion-button {
+            color: #70CFED;
+            height: 36px;
+            width: 36px;
+            font-size: 24px;
+            margin: 0;
+            --padding-start: 2px;
+            --padding-end: 2px;
+        }
+    }
+    .header-logo {
+        flex: 1;
+        margin: 0 16px;
+        ion-img {
+            max-width: 140px;
+            margin: 0 auto;
+        }
+    }
+    .notify-icon {
+        font-size: 32px;
+        color: #70CFED;
+    }
+}
+
+.noMsgText {
+    color: #0A395A;
+    font-size: 15px;
+}
+
+.clear-btn { 
+    font-size: 17px;
+    font-family: "Nunito-Bold";
+    --ripple-color: #0A395A;
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    --padding-end: 8px;
+    --padding-start: 8px;
+}
+
+ion-card {
+    background: #fff; 
+    margin: 0 16px 12px !important;
+    box-shadow: 0px 2px 10px #00000033;
+    ion-card-content {
+        padding: 14px;
+    }
+    .notify-text {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 18px;
+        color: #0A395A;
+        margin: 0 !important;
+        font-family: "Nunito-Bold";
+      }
+    small {
+        font-size: 14px;
+        line-height: 18px;
+        color: #757575;
+        margin: 8px 0;
+        display: block;
+        font-family: "Nunito-Regular";
+    }
+    .notify-date {
+        font-size: 12px;
+        line-height: 14px;
+        margin: 0;
+        color: #0A395A;
+        font-family: "Nunito-Regular";
+    }
+}

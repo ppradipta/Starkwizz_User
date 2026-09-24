@@ -1,0 +1,27 @@
+<ion-content>
+  <div class="offer-card">
+    <div class="card-header">
+      <ion-label>Total Price <b>{{totalPrice}}/ year</b></ion-label>
+    </div>
+    <div class="card-body">
+      <div class="body-left">
+        <div class="d-flex align-items-center justify-content-center mb-2">
+          <span>Pay</span>
+          <ion-label>{{discountedPrice}}/ year</ion-label>
+        </div>
+        <!-- <ion-text *ngIf="gstAmount>0">*GST ({{gstDetails?.typeValue}}%) {{gstAmount}}</ion-text> -->
+      </div>
+      <div class="btn-container">
+        <ion-button class="pay-btn" (click)="onClickSkipPayment()" *ngIf="isFreeTrial == true">Skip</ion-button>
+        <!-- <ion-button class="pay-btn" (click)="onClickPay()">Pay</ion-button> -->
+        <ion-button class="pay-btn" (click)="onClickView()">Proceed</ion-button>
+      </div>
+    </div>
+    <div class="discount-label" *ngIf="userReferal?.discount?.type=='FLAT'">
+      <span>- {{totalDiscountTypeValue}}</span>
+    </div>
+    <div class="discount-label" *ngIf="userReferal?.discount?.type=='PERCENTAGE'">
+      <span>- {{totalDiscountTypeValue}}%</span>
+    </div>
+  </div>
+</ion-content>

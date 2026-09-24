@@ -1,0 +1,31 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="page-heading">
+      <h2>Offers for you</h2>
+    </div>
+    <div class="card-container">
+      <ion-card *ngFor="let hubOffers of offers;">
+        <ion-card-content>
+          <div class="d-flex justify-content-between">
+            <div class="offer-info">
+              <h3>{{hubOffers.name}}</h3>
+              <p>{{hubOffers.description}}</p>
+            </div>
+            <div class="d-flex justify-content-between flex-column">
+              <div class="offer-img">
+                <ion-img [src]="hubOffers.photos?hubOffers.photos:'/assets/images/offer-img.svg'"></ion-img>
+              </div>
+              <!-- <div class="right-arrow">
+                <ion-icon name="chevron-forward-circle"></ion-icon>
+              </div> -->
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

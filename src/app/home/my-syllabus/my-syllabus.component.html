@@ -1,0 +1,68 @@
+<!-- <ion-header>
+  <app-header></app-header>
+</ion-header> -->
+
+<ion-content class="date-ion-content">
+  <!-- <div class="page-title">
+    <h2>My Syllabus</h2>
+  </div>
+  <div class="page-inner">
+    <p>You can add your syllabus here for the upcoming academic year 2025-26 from</p>
+    <p><b>10th March 2025</b></p>
+  </div> -->
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+      <div class="right-top">
+        <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+      </div>
+      <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div>
+
+      <div class="header">
+        <h2>My Syllabus</h2>
+        <h4>Hi, {{userDetails.displayName}}</h4>
+        <span class="decs">Please check and confirm your academic details.</span>
+      </div>
+
+      <div class="custom-card">
+        <div class="card-col">
+          <ion-label>Education Board</ion-label>
+          <span>{{userDetails.boardName}}</span>
+        </div>
+        <div class="card-col">
+          <ion-label>Class/Standard</ion-label>
+          <span>{{userDetails.className}} ({{userDetails.classNameWord}} Standard)</span>
+        </div>
+        <div class="card-col">
+          <ion-label>School Name</ion-label>
+          <span>{{userDetails.schoolName}}</span>
+        </div>
+      </div>
+
+      <div class="btn-content">
+        <ion-button class="secondary-btn" (click)="confirmSyllabus()">Confirm and Proceed</ion-button>
+        <ion-text (click)="modifySyllabus()">Modify</ion-text>
+      </div>
+
+      <!-- <div class="subject-container">
+        <div class="subject-inner">
+          <ng-container *ngFor="let type of subjForSubscription">
+            <div class="subject-box" (click)="onClickSubjectDetail(type)">
+              <ng-container *ngFor="let subs of subsImages">
+                <ion-img [src]="subs.img" [ngClass]="{'active': subs.label === type.displayName}"
+                *ngIf="subs.label === type.displayName"></ion-img>
+              </ng-container>
+              <ion-label class="box-label">{{type.displayName}}</ion-label>
+            </div>
+          </ng-container>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</ion-content>

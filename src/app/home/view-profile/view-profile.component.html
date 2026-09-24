@@ -1,0 +1,130 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner"  *ngIf="profileType=='RECIEVEDTO'">
+    <div class="page-heading"></div>
+    <div class="user-img">
+      <ion-img [src]="profile.recievedTo.imageUrl"></ion-img>
+    </div>
+    <div class="user-info">
+      <ion-label class="user-name">{{profile.recievedTo.displayName}}</ion-label>
+      <span class="section-label">Class {{profile.recievedTo.className}}, {{profile.recievedTo.boardName}}</span>
+      <span class="section-label">{{profile.recievedTo.schoolName}}</span>
+      <span class="section-label">{{profile.recievedTo.cityName}}, {{profile.recievedTo.stateName}}</span>
+    </div>
+    <div class="btn-toolbar">
+      <ion-button>Follow</ion-button>
+      <ion-button (click)="onClickChat(profile,'RECIEVEDTO')">Message</ion-button>
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </div>
+    <div>
+      <div class="info-section">
+        <div>
+          <ion-label class="section-head w-100">General</ion-label>
+          <div class="section-row">
+            <ion-label class="section-label">State</ion-label>
+            <span class="section-value">{{profile.recievedTo.stateName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">District</ion-label>
+            <span class="section-value">{{profile.recievedTo.districtName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">City</ion-label>
+            <span class="section-value">{{profile.recievedTo.cityName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">School</ion-label>
+            <span class="section-value">{{profile.recievedTo.schoolName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-inner"  *ngIf="profileType=='SENDBY'">
+    <div class="page-heading"></div>
+    <div class="user-img">
+      <ion-img [src]="profile.sendBy.imageUrl"></ion-img>
+    </div>
+    <div class="user-info">
+      <ion-label class="user-name">{{profile.sendBy.displayName}}</ion-label>
+      <span class="section-label">Class {{profile.sendBy.className}}, {{profile.sendBy.boardName}}</span>
+      <span class="section-label">{{profile.sendBy.schoolName}}</span>
+      <span class="section-label">{{profile.sendBy.cityName}}, {{profile.sendBy.stateName}}</span>
+    </div>
+    <div class="btn-toolbar">
+      <ion-button>Follow</ion-button>
+      <ion-button (click)="onClickChat(profile,'SENDBY')">Message</ion-button>
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </div>
+    <div>
+      <div class="info-section">
+        <div>
+          <ion-label class="section-head w-100">General</ion-label>
+          <div class="section-row">
+            <ion-label class="section-label">State</ion-label>
+            <span class="section-value">{{profile.sendBy.stateName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">District</ion-label>
+            <span class="section-value">{{profile.sendBy.districtName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">City</ion-label>
+            <span class="section-value">{{profile.sendBy.cityName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">School</ion-label>
+            <span class="section-value">{{profile.sendBy.schoolName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page-inner"  *ngIf="profileType=='GROUP'">
+    <div class="page-heading"></div>
+    <div class="user-img">
+      <ion-img [src]="profile.imageUrl"></ion-img>
+    </div>
+    <div class="user-info">
+      <ion-label class="user-name">{{profile.displayName}}</ion-label>
+      <span class="section-label">Class {{profile.className}}, {{profile.boardName}}</span>
+      <span class="section-label">{{profile.schoolName}}</span>
+      <span class="section-label">{{profile.cityName}}, {{profile.stateName}}</span>
+    </div>
+    <div class="btn-toolbar">
+      <ion-button>Follow</ion-button>
+      <ion-button (click)="onClickChat(profile,'GROUP')">Message</ion-button>
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </div>
+    <div>
+      <div class="info-section">
+        <div>
+          <ion-label class="section-head w-100">General</ion-label>
+          <div class="section-row">
+            <ion-label class="section-label">State</ion-label>
+            <span class="section-value">{{profile.stateName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">District</ion-label>
+            <span class="section-value">{{profile.districtName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">City</ion-label>
+            <span class="section-value">{{profile.cityName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">School</ion-label>
+            <span class="section-value">{{profile.schoolName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

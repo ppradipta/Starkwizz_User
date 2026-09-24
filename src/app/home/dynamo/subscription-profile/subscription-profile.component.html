@@ -1,0 +1,126 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <h2 class="heading">Let's complete your profile for a better and customizing user experience.</h2>
+    <div class="info-section">
+      <div class="section-title">
+        <h4>GENERAL</h4>
+      </div>
+    </div>
+    <div class="select-container">
+      <ion-item class="section-row">
+        <ion-label class="section-label">State</ion-label>
+        <ion-select placeholder="Select State" [(ngModel)]="userDetails.stateId" mode="ios"
+          (click)="selectState($event)">
+          <ion-select-option *ngFor="let state of stateList" [value]="state.id">{{state.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">District</ion-label>
+        <ion-select placeholder="Select District" [(ngModel)]="userDetails.districtId" mode="ios"
+          (click)="selectDistrict($event)">
+          <ion-select-option *ngFor="let dist of districts" [value]="dist.id">{{dist.displayName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">City/Block</ion-label>
+        <ion-select placeholder="Select City/Block" [(ngModel)]="userDetails.cityId" mode="ios"
+          (click)="selectCity($event)">
+          <ion-select-option *ngFor="let city of cities" [value]="city.id">{{city.displayName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">School</ion-label>
+        <ion-select placeholder="Select School" [(ngModel)]="userDetails.schoolId" mode="ios"
+          (click)="selectSchool($event)">
+          <ion-select-option *ngFor="let school of schools" [value]="school.id">{{school.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="select-container">
+      <ion-item class="section-row mb-3">
+        <ion-input name="userEmail" #userEmail="ngModel" type="email" placeholder="Enter Email" inputmode="email"
+          [(ngModel)]="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          [ngModelOptions]="{standalone: true}" required>
+        </ion-input>
+        <div style="text-align: center; color: red;" [hidden]="userEmail.valid || userEmail.pristine">
+          <div [hidden]="!userEmail.hasError('required')" class="error-block" id="errorMsgforEmailid">Email is
+            required.
+          </div>
+          <div [hidden]="!userEmail.hasError('pattern')" class="error-block" id="errorMsgforValidemailId">Please
+            enter a
+            valid email.</div>
+        </div>
+      </ion-item>
+
+      <!-- <p class="verify-note">We will send email with a verification code on the above address. Please confirm and be
+      patient for its necessary for a safe user experience</p> -->
+      <ion-item class="section-row">
+        <ion-input name="referral" type="text" placeholder="Enter Your Referral Code" [(ngModel)]="referralCode"
+          (ionInput)='onInputReferralCode($event)'>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="d-flex align-items-center" *ngIf="referralUser.id">
+      <div class="user-img">
+        <ion-img [src]="referralUser?.imageUrl?referralUser.imageUrl:'assets/images/menu-user.gif'">
+        </ion-img>
+      </div>
+      <div class="userDetail">
+        <ion-label class="user-name">Name : <b>{{referralUser?.firstName}} {{referralUser?.lastName}}</b></ion-label>
+        <div class="verify-email mb-1" *ngIf="referralUser.mobileNo">
+          <ion-label class="section-label">Phone No: <b>{{referralUser?.mobileNo}}</b></ion-label>
+        </div>
+        <div class="verify-email mb-1" *ngIf="referralUser?.code">
+          <ion-label class="section-label">Type : <b>{{referralUser?.code}}</b></ion-label>
+        </div>
+        <div class="verify-email mb-1" *ngIf="referralUser?.discount">
+          <ion-label class="section-label">
+            <b  *ngIf="referralUser?.discount?.type == 'FLAT'">₹</b>
+            <b>You will get discount off {{referralUser?.discount?.typeValue}}</b>
+          <b *ngIf="referralUser?.discount?.type == 'PERCENTAGE'">%</b></ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer *ngIf="typeSubscription !== 'QUIZ_WHIZZ'">
+  <div class="footer-toolbar">
+    <ion-button class="secondary-btn" [disabled]="userEmail.hasError('pattern') || userEmail.hasError('required')"
+      (click)="sendEmailOtp()">Proceed</ion-button>
+  </div>
+</ion-footer>
+
+<ion-footer class="QUIZ_WHIZZ" style="height: 168px;" *ngIf="typeSubscription === 'QUIZ_WHIZZ'">
+  <div class="offer-card">
+    <div class="card-header">
+      <ion-label>Your Quiz Whizz Subscribe Price <b>₹ {{totalPrice}}/ year</b></ion-label>
+    </div>
+    <div class="card-body">
+      <div class="body-left">
+        <div class="d-flex align-items-center justify-content-center mb-2">
+          <span>Pay</span>
+          <ion-label>₹ {{discountedPrice}}/ year</ion-label>
+        </div>
+      </div>
+      <div class="btn-container">
+        <ion-button class="pay-btn" (click)="onClickSkipPayment()">Skip</ion-button>
+        <ion-button class="pay-btn" (click)="onClickView()">Proceed</ion-button>
+      </div>
+    </div>
+    <div class="discount-label" *ngIf="referralUser?.discount?.type=='FLAT'">
+      <span>- {{referralUser?.discount?.typeValue}}</span>
+    </div>
+    <div class="discount-label" *ngIf="referralUser?.discount?.type=='PERCENTAGE'">
+      <span>- {{referralUser?.discount?.typeValue}}%</span>
+    </div>
+  </div>
+</ion-footer>

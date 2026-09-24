@@ -1,0 +1,151 @@
+.header-logo {
+    margin: 0 20px 0 6px;
+}
+
+.page-inner {
+    padding: 16px;
+    .add-btn {
+        margin: 0;
+        --border-color: #51C1E9;
+        --color: #0A395A;
+        text-transform: capitalize;
+        letter-spacing: 0;
+        font-family: "Nunito-Bold";
+        width: 120px;
+        height: 32px;
+        font-size: 15px;
+        --border-radius: 30px;
+    }
+    .search-bar {
+        padding: 10px 0 10px;
+        ::ng-deep ion-searchbar {
+            --border-radius: 30px;
+            padding: 0;
+            height: 44px;
+            --placeholder-opacity: 1;
+            .searchbar-input-container {
+                height: 44px;
+            }
+            .searchbar-input.sc-ion-searchbar-ios {
+                padding-inline-start: 40px;
+                color: #979797;
+                font-size: 16px;
+                font-family: 'Nunito-SemiBold';
+            }
+            .searchbar-search-icon.sc-ion-searchbar-ios {
+                left: 12px;
+                width: 20px;
+                color: #979797;
+            }
+            .searchbar-clear-button.sc-ion-searchbar-ios {
+                right: 5px;
+            }
+            .searchbar-clear-icon.sc-ion-searchbar-ios {
+                width: 22px;
+            }
+        }
+    }
+    .account-card {
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px 1px #52525229;
+        padding: 12px 16px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        .card-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
+            margin-right: 10px;
+            .card-inner {
+                overflow: hidden;
+                flex: 1;
+            }
+            .user-img {
+                width: 60px;
+                background: #fff;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #000;
+                overflow: hidden;
+                margin-right: 10px;
+                ion-img {
+                  object-fit: cover;
+                }
+              }
+            .user-name  {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-Bold';
+                color: #6ACDEC;
+                text-transform: capitalize;
+                display: block;
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .school-name {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .section-label {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+            }
+        }
+        .card-right {
+            .ellips-icon {
+                color: #51C1E9;
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+ion-popover {
+    --width: 110px;
+    --offset-x: -13px;
+    --offset-y: -33px;
+    --box-shadow: 0px 3px 10px #00000040;
+    --backdrop-opacity: 0;
+    --background: transparent;
+    .popover-inner {
+        ion-label {
+            text-align: center;
+            padding: 6px 10px;
+            color: #0a3a5cf5;
+            font-family: "Nunito-SemiBold";
+            font-size: 16px;
+            line-height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 4px;
+            &.first-label {
+                border-bottom: 1px solid #1441604d;
+            }
+            ion-icon {
+                margin-right: 8px;
+                font-size: 20px;
+                color: #0A395A;
+            }
+        }
+    }
+}
+
+.max-accounts-note {
+    color: red;
+    font-weight: bold;
+}

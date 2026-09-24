@@ -1,0 +1,146 @@
+.page-inner {
+    padding: 16px;
+    h2 {
+        font-size: 26px;
+        line-height: 28px;
+        font-family: "Nunito-Bold";
+        display: block;
+        color: #0A395A;
+        margin-bottom: 15px;
+    }
+    .search-bar {
+        margin-bottom: 20px;
+        ::ng-deep ion-searchbar {
+            border-radius: 20px;
+            padding: 0;
+            height: 40px;
+            --placeholder-opacity: 1;
+            --background: #fff;
+            box-shadow: 0 0 5px #00000029;
+            overflow: hidden;
+            .searchbar-input.sc-ion-searchbar-ios {
+                padding-inline-start: 40px;
+                color: #979797;
+                font-size: 15px;
+                font-family: 'Nunito-SemiBold';
+            }
+            .searchbar-search-icon.sc-ion-searchbar-ios {
+                left: 10px;
+                width: 20px;
+                color: #979797;
+            }
+            .searchbar-clear-button.sc-ion-searchbar-ios {
+                right: 5px;
+            }
+        }
+    }
+    .group-card {
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px 1px #52525229;
+        padding: 12px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .card-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
+            margin-right: 10px;
+            .card-inner {
+                overflow: hidden;
+                flex: 1;
+            }
+            .addGroup {
+                width: 60px;
+                background: #70CFED;
+                color: #fff;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #0A395A;
+                overflow: hidden;
+                margin: 0 16px 0 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Nunito-Black';
+                font-size: 21px;
+                ion-icon {
+                    font-size: 26px;
+                    margin-left: -2px;
+                }
+            }
+            .group-img {
+                width: 60px;
+                background: #fff;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #0A395A;
+                overflow: hidden;
+                margin-right: 10px;
+                position: relative;
+                &.second-img {
+                    margin-left: -62px;
+                }
+                &.third-img {
+                    margin-left: -62px;
+                }
+                ion-img {
+                  object-fit: cover;
+                }
+            }
+            .group-name  {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-Bold';
+                color: #6ACDEC;
+                text-transform: capitalize;
+                display: block;
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .section-label {
+                font-size: 15px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+            }
+        }
+        .card-right {
+            display: flex;
+            align-items: center;
+            .ellips-icon {
+                color: #51C1E9;
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+ion-popover {
+    --width: 80px;
+    --offset-y: -50px;
+    --offset-x: -50px;
+    --box-shadow: 0px 3px 10px 3px #1c1c1c29;
+    --backdrop-opacity: .02;
+    --background: transparent;
+    .popover-inner {
+        padding: 0 4px;
+        ion-label {
+            text-align: center;
+            display: block;
+            padding: 8px 10px;
+            color: #0a395af5;
+            font-family: "Nunito-SemiBold";
+            font-size: 16px;
+            line-height: 18px;
+            &.first-label {
+                border-bottom: 1px solid #1441604d;
+            }
+        }
+    }
+}

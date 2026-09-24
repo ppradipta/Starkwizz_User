@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item class="no-border address-bar">
+      <ion-label position="stacked" class="input-label">SET LOCATION</ion-label>
+      <ion-input placeholder="Search for area, street name..." clearInput="true"
+        (ionInput)="searchPlace()" [(ngModel)]="location.formattedAddress" id="setLocation">
+      </ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="current-location">
+    <ion-row (click)="locateMe()">
+      <ion-col size="2">
+        <ion-icon name="locate" class="locate-icon"></ion-icon>
+      </ion-col>
+      <ion-col size="10" class="current-col">
+        <p>Current Location</p>
+        <span>Using GPS</span>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ul class="cityList">
+    <li *ngFor="let place of places" (click)="selectPlace(place)">
+      <i class="material-icons locationIcon">
+      </i>{{place.description}}
+    </li>
+  </ul>
+</ion-content>

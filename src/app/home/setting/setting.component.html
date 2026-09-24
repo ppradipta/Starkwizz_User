@@ -1,0 +1,74 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="mb-4">
+      <h2>Account settings</h2>
+      <div class="setting-info">
+        <ion-label>Email</ion-label>
+        <div class="setting-value">
+          <ion-label>{{userDetails.emailId}}</ion-label>
+          <ion-icon *ngIf="userDetails.isEmailVerified" name="checkmark-circle"></ion-icon>
+        </div>
+      </div>
+      <div class="setting-info">
+        <ion-label>Phone</ion-label>
+        <div class="setting-value">
+          <ion-label>{{userDetails.mobileNo}}</ion-label>
+          <!-- <ion-icon name="checkmark-circle"></ion-icon> -->
+        </div>
+      </div>
+      <div class="setting-info">
+        <ion-label>Country / region</ion-label>
+        <div class="setting-value">
+          <ion-label>India</ion-label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <h4>Notification</h4>
+      <div class="setting-info align-items-start">
+        <ion-label>Starkwizz announcements and updates</ion-label>
+        <div class="setting-value">
+          <ion-toggle [(ngModel)]="userDetails.isAllowPushNotification" (ngModelChange)="userDetails.isAllowPushNotification=$event"></ion-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <h4>View my Profile</h4>
+      <div class="custom-raw">
+        <ng-container *ngFor="let type of selectprofileAccess">
+          <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}" (click)="onClickType(type)">{{type.name}}</ion-button>
+        </ng-container>
+      </div>
+
+
+      <!-- <ion-list class="checkbox-list">
+        <ion-radio-group [(ngModel)]="userDetails.profileAccess" (ngModelChange)="userDetails.profileAccess=$event">
+          <ion-item>
+            <ion-label>No One</ion-label>
+            <ion-radio slot="start" mode="ios" value="No One"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>My Friends</ion-label>
+            <ion-radio slot="start" mode="ios" value="My Friends"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Everyone</ion-label>
+            <ion-radio slot="start" mode="ios" value="Everyone"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list> -->
+    </div>
+   
+    <div class="btn-toolbar">
+      <div class="actions-row">
+        <ion-button class="secondary-btn update-btn" (click)="onClickUpdate()">Update</ion-button>
+        <ion-button fill="clear" class="secondary-btn2 update-btn">Deactivate account</ion-button>
+        <ion-button fill="clear" class="secondary-btn update-btn" (click)="presentAlertConfirm()">Log out</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,67 @@
+.page-inner {
+  padding: 16px;
+}
+
+ion-segment {
+  margin-bottom: 16px;
+}
+
+.dashboard-segment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.dashboard-segment ion-segment-button {
+  flex: 1;
+  background: transparent;
+  color: #70cfed;
+  height: 34px;
+  font-size: 13px;
+  --border-radius: 30px;
+  --border-width: 2px;
+  --border-color: #70cfed;
+  --border-style: solid;
+  --box-shadow: none;
+  margin: 0;
+}
+
+.dashboard-segment ion-segment-button.segment-button-checked {
+  background: #70cfed;
+  color: #0a395a;
+}
+
+.section {
+  margin-top: 16px;
+}
+
+.section-title h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-family: 'Nunito-Bold';
+  color: #0a395a;
+}
+
+ion-item {
+  --border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.sub,
+.meta {
+  margin: 0;
+}
+
+.empty {
+  padding: 12px;
+  background: #fff;
+  border-radius: 12px;
+  color: #627292;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  opacity: 0.9;
+}

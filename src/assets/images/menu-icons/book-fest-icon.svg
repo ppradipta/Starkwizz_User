@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42.162" height="42.225" viewBox="0 0 42.162 42.225">
+  <g id="bookfest" transform="translate(17919.658 5006.301)">
+    <path id="Path_295" data-name="Path 295" d="M-17918.158-4936.491h4.867l7.777,23.778h21.988l4.531-17.12-31.725-.336" transform="translate(0 -63.461)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path id="Path_296" data-name="Path 296" d="M-17823.648-4675.226h0c-6.848-.475-7.389,7.561-.346,7.562h23.313" transform="translate(-81.018 -300.948)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <g id="Ellipse_340" data-name="Ellipse 340" transform="translate(-17907.23 -4973.08)" fill="#fff" stroke="#fff" stroke-width="1">
+      <circle cx="4.502" cy="4.502" r="4.502" stroke="none"/>
+      <circle cx="4.502" cy="4.502" r="4.002" fill="none"/>
+    </g>
+    <g id="Ellipse_341" data-name="Ellipse 341" transform="translate(-17892.316 -4973.08)" fill="#fff" stroke="#fff" stroke-width="1">
+      <circle cx="4.502" cy="4.502" r="4.502" stroke="none"/>
+      <circle cx="4.502" cy="4.502" r="4.002" fill="none"/>
+    </g>
+    <line id="Line_271" data-name="Line 271" x2="28.465" transform="translate(-17909.004 -4988.04)" fill="none" stroke="#fff" stroke-width="2"/>
+    <line id="Line_272" data-name="Line 272" x2="24.918" transform="translate(-17907.186 -4982.037)" fill="none" stroke="#fff" stroke-width="2"/>
+    <line id="Line_273" data-name="Line 273" y2="16.006" transform="translate(-17899.637 -4992.769)" fill="none" stroke="#fff" stroke-width="2"/>
+    <line id="Line_274" data-name="Line 274" y2="16.279" transform="translate(-17889.088 -4992.769)" fill="none" stroke="#fff" stroke-width="2"/>
+    <path id="Path_297" data-name="Path 297" d="M-4.762-50.412,10.493-55.3l3.82,9.486H-3.259Z" transform="translate(-17904.268 -4951)" fill="#fff"/>
+    <path id="Path_298" data-name="Path 298" d="M-3.422-.778,6.51.852,5.288,5.3H-1.257Z" transform="translate(-17886.658 -5002.111)" fill="#fff"/>
+  </g>
+</svg>

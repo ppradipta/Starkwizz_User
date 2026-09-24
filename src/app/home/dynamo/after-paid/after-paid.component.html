@@ -1,0 +1,25 @@
+
+<ion-content>
+  <div class="page-container">
+    <div class="title">
+      <h4>Fixture for {{currentMonth}} has Started, let's dive in!</h4>
+    </div>
+    <div class="page-inner">
+      <div class="subject-container" *ngFor="let type of subjectList">
+        <ion-label class="subject-type">{{type?.name}}</ion-label>
+        <div class="subject-inner">
+          <div class="subject-box" *ngFor="let list of type.subject" [ngStyle]="{'background': list?.colorCode}">
+            <ion-label class="box-label">{{list?.name}}</ion-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button (click)="onClicksubscription()">Subscribe</ion-button>
+    <!-- <ion-button (click)="onClickFreeTrial()">Free Trial</ion-button> -->
+  </div>
+</ion-footer>

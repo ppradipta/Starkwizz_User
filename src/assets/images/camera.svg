@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="Camera_Hollow" data-name="Camera Hollow" transform="translate(-258.809 -258.377)">
+    <circle id="Ellipse_298" data-name="Ellipse 298" cx="20.5" cy="20.5" r="20.5" transform="translate(260.309 259.877)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="Ellipse_299" data-name="Ellipse 299" cx="4.039" cy="4.039" r="4.039" transform="translate(276.94 276.525)" fill="#fff"/>
+    <path id="Path_263" data-name="Path 263" d="M321.938,309.732h-5.225l-.565-2.269a.516.516,0,0,0-.013-.051l-.008-.034,0,0a.534.534,0,0,0-.5-.356H309.5a.534.534,0,0,0-.526.445h0l-.61,2.265h-5.225A3.134,3.134,0,0,0,300,312.866v10.447a3.134,3.134,0,0,0,3.134,3.134h18.8a3.134,3.134,0,0,0,3.134-3.134V312.866A3.134,3.134,0,0,0,321.938,309.732Zm-17.664,3.9a.827.827,0,1,1,.827-.827A.827.827,0,0,1,304.274,313.632Zm8.262,9.681a5.5,5.5,0,1,1,5.5-5.5A5.5,5.5,0,0,1,312.536,323.313Z" transform="translate(-31.557 -37.316)" fill="#fff"/>
+  </g>
+</svg>

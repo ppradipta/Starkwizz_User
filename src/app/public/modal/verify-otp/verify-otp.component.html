@@ -1,0 +1,110 @@
+<!-- <ion-header>
+  <div class="header-toolbar">
+    <ion-title>Enter OTP</ion-title>
+  </div>
+</ion-header> -->
+<!-- <ion-content>
+  <div class="modal-inner">
+    <ion-label *ngIf="type !== 'EMAIL_VERIFY'">Please enter the 6 digit verification code we have just sent on your mobile number</ion-label>
+    <ion-label *ngIf="type === 'EMAIL_VERIFY'">Please enter the 6 digit verification code we have just sent on your Email</ion-label>
+    <ion-label>Please enter the 6 digit verification code we have just sent on your {{phoneNo}}</ion-label>
+    <form #passcodeForm="ngForm" autocomplete="off">
+      <div class="input-cantainer">
+        <ion-input id="otp1" name="otp1" inputmode="numeric" pattern="\d*" #otp1 [(ngModel)]="passcode.code1"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp2,otp1)">
+        </ion-input>
+
+        <ion-input id="otp2" name="otp2" inputmode="numeric" pattern="\d*" #otp2 [(ngModel)]="passcode.code2"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp3,otp1)">
+        </ion-input>
+
+        <ion-input id="otp3" name="otp3" inputmode="numeric" pattern="\d*" #otp3 [(ngModel)]="passcode.code3"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp4,otp2)">
+        </ion-input>
+
+        <ion-input id="otp4" name="otp4" inputmode="numeric" pattern="\d*" #otp4 [(ngModel)]="passcode.code4"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp5,otp3)">
+        </ion-input>
+
+        <ion-input id="otp5" name="otp5" inputmode="numeric" pattern="\d*" #otp5 [(ngModel)]="passcode.code5"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp6,otp4)">
+        </ion-input>
+
+        <ion-input id="otp6" name="otp6" inputmode="numeric" pattern="\d*" #otp6 [(ngModel)]="passcode.code6"
+          numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp6,otp5)">
+        </ion-input>
+      </div>
+    </form>
+
+    <span class="time-counter">00:{{maxTime}}</span>
+    <ion-text>Didn't receive code! <span (click)="resend()" >Resend</span></ion-text>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="secondary-btn" (click)="submit()">Verify</ion-button>
+  </div>
+</ion-footer> -->
+
+<ion-content>
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+      <div class="right-top">
+        <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+      </div>
+      <div class="col">
+        <h5>Authentication</h5>
+        <span class="decs">Enter the one-time password (OTP) we've sent to your mobile.</span>
+      </div>
+      <form #passcodeForm="ngForm" autocomplete="off">
+        <div class="input-cantainer">
+          <ion-input id="otp1" name="otp1" inputmode="numeric" pattern="\d*" #otp1 [(ngModel)]="passcode.code1"
+            [class.otp-empty]="!passcode.code1"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp2,otp1)">
+          </ion-input>
+
+          <ion-input id="otp2" name="otp2" inputmode="numeric" pattern="\d*" #otp2 [(ngModel)]="passcode.code2"
+            [class.otp-empty]="!passcode.code2"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp3,otp1)">
+          </ion-input>
+
+          <ion-input id="otp3" name="otp3" inputmode="numeric" pattern="\d*" #otp3 [(ngModel)]="passcode.code3"
+            [class.otp-empty]="!passcode.code3"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp4,otp2)">
+          </ion-input>
+
+          <ion-input id="otp4" name="otp4" inputmode="numeric" pattern="\d*" #otp4 [(ngModel)]="passcode.code4"
+            [class.otp-empty]="!passcode.code4"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp5,otp3)">
+          </ion-input>
+
+          <ion-input id="otp5" name="otp5" inputmode="numeric" pattern="\d*" #otp5 [(ngModel)]="passcode.code5"
+            [class.otp-empty]="!passcode.code5"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp6,otp4)">
+          </ion-input>
+
+          <ion-input id="otp6" name="otp6" inputmode="numeric" pattern="\d*" #otp6 [(ngModel)]="passcode.code6"
+            [class.otp-empty]="!passcode.code6"
+            numbersOnly type="text" maxlength="1" (keyup)="codeController($event,otp6,otp5)">
+          </ion-input>
+        </div>
+      </form>
+      <div class="col d-flex justify-content-between">
+        <ion-text class="light">Haven’t got an OTP? ? <b (click)="resend()">Resend</b></ion-text>
+        <span class="time-counter">00:{{maxTime}}</span>
+      </div>
+      <div class="btn-content">
+        <ion-button class="secondary-btn" [disabled]="!passcodeForm.valid" (click)="submit()">Validate</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+
+</ion-footer>

@@ -1,0 +1,45 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-label>How would you rate this video class?</ion-label>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="modal-inner">
+    <ion-label><span>You rated your overall experience on the basis of</span> Topic, Content, Concept Design and
+      Teaching Performance.</ion-label>
+    <div>
+      <div class="section-row">
+        <ion-label class="section-label">1 Star</ion-label>
+        <ion-label class="section-value">Disappointed</ion-label>
+      </div>
+      <div class="section-row">
+        <ion-label class="section-label">2 Star</ion-label>
+        <ion-label class="section-value">Unhappy</ion-label>
+      </div>
+      <div class="section-row">
+        <ion-label class="section-label">3 Star</ion-label>
+        <ion-label class="section-value">Average</ion-label>
+      </div>
+      <div class="section-row">
+        <ion-label class="section-label">4 Star</ion-label>
+        <ion-label class="section-value">Happy</ion-label>
+      </div>
+      <div class="section-row">
+        <ion-label class="section-label">5 Star</ion-label>
+        <ion-label class="section-value">Truly Satisfied</ion-label>
+      </div>
+    </div>
+    <div class="rating-info">
+      <ion-img [src]="ratingDetls.rateIcon"></ion-img>
+      <ion-label>{{ratingDetls.rateText}}</ion-label>
+      <div class="rating-icon">
+        <ion-rating-stars [rating]="ratingDetls.rate" [color]="'darkgrey'" [filledColor]="'orange'" [margin]="2"
+          [size]="20" [disabled]="isRatingDisable" (ratingChange)="ratingChanged($event)"></ion-rating-stars>
+      </div>
+      <ion-button class="secondary-btn" *ngIf="!isRatingDisable"
+        (click)="proceedForRateToConfirm()">Proceed</ion-button>
+      <ion-button class="secondary-btn" *ngIf="isRatingDisable" (click)="closeRatingModal()">Close</ion-button>
+    </div>
+  </div>
+</ion-content>

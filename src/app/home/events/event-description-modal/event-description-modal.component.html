@@ -1,0 +1,14 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <div class="header-logo">
+      <h2>Event Description</h2>
+    </div>
+    <div class="d-flex align-items-center" (click)="onClickClose()">
+      <ion-icon class="close-icon" name="close-circle-outline"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="page-inner" [innerHTML]="eventDetails.description">
+  </div>
+</ion-content>

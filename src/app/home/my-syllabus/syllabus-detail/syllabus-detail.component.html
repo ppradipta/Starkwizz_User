@@ -1,0 +1,54 @@
+<ion-content class="date-ion-content">
+
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+      <div class="right-top">
+        <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+      </div>
+      <!-- <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div> -->
+      <h4>{{subsDetails.displayName}}</h4>
+      
+
+      <div class="custom-card">
+        <!-- <ion-button class="clear-btn">Edit</ion-button> -->
+        <div class="card-col">
+          <ion-label>Book Name</ion-label>
+          <span>{{subsDetails.displayName}}</span>
+        </div>
+        <div class="card-col">
+          <ion-label>Publisher Name</ion-label>
+          <span>{{subjForChapter[0]?.publisherName}}</span>
+        </div>
+        <!-- <div class="card-col">
+          <ion-label>Book Autthor Name</ion-label>
+          <span>Sudhanshu Lenka</span>
+        </div> -->
+      </div>
+
+        <div class="subs-detail">
+          <ion-label class="caption">All chapters</ion-label>
+          <ul>
+            <li *ngFor="let chap of subjForChapter">
+              <span>{{chap.displayName}}</span>
+            </li>
+            <!-- <li>
+              <span>Name of the Chapter 2</span>
+            </li>
+            <li>
+              <span>Name of the Chapter 3</span>
+            </li>
+            <li>
+              <span>Name of the Chapter 4</span>
+            </li> -->
+          </ul>
+        </div>
+    </div>
+  </div>
+</ion-content>

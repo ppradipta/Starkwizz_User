@@ -1,0 +1,27 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>LOCATION</ion-title>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="modal-inner">
+    <div class="section-row">
+      <ion-label class="section-label">Address</ion-label>
+      <ion-textarea class="section-value value-textarea" value="D-220, Sector 7, Rourkela - 789760, Sundargarh, Odisa"></ion-textarea>
+    </div>
+    <div class="section-row">
+      <ion-label class="section-label">Location</ion-label>
+      <div class="map-container">
+        <div class="map-img">
+          <ion-img src="/assets/images/map-img.svg"></ion-img>
+        </div>
+        <p>We do not share your location Data with any other third party app or users of Starkwizz. It is hidden for others by default.</p>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="primary-btn" (click)="onClickClose()">Done</ion-button>
+  </div>
+</ion-footer>

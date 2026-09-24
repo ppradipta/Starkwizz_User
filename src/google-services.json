@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1000021620038",
+    "firebase_url": "https://starkwizz-logicqsoftsol-default-rtdb.firebaseio.com",
+    "project_id": "starkwizz-logicqsoftsol",
+    "storage_bucket": "starkwizz-logicqsoftsol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000021620038:android:ba6dd65e083ad6bd7fe147",
+        "android_client_info": {
+          "package_name": "com.lavni.starkwizz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000021620038-jjf7pcp1hqjda7kudhb038rvidvj6hpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4VjInO92g8vHZ0EJ0eDWFqLDCjLOfkHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000021620038-jjf7pcp1hqjda7kudhb038rvidvj6hpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000021620038:android:50facc1f4d2229447fe147",
+        "android_client_info": {
+          "package_name": "com.starkwiz.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000021620038-jjf7pcp1hqjda7kudhb038rvidvj6hpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4VjInO92g8vHZ0EJ0eDWFqLDCjLOfkHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000021620038-jjf7pcp1hqjda7kudhb038rvidvj6hpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

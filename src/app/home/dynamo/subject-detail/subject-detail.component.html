@@ -1,0 +1,433 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+    <div class="notify-btn" (click)="goToNotification()">
+      <ion-icon class="notify-icon" name="notifications-circle-outline"></ion-icon>
+      <ion-badge *ngIf="notificationCount > 0" [ngClass]="{'active': notificationCount > 99}">
+        <span>{{notificationCount > 99 ? '99+':notificationCount}}</span>
+      </ion-badge>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="page-container">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="title" slot="top" [ngStyle]="{'background': selectedSubject?.colorCode}">
+      <!-- <h6 *ngIf="userDetails?.userLinkType!='SCHOOL_SPECIFICE'">Publisher Name : {{selectedSubject?.publisherName}}</h6> -->
+      <h6 *ngIf="userDetails?.userLinkType=='SCHOOL_SPECIFICE'">School Name : {{userDetails?.schoolName}}</h6>
+      <h4>{{selectedSubject?.displayName}}</h4>
+      <!-- <ion-label>Fixture for {{ currenMonth | uppercase }} has started</ion-label> -->
+      <ion-label>Practice – Revision – Test</ion-label>
+      <ion-label>Chapter-based and curriculum-focused</ion-label>
+    </div>
+    <div class="page-inner">
+      <!-- <ion-label class="heading">TESTS</ion-label> -->
+       <ion-label class="heading">Evaluate your learning … Let’s dive in!</ion-label>
+      <!-- Add your condition here -->
+      <div *ngIf="contenskeleton">
+        <div class="subject-container" *ngFor="let list of [1,2]">
+          <div class="section-title">
+            <ion-skeleton-text animated style=" height: 22px; width: 100px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style=" height: 30px; width: 116px; border-radius: 30px;"></ion-skeleton-text>
+          </div>
+          <!-- <ion-slides pager="true" [options]="slideOpts">
+            <ion-slide *ngFor="let list of [1,2,3,4,5]">
+              <ion-skeleton-text animated style=" height: 200px; width: 100%; border-radius: 16px;"></ion-skeleton-text>
+            </ion-slide>
+          </ion-slides> -->
+          <swiper-container>
+            <swiper-slide *ngFor="let list of [1,2,3,4,5]">
+              <ion-skeleton-text animated style=" height: 200px; width: 100%; border-radius: 16px;"></ion-skeleton-text>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+      </div>
+      <!--  -->
+      <div *ngIf="!contenskeleton">
+        <div class="custom-segment">
+          <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+            <!-- <ion-segment-button value="DYNAMO_CS">
+              <ion-label>Dynamo CS</ion-label>
+            </ion-segment-button> -->
+
+            <!-- <ion-segment-button value="DYNAMO_MS">
+              <ion-label>Dynamo MS</ion-label>
+            </ion-segment-button> -->
+          </ion-segment>
+        </div>
+
+        <div class="subject-container" *ngFor="let exams of  sortedRecords | keyvalue">
+          <div class="section-title" *ngIf="'Diagnostic Test'==exams.key">
+            <h4 class="subject-type">{{exams.key}}({{getCategoryCount(exams.key, exams?.value)}})</h4>
+            <!-- <ion-button (click)="onClickEventInfo(exams.key)">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+
+          <swiper-container [slidesPerView]="1" [loop]="false" *ngIf="'Diagnostic Test'==exams.key">
+            <swiper-slide *ngFor="let exam of exams.value | orderBy:'moduleOrder'">
+              <div class="subject-card swiper-card">
+                <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
+                  <ion-label class="card-label">Active</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'UPCOMING'" class="status-label Inactive">
+                  <ion-label class="card-label">Inactive</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'STARTED' " class="status-label Stared">
+                  <ion-label class="card-label">In-Progress</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'INPROGRESS' " class="status-label Inprogress">
+                  <ion-label class="card-label">In-Progress</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'COMPLETED'" class="status-label Completed">
+                  <ion-label class="card-label">Completed</ion-label>
+                </div>
+                <div class="card-body">
+                  <span>Topic : </span>
+                  <ion-label class="card-label">{{exam.eventName}}</ion-label>
+                </div>
+                <div class="card-footer" [ngClass]="{'active': exam.status != 'COMPLETED'}">
+                  <ion-button class="appear-btn" *ngIf="exam.status != 'COMPLETED'"
+                    (click)="onClickAppear(exam)">Appear</ion-button>
+                  <!-- <ion-button class="schedule-btn" *ngIf="exam.status != 'COMPLETED'"
+                    (click)="onClickSchedule(exam)">Schedule</ion-button> -->
+                  <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED'"
+                    (click)="onClickViewScore(exam)">View Score
+                  </ion-button>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+        
+        <div class="subject-container" *ngFor="let exams of  sortedRecords | keyvalue">
+          <div class="section-title" *ngIf="'Progressive Test'==exams.key">
+            <h4 class="subject-type">{{exams.key}}({{getCategoryCount(exams.key, exams?.value)}})</h4>
+            <!-- <ion-button (click)="openDescription(exams)">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+
+          <swiper-container [slidesPerView]="1" [loop]="false" *ngIf="'Progressive Test'==exams.key">
+            <swiper-slide *ngFor="let exam of exams.value | orderBy:'moduleOrder'">
+              <div class="subject-card swiper-card">
+                <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
+                  <ion-label class="card-label">Active</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'UPCOMING' " class="status-label Inprogress">
+                  <ion-label class="card-label">Inactive</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'COMPLETED'" class="status-label Completed">
+                  <ion-label class="card-label">Completed</ion-label>
+                </div>
+                <div class="card-body">
+                  <span>Topic : </span>
+                  <ion-label class="card-label">{{exam.eventName}}</ion-label>
+                </div>
+                <div class="card-footer" [ngClass]="{'active': exam.status != 'COMPLETED'}">
+                  <ion-button class="appear-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickAppear(exam)"
+                    [disabled]="!exam.allowToAttempt">Appear</ion-button>
+                  <!-- <ion-button class="schedule-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickSchedule(exam)"
+                    [disabled]="!exam.allowToAttempt">Schedule</ion-button> -->
+                  <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED'"
+                    (click)="onClickViewScore(exam)" [disabled]="!exam.allowToAttempt">View Score
+                  </ion-button>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+
+          <!-- <ion-slides pager="true" [options]="slideOpts" *ngIf="'Progressive Test'==exams.key">
+            <ion-slide *ngFor="let exam of exams.value | orderBy:'eventName'">
+              <div class="subject-card">
+                <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
+                  <ion-label class="card-label">Active</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'UPCOMING' " class="status-label Inprogress">
+                  <ion-label class="card-label">Inactive</ion-label>
+                </div>
+                <div *ngIf="exam.status == 'COMPLETED'" class="status-label Completed">
+                  <ion-label class="card-label">Completed</ion-label>
+                </div>
+                <div class="card-body">
+                  <span>Topic : </span>
+                  <ion-label class="card-label">{{exam.eventName}}</ion-label>
+                </div>
+                <div class="card-footer" [ngClass]="{'active': exam.status != 'COMPLETED'}">
+                  <ion-button class="appear-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickAppear(exam)"
+                    [disabled]="!exam.allowToAttempt">Appear</ion-button>
+                  <ion-button class="schedule-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickSchedule(exam)"
+                    [disabled]="!exam.allowToAttempt">Schedule</ion-button>
+                  <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED'"
+                    (click)="onClickViewScore(exam)" [disabled]="!exam.allowToAttempt">View Score
+                  </ion-button>
+                </div>
+              </div>
+            </ion-slide>
+          </ion-slides> -->
+        </div>
+
+
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">1st Quarter Test</h4>
+            <!-- <ion-button (click)="openDescription('1st Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="quarterOne.status == 'ACTIVE' || quarterOne.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION' " class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">1st Quarter Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': quarterOne.status != 'COMPLETED'}"
+              *ngIf="quarterOne.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="quarterOne.status != 'COMPLETED'"
+                (click)="onClickAppear(quarterOne)" [disabled]="!quarterOne.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="quarterOne.status == 'COMPLETED'"
+                (click)="onClickViewScore(quarterOne)" [disabled]="!quarterOne.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">2nd Quarter Test</h4>
+            <!-- <ion-button (click)="openDescription('2nd Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="quarterTwo.status == 'ACTIVE' || quarterTwo.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION'" class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="quarterTwo.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="quarterTwo.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">2nd Quarter Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': quarterTwo.status != 'COMPLETED'}"
+              *ngIf="quarterTwo.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="quarterTwo.status != 'COMPLETED'"
+                (click)="onClickAppear(quarterTwo)" [disabled]="!quarterTwo.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="quarterTwo.status == 'COMPLETED'"
+                (click)="onClickViewScore(quarterTwo)" [disabled]="!quarterTwo.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">1st Proficiency Test</h4>
+            <!-- <ion-button (click)="openDescription('1st Proficiency Test')">Know More <ion-icon
+                name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="proficiencyOne.status == 'ACTIVE'  || proficiencyOne.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION' " class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="proficiencyOne.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="proficiencyOne.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">1st Proficiency Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': proficiencyOne.status != 'COMPLETED'}"
+              *ngIf="proficiencyOne.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="proficiencyOne.status != 'COMPLETED'"
+                (click)="onClickAppear(proficiencyOne)" [disabled]="!proficiencyOne.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="proficiencyOne.status == 'COMPLETED'"
+                (click)="onClickViewScore(proficiencyOne)" [disabled]="!proficiencyOne.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">3rd Quarter Test</h4>
+            <!-- <ion-button (click)="openDescription('3rd Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="quarterThree.status == 'ACTIVE' || quarterThree.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION' " class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="quarterThree.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="quarterThree.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">3rd Quarter Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': quarterThree.status != 'COMPLETED'}"
+              *ngIf="quarterThree.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="quarterThree.status != 'COMPLETED'"
+                (click)="onClickAppear(quarterThree)" [disabled]="!quarterThree.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="quarterThree.status == 'COMPLETED'"
+                (click)="onClickViewScore(quarterThree)" [disabled]="!quarterThree.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">4th Quarter Test</h4>
+            <!-- <ion-button (click)="openDescription('4th Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="quarterFour.status == 'ACTIVE' || quarterFour.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION'" class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="quarterFour.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="quarterFour.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">4th Quarter Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': quarterFour.status != 'COMPLETED'}"
+              *ngIf="quarterFour.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="quarterFour.status != 'COMPLETED'"
+                (click)="onClickAppear(quarterFour)" [disabled]="!quarterFour.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="quarterFour.status == 'COMPLETED'"
+                (click)="onClickViewScore(quarterFour)" [disabled]="!quarterFour.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">2nd Proficiency Test</h4>
+            <!-- <ion-button (click)="openDescription('2nd Proficiency Test')">Know More <ion-icon
+                name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="proficiencyTwo.status == 'ACTIVE' || proficiencyTwo.status == 'STARTED'" class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION' " class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="proficiencyTwo.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="proficiencyTwo.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">2nd Proficiency Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': proficiencyTwo.status != 'COMPLETED'}"
+              *ngIf="proficiencyTwo.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="proficiencyTwo.status != 'COMPLETED'"
+                (click)="onClickAppear(proficiencyTwo)" [disabled]="!proficiencyTwo.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="proficiencyTwo.status == 'COMPLETED'"
+                (click)="onClickViewScore(proficiencyTwo)" [disabled]="!proficiencyTwo.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="subject-container">
+          <div class="section-title">
+            <h4 class="subject-type">Benchmark Test</h4>
+            <!-- <ion-button (click)="openDescription('Benchmark Test')">Know More <ion-icon name="help-circle"></ion-icon>
+            </ion-button> -->
+          </div>
+          <div class="subject-card">
+            <div *ngIf="benchMark.status == 'ACTIVE' || benchMark.status == 'STARTED' " class="status-label Active">
+              <ion-label class="card-label">Active</ion-label>
+            </div>
+            <div *ngIf="quarterOne.status == 'NOQUESTION' " class="status-label Inprogress">
+              <ion-label class="card-label">Inactive</ion-label>
+            </div>
+            <div *ngIf="benchMark.status == 'INPROGRESS' " class="status-label Inprogress">
+              <ion-label class="card-label">InProgress</ion-label>
+            </div>
+            <div *ngIf="benchMark.status == 'COMPLETED'" class="status-label Completed">
+              <ion-label class="card-label">Completed</ion-label>
+            </div>
+            <div class="card-body">
+              <span>Topic : </span>
+              <ion-label class="card-label">Benchmark Test</ion-label>
+            </div>
+            <div class="card-footer" [ngClass]="{'active': benchMark.status != 'COMPLETED'}"
+              *ngIf="benchMark.type == 'DYNAMO EXAM'">
+              <ion-button class="appear-btn" *ngIf="benchMark.status != 'COMPLETED'" (click)="onClickAppear(benchMark)"
+                [disabled]="!benchMark.allowToAttempt">Appear</ion-button>
+              <ion-button style="display: contents;" class="appear-btn" *ngIf="benchMark.status == 'COMPLETED'"
+                (click)="onClickViewScore(benchMark)" [disabled]="!benchMark.allowToAttempt">View Score
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-modal #eventInfoModal class="selectBottomSheet" [isOpen]="isEventInfoModalOpen" [initialBreakpoint]="1.0"
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Event Info </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="page-inner" [innerHTML]="selectedCategory.description">
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

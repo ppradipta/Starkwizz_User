@@ -1,0 +1,68 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>Types of User</ion-title>
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+      <ion-segment-button value="STUDENT">
+        <ion-label>Student</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="PARENT">
+        <ion-label>Parent</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="teacher">
+        <ion-label>Teacher</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="modal-inner">
+    <div class="user-terms" *ngIf="segmentValue == 'student'">
+      <p>When anyone signs in as a Student, then he/she has the provision of single registration. The
+        student will be registered with a unique ID and the features of the app will then be available for the
+        particular student only. A student has the provision of:-</p>
+      <ul>
+        <li>Self-assessment through systematic online regular tests of all subjects</li>
+        <li>Participating in the online weekly quiz competitions</li>
+        <li>Participating in online scholarships and talent hunts</li>
+        <li>Utilizing the information database available at the hubs platform for various purposes, for
+          example: finding a nearby bookstore, finding the location of nearby coaching centers, dance
+          and music classes, home tutor and many more</li>
+        <li>Selling or purchasing old educational books</li>
+      </ul>
+    </div>
+
+    <div class="user-terms" *ngIf="segmentValue == 'parent'">
+      <p>When anyone signs in as a Parent, then he/she has the provision of creating maximum of
+        four user accounts that will be registered with four different IDs. After registration the IDs will be
+        available on the log in page and the users can then log in to their respective account using their
+        respective ID only. Parents are able to:-</p>
+      <ul>
+        <li>Parents can assess their children as and when required using the Dynamo feature of the app.</li>
+        <li>Monitoring the growth of children through result and ranking system of each test.</li>
+        <li>Motivate children to participate in scholarships, different quiz competitions and talent hunts
+          thereby developing a competitive attitude among them.</li>
+      </ul>
+    </div>
+
+    <div class="user-terms" *ngIf="segmentValue == 'teacher'">
+      <p>When anyone signs in as a Teacher, then he/she has the provision of creating unlimited user
+        accounts that will be registered with individual IDs. After registration the IDs will be available on the
+        log in page and the users can then log in to their respective account using their respective ID only.
+        Teachers are able to:-</p>
+      <ul>
+        <li>Bringing in all the students under a single test platform (Dynamo) and carrying out different
+          tests at a particular time.</li>
+        <li>Teachers can conduct online mock tests of their students using the Dynamo feature of the
+          app.</li>
+        <li>Assessment of students on a regular basis.</li>
+        <li> Monitoring a student’s growth through result and ranking in various tests at different levels.</li>
+          
+      </ul>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="secondary-btn" (click)="onClickClose()">Okay</ion-button>
+  </div>
+</ion-footer>

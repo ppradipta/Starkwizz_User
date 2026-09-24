@@ -1,0 +1,27 @@
+
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>Enter Referral Code</ion-title>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="modal-inner">
+    <ion-label>Skip if you don't have any referral code</ion-label>
+    <form #passcodeForm="ngForm" autocomplete="off">
+      <div class="input-cantainer">
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+        <ion-input inputmode="numeric" numbersOnly type="text" maxlength="1"></ion-input>
+      </div>
+    </form>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="footer-toolbar">
+    <ion-button class="secondary-btn skip-btn" fill="outline" (click)="onClickClose()">Skip</ion-button>
+    <ion-button class="secondary-btn">Proceed</ion-button>
+  </div>
+</ion-footer>

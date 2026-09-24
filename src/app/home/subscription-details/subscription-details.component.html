@@ -1,0 +1,137 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-title">
+    <!-- <h2>Subscription Details</h2> -->
+  </div>
+
+  <div class="page-inner" *ngIf="!isLoading">
+    <!-- If user has subscription -->
+    <div *ngIf="hasSubscription && subscriptionData && !isFreeTrialSubscription()" class="subscription-details">
+      <div class="info-section">
+        <div class="section-title">
+          <h4>PLAN INFORMATION</h4>
+        </div>
+        
+        <div class="detail-card">
+          <div class="section-row">
+            <ion-label class="section-label">Student Name</ion-label>
+            <span class="section-value">{{subscriptionData.name || userDetails.displayName}}</span>
+          </div>
+          <div class="section-row">
+            <ion-label class="section-label">Parent Name</ion-label>
+            <span class="section-value">{{userDetails.parentName || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Class</ion-label>
+            <span class="section-value">{{subscriptionData.className || userDetails.className || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">School Name</ion-label>
+            <span class="section-value">{{subscriptionData.schoolName || userDetails.schoolName || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Board of Education </ion-label>
+            <span class="section-value">{{subscriptionData.boardName || userDetails.boardName || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Academic Year</ion-label>
+            <span class="section-value">{{subscriptionData.year || userDetails.year}} - 2027</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Date of Subscription </ion-label>
+            <span class="section-value">{{subscriptionData.txnDate || subscriptionData.date || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Category</ion-label>
+            <span class="section-value">{{ getPlanName() || 'N/A' }}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Plan Price</ion-label>
+            <span class="section-value">₹{{planPrice || 0}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Amount Paid</ion-label>
+            <span class="section-value">₹{{subscriptionData.amount || 0}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Plan Purchased Date & Time</ion-label>
+            <span class="section-value">{{subscriptionData.txnDate || subscriptionData.date || 'N/A'}}</span>
+          </div>
+
+          <div class="section-row">
+            <ion-label class="section-label">Plan Validity</ion-label>
+            <span class="section-value">365 Days</span>
+          </div>
+
+          <!-- <div class="section-row">
+            <ion-label class="section-label">Plan Validity</ion-label>
+            <span class="section-value" *ngIf="subscriptionData.startDate && subscriptionData.endDate">
+              {{subscriptionData.startDate}} - {{subscriptionData.endDate}}
+            </span>
+            <span class="section-value" *ngIf="!subscriptionData.startDate || !subscriptionData.endDate">
+              N/A
+            </span>
+          </div> -->
+
+          <div class="section-row">
+            <ion-label class="section-label">Plan Period</ion-label>
+            <span class="section-value" *ngIf="subscriptionData.startDate && subscriptionData.endDate">
+              Start: {{subscriptionData.startDate}}<br>
+              End: {{subscriptionData.endDate}}
+            </span>
+            <span class="section-value" *ngIf="!subscriptionData.startDate || !subscriptionData.endDate">
+              N/A
+            </span>
+          </div>
+
+          <!-- <div class="section-row">
+            <ion-label class="section-label">Status</ion-label>
+            <span class="section-value status-badge" [class.active]="subscriptionData.status === 'SUCCESS'">
+              {{subscriptionData.status || 'N/A'}}
+            </span>
+          </div>
+
+          <div class="section-row" *ngIf="subscriptionData.paymentfor">
+            <ion-label class="section-label">Subscription Type</ion-label>
+            <span class="section-value">
+              <span *ngFor="let type of subscriptionData.paymentfor; let last = last">
+                {{type}}<span *ngIf="!last">, </span>
+              </span>
+            </span>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+
+    <!-- If user has no subscription -->
+    <div *ngIf="!hasSubscription || isFreeTrialSubscription()" class="no-subscription">
+      <div class="no-subscription-content">
+        <ion-icon name="card-outline" class="no-subscription-icon"></ion-icon>
+        <h3>No Subscription Found</h3>
+        <p>You don't have any active subscription. Please subscribe to access premium features.</p>
+        <ion-button expand="block" class="primary" (click)="goToSubscription()">
+          Subscribe Now
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="lines"></ion-spinner>
+    <p>Loading subscription details...</p>
+  </div>
+</ion-content>

@@ -1,0 +1,103 @@
+ion-header {
+    &.header-md::after {
+        height: 0;
+    }
+    .header-toolbar {
+        padding: 10px 0;
+        text-align: center;
+        margin: 0 !important;
+        ion-title {
+            font-size: 20px;
+            line-height: 24px;
+            font-family: 'Nunito-Bold';
+            display: block;
+            color: #0A395A;
+            padding: 0;
+            position: unset;
+        }
+    }
+}
+
+.section-row {
+    height: calc(100% - 44px);
+    overflow-y: auto;
+    .section-label {
+        font-size: 18px;
+        line-height: 20px;
+        font-family: 'Nunito-SemiBold';
+        display: block;
+        color: #6ecfed;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+    }
+    ion-button {
+        margin: 0;
+        --border-radius: 6px;
+        --color: #0A395A;
+        font-size: 14px;
+        font-family: "Nunito-SemiBold";
+        text-transform: capitalize;
+        --box-shadow: none;
+        height: 30px;
+        --background: transparent;
+        --border-color: #0A395A;
+        --border-width: 2px;
+        letter-spacing: 0;
+        --border-style: solid;
+        --padding-start: 8px;
+        --padding-end: 8px;
+        &.agree-btn {
+            --background: #0A395A;
+            --color: #fff;
+            margin-right: 8px;
+        }
+    }
+    ion-list {
+        margin: 12px 0 !important;
+        padding: 0 !important;
+        ion-item {
+            --min-height: 40px;
+            --padding-start: 0;
+            --inner-padding-start: 10px;
+            --inner-padding-end: 10px;
+            --inner-padding-top: 5px;
+            --inner-padding-bottom: 5px;
+            --inner-border-width: 0;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+            &:last-child {
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
+            ion-label {
+                font-size: 15px;
+                line-height: 20px;
+                font-family: "Nunito-Regular";
+                display: block;
+                color: #0A395A;
+                margin: 0;
+                white-space: normal;
+            }
+            .verify-icon {
+                min-width: 20px;
+                height: 20px;
+                margin-left: 10px;
+            }
+            .card-row {
+                display: flex;
+            }
+        }
+    }
+    .card-row {
+        ion-label {
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 600;
+            display: block;
+            margin-top: 6px;
+        }
+    }
+}

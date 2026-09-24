@@ -1,0 +1,82 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-title>Applicable Modules </ion-title>
+  </div>
+</ion-header>
+
+
+<ion-content>
+  <div class="section-row" *ngIf="userDetails?.userLinkType!='SCHOOL_SPECIFICE'">
+    <div class="d-flex align-items-center justify-content-between">
+      <ion-label class="section-label mb-2">{{subject.displayName}} hhh</ion-label>
+      <div class="d-flex align-items-center" *ngIf="type!='TXNHISTORY'">
+        <!-- <ion-button fill="outline" (click)="removeFromOption()" [disabled]="true">Decline</ion-button> -->
+      </div>
+    </div>
+
+    <!-- <ion-item *ngFor="let publisher of publishers">
+      <ion-button class="agree-btn" (click)="acceptForPublisher(publisher)">Accept</ion-button>
+      <div class="card-row" (click)="onSelectPublisher(publisher)">
+        <ion-label>{{publisher?.displayName}}</ion-label>
+        <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+        <ion-icon slot="end" name="{{publisher?.isExpand ? 'chevron-up':'chevron-down'}}"></ion-icon>
+      </div>
+      <ion-list *ngIf="publisher.isExpand">
+        <ion-item *ngFor="let module of moduleList">
+          <div class="card-row">
+            <ion-label>{{module?.displayName}}</ion-label>
+            <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-item> -->
+
+
+    <div class="d-flex justify-content-between mb-3" *ngFor="let publisher of publishers">
+      <div>
+        <div class="card-row">
+          <ion-label>{{publisher?.displayName}}</ion-label>
+          <!-- <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img> -->
+        </div>
+        <ion-list *ngIf="publisher.isExpand">
+          <ion-item *ngFor="let module of moduleList">
+            <div class="card-row">
+              <ion-label>{{module?.displayName}}</ion-label>
+              <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="d-flex">
+        <ion-button class="agree-btn" (click)="acceptForPublisher(publisher)">Accept</ion-button>
+        <ion-icon class="ms-4 mt-2" slot="end" name="{{publisher?.isExpand ? 'chevron-up':'chevron-down'}}"
+          (click)="onSelectPublisher(publisher)"></ion-icon>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="section-row" *ngIf="userDetails?.userLinkType=='SCHOOL_SPECIFICE'">
+    <div class="d-flex align-items-center justify-content-between">
+      <ion-label class="section-label mb-2">{{subject.displayName}}</ion-label>
+      <div class="d-flex align-items-center" *ngIf="type!='TXNHISTORY'">
+       <ion-button fill="outline" (click)="proceedToExam()">Proceed</ion-button> 
+      </div>
+    </div>
+    <div>
+      <div class="card-row">
+        <ion-label>Your Chapters</ion-label>
+      </div>
+      <ion-list>
+        <ion-item *ngFor="let module of moduleList">
+          <div class="card-row">
+            <ion-label>{{module?.displayName}}</ion-label>
+            <ion-img class="verify-icon" src="/assets/images/verify.svg"></ion-img>
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
+</ion-content>

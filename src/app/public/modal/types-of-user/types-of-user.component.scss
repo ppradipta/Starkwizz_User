@@ -1,0 +1,66 @@
+ion-header {
+    &.header-md::after {
+        height: 0;
+    }
+    .header-toolbar {
+        text-align: center;
+        padding: 26px 20px 10px;
+        ion-title {
+            font-size: 26px;
+            line-height: 30px;
+            font-family: 'Nunito-Bold';
+            display: block;
+            color: #0A395A;
+            margin-bottom: 8px;
+            padding: 0;
+            position: unset !important;
+        }
+    }
+}
+ion-content {
+    .modal-inner {
+        padding: 10px 20px;
+        .user-terms {
+            p {
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-Regular';
+                display: block;
+                color: #0A395A;
+                margin: 0 0 14px;
+                b {
+                    font-family: 'Nunito-Bold';
+                }
+            }
+            ul {
+                li {
+                    list-style-type: disc;
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-family: 'Nunito-Regular';
+                    color: #0A395A;
+                    margin-bottom: 6px;
+                    b {
+                        font-family: 'Nunito-Bold';
+                    }
+                }
+            }
+        }
+    }
+}
+
+ion-footer {
+    &.footer-md::before {
+        height: 0;
+    }
+    .footer-toolbar {
+        text-align: center;
+        padding: 10px 20px 26px;
+        ion-button {
+            height: 52px;
+            font-size: 20px;
+            width: 60%;
+            min-width: 200px;
+        }
+    }
+}

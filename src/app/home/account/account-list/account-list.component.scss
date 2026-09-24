@@ -1,0 +1,63 @@
+.header-logo {
+    margin: 0 20px 0 6px;
+}
+
+.page-inner {
+    padding: 20px;
+    .account-card {
+        border-radius: 15px;
+        box-shadow: 0px 3px 10px 1px #00000029;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .card-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            .user-img {
+                width: 60px;
+                background: #fff;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #000;
+                overflow: hidden;
+                margin-right: 10px;
+                ion-img {
+                  object-fit: cover;
+                }
+              }
+            .user-name  {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-Bold';
+                color: #6ACDEC;
+                text-transform: capitalize;
+                display: block;
+            }
+            .school-name {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+            }
+            .section-label {
+                font-size: 16px;
+                line-height: 18px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+            }
+        }
+        .card-right {
+            display: flex;
+            align-items: center;
+            .ellips-icon {
+                color: #51C1E9;
+                font-size: 34px;
+            }
+        }
+    }
+}

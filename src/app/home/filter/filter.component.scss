@@ -1,0 +1,167 @@
+
+ion-menu-button {
+    color: #fff;
+    height: 50px;
+    width: 50px;
+    font-size: 35px;
+    &.menu-button-hidden {
+        display: block !important;
+    }
+}
+
+ion-header {
+    background: #1e1e1e;
+    height: 90px;
+    padding: 30px 16px 10px;
+    display: flex;
+    .header-logo {
+        flex: 1;
+        margin: 0 16px;
+        ion-img {
+            max-width: 180px;
+            margin: 0 auto;
+        }
+    }
+    .filter-icon {
+        width: 20px;
+        padding-top: 4px;
+    }
+}
+
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .title {
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #0A395A;
+        h4 {
+            color: #0A395A;
+            margin: 0;
+            font-size: 22px;
+            font-family: 'Nunito-Regular';
+            line-height: 22px;
+        }
+        ion-button {
+            --color: #51C0E9;
+            font-size: 18px;
+            font-family: 'Nunito-Regular';
+            line-height: 20px;
+            --ripple-color: #51C0E9;
+        }
+    }
+    .page-inner {
+        padding: 0;
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        .vertical-segment {
+            background: #E8F9FF;
+            height: 100%;
+            overflow-y: auto;
+            min-width: 130px;
+            width: 40%;
+            ion-segment {
+                display: flex;
+                flex-direction: column;
+                ion-segment-button {
+                    background: transparent;
+                    color: #0A395A;
+                    height: 38px;
+                    font-size: 18px;
+                    font-family: 'Nunito-SemiBold';
+                    --border-radius: 0;
+                    --border-style: none;
+                    --box-shadow: none;
+                    background: #E8F9FF;
+                    margin: 0;
+                    --padding-top: 8px;
+                    --padding-bottom: 8px;
+                    --padding-end: 16px;
+                    --padding-start: 16px;
+                    &.segment-button-checked {
+                        background: #fff;
+                        color: #0A395A;
+                        ion-label {
+                            &::after {
+                                height: 0;
+                            }
+                        }
+                    }
+                    ion-label {
+                        text-align: left;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .content-data {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            ion-list {
+                padding: 4px 16px;
+                ion-item {
+                    --border-style: none;
+                    --padding-start: 0;
+                    --inner-padding-end: 0;
+                    --ripple-color: transparent;
+                    --min-height: 38px;
+                    border-bottom: 1px solid #0A395A;
+                    ion-checkbox {
+                        --size: 20px;
+                        margin: 0;
+                        margin-right: 15px;
+                        --border-color: #0A395A;
+                        --checkmark-width: 3px;
+                        --border-radius: 3px;
+                        --checkmark-color: #0A395A;
+                        --background-checked: #fff;
+                        --border-color-checked: #0A395A;
+                    }
+                    .checkboxLabel {
+                        font-size: 18px;
+                        line-height: 22px;
+                        font-family: 'Nunito-Regular';
+                        color: #0A395A;
+                        margin: 0;
+                    }
+                }
+                .clear-btn {
+                    font-size: 18px;
+                    font-family: 'Nunito-Regular';
+                    line-height: 20px;
+                    --color: #1B7FC5;
+                    margin-top: 6px;
+                }
+            }
+        }
+    }
+}
+
+ion-footer {
+    border-top: 1px solid #0A395A;
+    .footer-toolbar {
+        padding: 8px 0;
+        display: flex;
+        align-items: center;    
+        ion-button {
+            --color: #51C0E9;
+            font-size: 20px;
+            font-family: 'Nunito-Regular';
+            line-height: 22px;
+            width: 50%;
+            --padding-top: 8px;
+            --padding-bottom: 8px;
+            --ripple-color: #51C0E9;
+            &.apply-btn {
+                border-left: 1px solid #0A395A;
+                --color: #0A395A;
+                --ripple-color: #0A395A;
+            }
+        }
+    }
+}

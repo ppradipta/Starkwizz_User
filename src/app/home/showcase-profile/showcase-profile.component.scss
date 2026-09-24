@@ -1,0 +1,177 @@
+.page-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .profile-container {
+        padding: 20px 20px 12px;
+        .profile-img {
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            background-color: #FFF;
+            border: 3px solid #0A395A;
+            overflow: hidden;
+            margin-right: 20px;
+            ion-img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .profile-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .profile-info {
+            margin: 0 12px;
+            text-align: center;
+            .info-count {
+                color: #0A395A;
+                font-size: 18px;
+                line-height: 20px;
+                font-family: "Nunito-Bold";
+                display: block;
+                margin-bottom: 4px;
+            }
+            .info-name {
+                color: #0A395A;
+                font-size: 15px;
+                line-height: 18px;
+                font-family: "Nunito-SemiBold";
+                display: block;
+            }
+        }
+        .user-name {
+            font-size: 18px;
+            line-height: 20px;
+            font-family: "Nunito-Bold";
+            color: #0A395A;
+            text-transform: capitalize;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .section-label {
+            font-size: 15px;
+            line-height: 20px;
+            font-family: "Nunito-SemiBold";
+            display: block;
+            color: #0a395a99;
+            span {
+                font-family: "Nunito-Bold";
+                color: #0A395A;
+            }
+        }
+    }
+    .custom-segment {
+        padding: 0 10px;
+        ion-segment {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            ion-segment-button {
+                width: 33.33%;
+                background: transparent;
+                color: #0A395A;
+                height: 34px;
+                font-size: 15px;
+                font-family: 'Nunito-Bold';
+                --border-radius: 0;
+                --border-width: 1px;
+                --border-color: #70CFED;
+                --border-style: solid;
+                --box-shadow: none;
+                margin: 0;
+                @media screen and (max-width: 350px) {
+                    font-size: 12px;
+                    height: 32px;
+                    ion-icon {
+                        font-size: 18px;
+                        margin-right: 4px;
+                    }
+                }
+                &.segment-button-checked {
+                    background: #70CFED;
+                    color: #0A395A;
+                    ion-label {
+                        &::after {
+                            height: 0;
+                        }
+                    }
+                }
+                &.snapshot {
+                    --border-width: 1px 0;
+                }
+                ion-label {
+                    display: flex;
+                    ion-icon {
+                        font-size: 20px;
+                        margin-right: 6px;
+                    }
+                }
+                
+            }
+        }
+    }
+    .video-container {
+        overflow-y: auto;
+        flex: 1;
+        display: flex;
+        // align-items: center;
+        flex-flow: row wrap;
+        margin: 5px;
+        .video-box {
+            flex: 1 1 25%;
+            max-width: calc(25% - 10px);
+            height: 200px;
+            overflow: hidden;
+            margin: 5px;
+            position: relative;
+            @media screen and (max-width: 500px) {
+                flex: 1 1 33.33%;
+                max-width: calc(33.33% - 10px);
+            }
+            @media screen and (max-width: 420px) {
+                flex: 1 1 50%;
+                max-width: calc(50% - 10px);
+            }
+            video {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+            .view-info {
+                position: absolute;
+                bottom: 6px;
+                left: 6px;
+                display: flex;
+                align-items: center;
+                ion-icon {
+                    font-size: 18px;
+                    color: #fff;
+                    margin-right: 2px;
+                }
+                span {
+                    color: #fff;
+                    font-size: 13px;
+                    line-height: 16px;
+                    font-family: "Nunito-Regular";
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+.default-text{
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    font-family: "Nunito-Regular";
+    display: block;
+    color: #0A395A;
+    padding: 10px;
+    margin: 0;
+}

@@ -1,0 +1,46 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <h2>Name group</h2>
+    <div class="create-group">
+      <div class="addImg">
+        <label class="fileButton" for="profileImg">
+          <ion-icon name="camera"></ion-icon>
+          <span>+</span>
+          <input id="profileImg" type="file" (change)="uploadGroupImage($event)">
+        </label>
+      </div>
+
+
+      <div class="addName">
+        <ion-input class="group-name" placeholder="Enter group name" [(ngModel)]="groupName"></ion-input>
+        <ion-icon name="happy-outline"></ion-icon>
+      </div>
+    </div>
+    <div>
+      <div class="group-container">
+        <div class="group-card" *ngFor="let member of groupMembers">
+          <div class="card-left">
+            <div class="group-img" (click)="onClickDetail()">
+              <ion-img [src]="member.imgUrl?member.imgUrl: 'assets/images/menu-user.gif'"></ion-img>
+            </div>
+            <div class="card-inner" (click)="viewProfileDetails(member)">
+              <ion-label class="group-name">{{member.displayName}}</ion-label>
+              <ion-label class="section-label">{{member.cityName}}, {{member.stateName}}</ion-label>
+              <span class="section-label">Class {{member.className}}, {{member.boardName}}</span>
+              <!-- <ion-img class="verify-icon" src="/assets/images/verify.svg" *ngIf="list.isSelected"></ion-img> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="confirmGroup()">
+    <ion-fab-button>
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

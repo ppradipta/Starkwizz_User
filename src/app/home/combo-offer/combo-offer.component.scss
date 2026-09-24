@@ -1,0 +1,286 @@
+.header-md::after {
+    bottom: -5px;
+    height: 0;
+}
+
+.page-container {
+    position: relative;
+
+    .left-top {
+        width: 140px;
+        height: 167px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        z-index: -1;
+    }
+
+    .right-top {
+        width: 80px;
+        height: 128px;
+        position: absolute;
+        top: 0px;
+        right: 0;
+        z-index: -1;
+    }
+
+    .left-bottom {
+        width: 106px;
+        height: 178px;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .page-inner {
+        padding: 30px;
+        min-height: calc(100vh - 146px);
+
+        h3 {
+            font-size: 20px;
+            line-height: 35px;
+            color: #1C1D1F;
+            margin: 0;
+            text-align: center;
+            font-family: 'Nunito-ExtraBold';
+        }
+
+        .heading-span {
+            font-size: 14px;
+            line-height: 21px;
+            color: #1C1D1F;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+            font-family: 'Nunito-Bold';
+
+            label {
+                color: #00AEFF;
+            }
+        }
+
+        .heading-label {
+            font-size: 12px;
+            line-height: 18px;
+            color: #1C1D1F;
+            margin-bottom: 16px;
+            display: block;
+            text-align: center;
+            font-family: 'Nunito-ExtraBold';
+        }
+
+        .custom-raw {
+            border: 1px solid #DCDCDC;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+
+            .custom-col {
+                gap: 10px;
+                display: flex;
+                flex-flow: column;
+                align-items: flex-start;
+                background: linear-gradient(121.12deg, rgba(205, 255, 250, 0) 37.23%, #CDFFFA 102.55%);
+                border-bottom: 1px solid #DCDCDC;
+                padding: 10px 16px;
+                position: relative;
+
+                &.Event {
+                    background: linear-gradient(117.58deg, rgba(244, 201, 247, 0) 23.31%, #F4C9F6 175.3%);
+                }
+
+                &.Quizwhizz {
+                    background: linear-gradient(112.05deg, rgba(255, 222, 169, 0) 37.8%, #FFDEA9 130.47%);
+                }
+
+                &:last-child {
+                    border-bottom: 0;
+                }
+
+                ion-checkbox {
+                    // position: absolute;
+                    // top: 30px;
+                    // right: 16px;
+                    // height: 25px;
+                    // width: 25px;
+                    --size: 22px;
+                    --checkmark-color: #058782;
+                    --checkmark-width: 4px;
+                    --border-color-checked: #058782;
+                    --border-width: 2px;
+                    --border-style: solid;
+                    --border-color: #ddd;
+
+                    .checkbox-disabled {
+                        opacity: 1;
+                        pointer-events: unset;
+                    }
+                }
+
+                ion-checkbox::part(container) {
+                    border-radius: 24px;
+                    background: transparent;
+                    padding: 4px;
+                }
+
+                ion-checkbox::part(container) {
+                    border-radius: 24px;
+                    background: transparent;
+                    padding: 4px;
+                }
+
+                h2 {
+                    font-size: 16px;
+                    line-height: 18px;
+                    color: #1C1D1F;
+                    margin: 0;
+                    font-family: 'Nunito-ExtraBold';
+                }
+
+                span {
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #1C1D1F;
+                    display: block;
+                    font-family: 'Nunito-Regular';
+
+                    b {
+                        font-size: 13px;
+                        font-family: 'Nunito-Bold';
+                    }
+                }
+
+                ion-text {
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #1C1D1F;
+                    font-family: 'Nunito-Bold';
+                    display: block;
+                }
+
+                p {
+                    font-size: 12px;
+                    line-height: 18px;
+                    color: #1C1D1F;
+                    font-family: 'Nunito-Bold';
+                    margin: 0;
+                }
+
+                .moreBtn {
+                    font-size: 13px;
+                    line-height: 20px;
+                    font-family: "Nunito-Bold";
+                    color: #00BFFF;
+                    text-transform: unset;
+                    --padding-top: 0;
+                    --padding-bottom: 0;
+                    --padding-start: 0;
+                    --padding-end: 0;
+                    margin-inline-start: 0;
+                    margin-inline-end: 0;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    min-height: 24px;
+                }
+            }
+        }
+
+        .price {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 16px;
+
+            ion-label {
+                font-size: 14px;
+                line-height: 22px;
+                color: #1C1D1F;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+
+                span {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #00BFFF;
+                }
+
+                b {
+                    font-size: 16px;
+                    font-family: "Nunito-Bold";
+                }
+            }
+
+            .offer {
+                font-size: 13px;
+                line-height: 14px;
+                color: #625D5D;
+                font-family: "Nunito-SemiBold";
+                display: block;
+                margin-bottom: 10px;
+
+                a {
+                    color: #625D5D;
+                    // text-decoration: underline;
+                }
+            }
+        }
+
+        .limited {
+            border: 1px solid #DBDBDB;
+            padding: 16px;
+            border-radius: 16px;
+            background: #fff;
+            text-align: center;
+
+            span {
+                font-size: 11px;
+                line-height: 18px;
+                color: #1C1D1F;
+                font-family: "Nunito-Bold";
+                display: block;
+            }
+        }
+    }
+}
+
+.btn-group {
+    padding: 16px 30px;
+    width: 100%;
+
+    ion-button {
+        margin: 0;
+        --background: #71CEED;
+        --border-radius: 40px;
+        height: 44px;
+        font-size: 14px;
+        width: 100%;
+        font-family: 'Nunito-Bold';
+        text-transform: capitalize;
+        --box-shadow: none;
+
+        &.freetrial {
+            margin-right: 16px;
+            // --background: transparent;
+            --background: #71CEED;
+            font-size: 14px;
+            width: 100%;
+            font-family: "Nunito-SemiBold";
+            text-transform: capitalize;
+            color: #ffffff;
+
+            span {
+                // margin-right: auto;
+                margin: center;
+            }
+        }
+    }
+}
+
+.middle-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}

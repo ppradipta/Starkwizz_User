@@ -1,0 +1,45 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+<ion-content>
+
+
+  <div class="list-container">
+    <div class="trans-list" *ngFor="let txn of txnHistory" [ngClass]="{'expiredList': txn.expiredDays > 0}">
+      <div class="transaction">
+        <span class="payment-id">Txn Ref : {{txn.txnNumber | uppercase}}</span>
+        <div class="payment d-flex justify-content-between align-items-center">
+          <span class="payment-id">Paid Amount : ₹ {{txn.amount}}</span>
+        </div>
+        <span class="ammount">{{txn.paymentfor}} </span>
+        <div class="d-flex justify-content-between">
+          <div class="startEndDate me-2">
+            <span>Subscription Valid upto </span>
+            <ion-label>{{txn.startDate |date: 'MMM d, y'}} - {{txn.endDate |date: 'MMM d, y'}} </ion-label>
+          </div>
+          <ion-button (click)="gotoDynamo()" *ngIf="txn.expiredDays > 0">Re-New</ion-button>
+          <div class="startEndDate" *ngIf="txn?.expiredDays">
+            <span>Remaning days : </span>
+            <ion-label>{{txn?.expiredDays * -1}}</ion-label>
+          </div>
+        </div>
+      </div>
+      <div class="detail">
+        <ion-label>Subscription Details </ion-label>
+        <div class="detail-inner" *ngFor="let txnsubj of txn.paymentForDetails" (click)="checkForEachModules(txnsubj)">
+          <div *ngIf="txn.paymentfor=='EXAM'">
+            <span><b>Subject Name :</b>{{txnsubj?.subjectName}}</span>
+            <span><b>Class Name :</b>{{txnsubj?.className}}</span>
+            <span><b>Board Name :</b>{{txnsubj?.boardName}}</span>
+          </div>
+          <div *ngIf="txn.paymentfor!='EXAM'">
+            <span><b>Event Name :</b>{{txnsubj?.eventName}}</span>
+            <span><b>Subject Name :</b>{{txnsubj?.subjectName}}</span>
+            <span><b>Code Name :</b>{{txnsubj?.eventCode}}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

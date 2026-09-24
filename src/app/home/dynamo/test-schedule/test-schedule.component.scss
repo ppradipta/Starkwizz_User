@@ -1,0 +1,93 @@
+.page-inner {
+    padding: 20px;
+    .heading {
+        margin-bottom: 20px;
+        h2 {
+            font-size: 25px;
+            line-height: 28px;
+            margin-bottom: 6px;
+            font-family: 'Nunito-Bold';
+            color: #0A395A;
+        }
+        ion-label {
+            font-size: 16px;
+            line-height: 20px;
+            font-family: 'Nunito-Regular';
+            display: block;
+            color: #0A395A;
+        }
+    }
+    .inner-section {
+        margin-bottom: 16px;
+        .section-title {
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 16px;
+            font-family: 'Nunito-SemiBold';
+            display: block;
+            color: #0A395A;
+        }
+        ion-datetime {
+            margin: 0 auto;
+            background: #fff;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            .schedule-card {
+                flex: 1 1 25%;
+                max-width: calc(20% - 10px);
+                border-radius: 15px;
+                margin: 5px;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                @media screen and (max-width: 500px) {
+                    flex: 1 1 33.33%;
+                    max-width: calc(33.33% - 10px);
+                }
+                @media screen and (max-width: 350px) {
+                    flex: 1 1 50%;
+                    max-width: calc(50% - 10px);
+                }
+                ion-label {
+                    font-size: 16px;
+                    line-height: 18px;
+                    font-family: 'Nunito-Semibold';
+                    margin-bottom: 2px;
+                    display: block;
+                    color: #fff;
+                    &.date {
+                        font-family: 'Nunito-Light';
+                    }
+                    &.month {
+                        font-family: 'Nunito-Light';
+                    }
+                    &.label {
+                        font-family: 'Nunito-Light';
+                        font-size: 14px;
+                        line-height: 16px;
+                    }
+                    &.time {
+                        font-size: 14px;
+                        line-height: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.footer-md::before {
+    height: 0;
+}
+
+.footer-toolbar {
+    padding: 20px 26px;
+    ion-button {
+        height: 50px;
+        font-size: 20px;
+    }
+}

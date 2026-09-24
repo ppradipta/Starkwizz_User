@@ -1,0 +1,54 @@
+
+ion-tab-bar {
+    --background: #fff;
+    height: 65px;
+    ion-tab-button {
+        --padding-end: 6px;
+        --padding-start: 6px;
+        --ripple-color: #fff;
+        position: relative;
+        &.tab-selected {
+            svg {
+                fill: #00AEFF;
+                stroke: #00AEFF;
+                ;
+            }
+            ion-label {
+                color: #00AEFF;
+                font-family: "Nunito-Bold";
+            }
+        }
+        svg {
+            fill: transparent;
+            stroke: #8D99B2;
+            width: 24px;
+            height: 24px;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        ion-label {
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Nunito-Regular";
+            color: #1F1F1F;
+        }
+    }
+}
+
+ion-badge {
+    background: #f70b0b;
+    border-radius: 50%;
+    border: 1px solid;
+    top: 2px;
+    position: absolute;
+    min-width: 20px;
+    right: 6px;
+    left: unset;
+    font-size: 11px;
+    line-height: 13px;
+    --padding-top: 2px;
+    --padding-bottom: 1px;
+    --padding-end: 3px;
+    --padding-start: 2px;
+    letter-spacing: -0.1px;
+}

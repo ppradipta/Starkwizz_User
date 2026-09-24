@@ -1,0 +1,17 @@
+ion-content {
+    .modal-inner {
+        padding: 25px 0;
+        .option-list {
+            position: relative;
+            overflow: hidden;
+            padding: 8px 20px;
+        }
+        ion-label {
+            font-size: 18px;
+            line-height: 22px;
+            color: #0A395A;
+            font-family: "Nunito-SemiBold";
+            display: block;
+        }
+    }
+}

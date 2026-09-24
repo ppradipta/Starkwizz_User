@@ -1,0 +1,35 @@
+<ion-header class="main-header">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <div class="d-flex align-items-center" (click)="onClickClose()">
+      <ion-icon class="close-icon" name="close-circle-outline"></ion-icon>
+    </div>
+    <div class="header-logo">
+      <ion-img src="/assets/images/header-logo.svg"></ion-img>
+    </div>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="page-inner">
+    <div class="heading">
+      <h4>Answer Sheet</h4>
+      <ion-label>Recheck your Answer before you Submit.</ion-label>
+    </div>
+    <div class="song-list">
+      <div class="song-img">
+        <span>
+          <ion-img [src]="'data:image/jpg;base64,'+imgurl"></ion-img>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <ion-button fill="outline" (click)="backToPage()">
+      <ion-label>Back</ion-label>
+    </ion-button>
+    <ion-button class="next-btn" (click)="uploadImagesForQuestion()">
+      <!-- <ion-spinner name="dots" *ngIf="nextLoadder"></ion-spinner> -->
+      <ion-label >Confirm And Upload</ion-label>
+    </ion-button>
+  </div>
+</ion-content>

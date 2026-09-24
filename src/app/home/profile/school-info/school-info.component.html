@@ -1,0 +1,90 @@
+<ion-content class="date-ion-content">
+  <div class="inner-container">
+    <div class="headerBtn">
+      <ion-button (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="inner-page">
+
+      <div class="left-bottom">
+        <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+      </div>
+      <div class="yellowCircel"></div>
+      <div class="procesBar">
+        <h5>Profile</h5>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+            style="width:70%">
+          </div>
+        </div>
+        <div class="processSize">
+          <span>Complete 0/3</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>School Information</h4>
+        <div class="section-row" (click)="selectState($event)">
+          <ion-label class="section-label">State</ion-label>
+          <ion-select name="state" [(ngModel)]="profileData.stateId" placeholder="Please Select State"
+          [interfaceOptions]="actionSheetState">
+            <ion-select-option *ngFor="let state of stateList" [value]="state.id">{{state.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row" (click)="selectDistrict($event)">
+          <ion-label class="section-label">District</ion-label>
+          <ion-select name="district" [(ngModel)]="profileData.districtId" [interfaceOptions]="actionSheetDistrict"
+            placeholder="Please Select District"  >
+            <ion-select-option *ngFor="let dist of districts" [value]="dist.id">{{dist.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row" (click)="selectCity($event)">
+          <ion-label class="section-label">City / Block</ion-label>
+          <ion-select name="city" [(ngModel)]="profileData.cityId" placeholder="Please Select City/Block"
+          [interfaceOptions]="actionSheetCity">
+            <ion-select-option *ngFor="let city of cities" [value]="city.id">{{city.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row" (click)="selectSchool($event)">
+          <ion-label class="section-label">School</ion-label>
+          <ion-select name="school" [(ngModel)]="profileData.schoolId" placeholder="Please Select School"
+          [interfaceOptions]="actionSheetSchool">
+            <ion-select-option *ngFor="let school of schools" [value]="school.id">{{school.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row" (click)="selectInstitute($event)">
+          <ion-label class="section-label">Coaching Institute</ion-label>
+          <ion-select name="institute" [(ngModel)]="profileData.instituteId" placeholder="Please Select Institute"
+          [interfaceOptions]="actionSheetInstitute">
+            <ion-select-option *ngFor="let institute of institutes" [value]="institute.id">{{institute.displayName}}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="section-row">
+          <ion-label class="section-label">Location</ion-label>
+          <ion-textarea name="location" [(ngModel)]="profileData.location" placeholder="Enter Location"
+            class="section-value value-textarea">
+          </ion-textarea>
+        </div>
+
+
+      </div>
+
+      <div class="btn-content">
+        <ion-button class="secondary-btn" [disabled]="!profileData.schoolId" (click)="onClickProceed()">Continue</ion-button>
+      </div>
+    </div>
+  </div>
+
+
+</ion-content>

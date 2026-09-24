@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="720" height="230" viewBox="0 0 720 230">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Rectangle_1310" data-name="Rectangle 1310" d="M0,0H720a0,0,0,0,1,0,0V200a30,30,0,0,1-30,30H30A30,30,0,0,1,0,200V0A0,0,0,0,1,0,0Z" fill="#fff"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.757" y1="0.241" x2="0.204" y2="0.545" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b838c1"/>
+      <stop offset="1" stop-color="#268bb8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_89" data-name="Mask Group 89" clip-path="url(#clip-path)">
+    <rect id="Rectangle_1309" data-name="Rectangle 1309" width="1166.125" height="353.299" transform="translate(-223.063 -39.294)" fill="url(#linear-gradient)"/>
+    <g id="Group_1392" data-name="Group 1392" transform="translate(-167.629 -209.973)" opacity="0.45">
+      <path id="Polygon_45" data-name="Polygon 45" d="M207.757,0,415.514,360.59H0Z" transform="matrix(0.799, 0.602, -0.602, 0.799, 217.008, 0)" opacity="0.58" fill="url(#linear-gradient-2)"/>
+      <path id="Polygon_46" data-name="Polygon 46" d="M292.928,0,585.855,508.415H0Z" transform="matrix(-0.995, 0.105, -0.105, -0.995, 831.098, 554.583)" opacity="0.58" fill="url(#linear-gradient-2)" style="mix-blend-mode: screen;isolation: isolate"/>
+      <path id="Polygon_47" data-name="Polygon 47" d="M207.757,0,415.515,360.59H0Z" transform="matrix(0.788, -0.616, 0.616, 0.788, 481.869, 289.459)" opacity="0.58" fill="url(#linear-gradient-2)" style="mix-blend-mode: screen;isolation: isolate"/>
+    </g>
+  </g>
+</svg>

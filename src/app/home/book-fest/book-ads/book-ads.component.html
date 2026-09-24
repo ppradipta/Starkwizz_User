@@ -1,0 +1,165 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="header-toolbar">
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+        <ion-segment-button value="sell">
+          <ion-label>Sell</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="myads">
+          <ion-label>My Ads</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div *ngIf="segmentValue == 'sell'">
+      <ion-item class="section-row">
+        <ion-label class="section-label">Category</ion-label>
+        <ion-select class="section-input" placeholder="Select Category" [(ngModel)]="bookAdds.category" mode="ios">
+          <ion-select-option *ngFor="let category of bookCategory.category" [value]="category.name">
+            {{category.displayName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span class="label">Provide details of the books you want to host for Sale.</span>
+      <ion-label class="section-title">Details</ion-label>
+      <ion-input class="section-input" [(ngModel)]="bookAdds.bookName" placeholder="Book name"></ion-input>
+
+      <ion-item class="section-row">
+        <ion-label class="section-label">Board</ion-label>
+        <ion-select class="section-input" placeholder="Select Board" [(ngModel)]="bookAdds.boardName" mode="ios"
+          (ionChange)="selectBoard($event)">
+          <ion-select-option *ngFor="let board of boardList" [value]="board.id">{{board.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="section-row">
+        <ion-label class="section-label">Class</ion-label>
+        <ion-select class="section-input" placeholder="Select Class" [(ngModel)]="bookAdds.className" mode="ios"
+          (ionChange)="selectclass($event)">
+          <ion-select-option *ngFor="let class of classes" [value]="class.id">{{class.displayName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-input class="section-input" [(ngModel)]="bookAdds.publicationName" placeholder="Publication name">
+      </ion-input>
+      <ion-input class="section-input" [(ngModel)]="bookAdds.YearOfPublication" placeholder="Year of publication">
+      </ion-input>
+
+      <ion-label class="section-title mb-2">Condition</ion-label>
+
+      <div class="custom-raw">
+        <ng-container *ngFor="let type of selectedType">
+          <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}" (click)="onClickType(type)">{{type.name}}</ion-button>
+        </ng-container>
+      </div>
+      
+      <!-- <ion-list class="checkbox-list">
+        <ion-radio-group [ngModel]="bookAdds.condition" (ngModelChange)="bookAdds.condition=$event">
+          <ion-item>
+            <ion-label>Good</ion-label>
+            <ion-radio slot="start" mode="ios" value="good"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Manageable</ion-label>
+            <ion-radio slot="start" mode="ios" value="manageable"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list> -->
+      <ion-input class="section-input" [(ngModel)]="bookAdds.bookPrice"
+        placeholder="Book Price ( MRP : Max Retail Price )"></ion-input>
+      <!-- <ion-label class="section-title mb-0">Discount</ion-label>
+      <ion-item class="mb-2">
+        <ion-range min="0" max="100" pin color="secondary" [(ngModel)]="bookAdds.discount"></ion-range>
+      </ion-item> -->
+      <ion-input class="section-input" [(ngModel)]="bookAdds.discount" placeholder="Enter Discount Amount"></ion-input>
+
+      <div class="images-group">
+        <div class="image-item" *ngFor="let item of [0,1,2,3]">
+          <div class="item-body" *ngIf="!bookAdds.photos[item]">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            <span>Upload Image</span>
+          </div>
+          <div class="item-img" *ngIf="bookAdds.photos[item]">
+            <img [src]="bookAdds.photos[item]">
+          </div>
+          <div class="select-icon" *ngIf="!bookAdds.photos[item]">
+            <label for="uploadFile" class="fileButton">
+              <input id="uploadFile" type="file" (change)="fileChangeEvent($event)">
+            </label>
+          </div>
+          <div class="clear-img" (click)="onClickDeleteImage(item)">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div class="upload-img">Upload Image
+          <div class="select-icon">
+            <label for="uploadFile" class="fileButton">
+              <input id="uploadFile" type="file" (change)="fileChangeEvent($event)">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="ads-img">
+        <!-- <swiper [config]="bookAdsSwiperConfig">
+          <ng-template swiperSlide *ngFor="let photo of bookAdds.photos">
+            <ion-img [src]="photo"></ion-img>
+          </ng-template>
+        </swiper> -->
+        <swiper-container [slidesPerView]="1" [loop]="true" autoplay>
+          <swiper-slide *ngFor="let photo of bookAdds.photos"> <ion-img [src]="photo"></ion-img></swiper-slide>
+        </swiper-container>
+      </div>
+
+      <ion-button class="post-btn" (click)="postAdd()">Post Now</ion-button>
+    </div>
+
+    <div *ngIf="segmentValue == 'myads'">
+      <div *ngFor="let add of myAdds ;let i = index" class="ads-box" [ngClass]="{ 'ads-sold' : add.isToggleOn}">
+        <div class="ads-img">
+          <!-- <swiper>
+            <ng-template swiperSlide *ngFor="let photo of add.photos">
+              <ion-img [src]="photo"></ion-img>
+            </ng-template>
+          </swiper> -->
+          <swiper-container [slidesPerView]="1" [loop]="true" autoplay>
+            <swiper-slide *ngFor="let photo of add.photos">  
+              <ion-img [src]=" photo"></ion-img></swiper-slide>
+          </swiper-container>
+        </div>
+        <div class="ads-info">
+          <ion-label class="book-name">{{add.bookName}}</ion-label>
+          <span class="book-writer">by {{add.publicationName}}</span>
+          <div class="price-info">
+            <div class="mb-1 mr-1">
+              <ion-label class="box-label actual-label">Actual price</ion-label>
+              <span class="actual-price">{{add.bookPrice}}</span>
+            </div>
+            <div class="mb-0">
+              <ion-label class="box-label">Offer price</ion-label>
+              <div class="offer-price">
+                <ion-label>{{add.discount}}</ion-label>
+                <span>({{add.discountPercentage}}% Off)</span>
+              </div>
+            </div>
+          </div>
+          <div class="price-info">
+            <ion-toggle [checked]="add.isToggleOn" (ionChange)="changePostingStatus(add,i)"></ion-toggle>
+            <span class="toggle-label">{{add.status}}</span>
+          </div>
+          <ion-button (click)="chatRelatedToAdds(add)">
+            <ion-icon name="chatbox-ellipses"></ion-icon>Chat
+          </ion-button>
+          <ion-button (click)="deleteAdd(add)">
+            <ion-icon name="trash"></ion-icon>Delete
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

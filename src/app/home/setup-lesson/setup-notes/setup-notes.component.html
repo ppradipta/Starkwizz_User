@@ -1,0 +1,98 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <ion-label class="section-title">Add Exam</ion-label>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="board" value="CBSE" readonly></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="class" value="5" readonly></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="subject" value="Geography" readonly></ion-input>
+    </ion-item>
+   
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="module" value="Roman Numerals" readonly></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Name"></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Mark"></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Minimum Qualified"></ion-input>
+    </ion-item>
+
+    <ion-item class="section-row">
+      <ion-input class="section-input" placeholder="Duration"></ion-input>
+    </ion-item>
+    <div class="mb-3">
+      <ion-button class="secondary-btn" (click)="addNotes()" *ngIf="!addNote">Add Notes</ion-button>
+      <div class="card" *ngIf="addNote">
+        <span (click)="addNotes()">
+          <ion-icon name="close-circle"></ion-icon>
+        </span>
+        <ion-label class="section-title">Add Notes</ion-label>
+        <ion-item class="section-row">
+          <ion-textarea class="section-input" placeholder="Description"></ion-textarea>
+        </ion-item>
+
+        <ion-list class="checkbox-list mb-0">
+          <ion-radio-group>
+            <ion-item>
+              <ion-label>Free</ion-label>
+              <ion-radio slot="start" mode="ios" value="Free"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Chargeble</ion-label>
+              <ion-radio slot="start" mode="ios" value="Chargeble"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <ion-button class="secondary-btn" (click)="setupDoutes()" *ngIf="!setupDoute">Setup Doutes</ion-button>
+      <div class="card" *ngIf="setupDoute">
+        <span (click)="setupDoutes()">
+          <ion-icon name="close-circle"></ion-icon>
+        </span>
+        <ion-label class="section-title">Setup Doutes</ion-label>
+        <ion-list class="checkbox-list">
+          <ion-radio-group>
+            <ion-item>
+              <ion-label>Zoom</ion-label>
+              <ion-radio slot="start" mode="ios" value="Free"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Meet</ion-label>
+              <ion-radio slot="start" mode="ios" value="Chargeble"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+        <ion-item class="section-row">
+          <ion-input class="section-input" placeholder="Link"></ion-input>
+        </ion-item>
+        <ion-item class="section-row">
+          <ion-input class="section-input" placeholder="Id"></ion-input>
+        </ion-item>
+        <ion-item class="section-row">
+          <ion-input class="section-input mb-0" placeholder="Password"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <ion-button class="secondary-btn" (click)="submit()">Submit</ion-button>
+  </div>
+</ion-content>

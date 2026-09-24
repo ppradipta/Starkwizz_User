@@ -1,0 +1,125 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+    <ion-segment-button value="ongoing">
+      <ion-label>On-going</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pending">
+      <ion-label>Pending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div class="page-inner" *ngIf="segmentValue == 'ongoing'">
+    <div class="event-card" *ngFor="let lesson of ongoinglesson">
+      <div class="card-inner">
+        <div class="card-heading">
+          <div class="name">
+            <h4>{{lesson.eventName}}</h4>
+            <div class="subject">
+              <span>Style : </span>
+              <ion-label>{{lesson.moduleName}}</ion-label>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="event-info">
+            <ion-label class="card-label">Date</ion-label>
+            <span class="card-value">{{lesson.creationDate}}</span>
+          </div>
+          <div class="event-info px-2">
+            <ion-label class="card-label">Time</ion-label>
+            <span class="card-value">{{lesson.startTime}} to {{lesson.endTime}}</span>
+          </div>
+          <div class="event-info">
+            <ion-label class="card-label">Duration</ion-label>
+            <span class="card-value">{{lesson.totalHour*60}} Minutes</span>
+          </div>
+        </div>
+      </div>
+     <!-- We need add in card module details , Prearation Notes --> 
+      <div class="card-footer">
+        <ion-button (click)="checkLessonActivity()">Activity</ion-button>
+        <ion-button (click)="checkLessonActivity()">Rewards and Recognition</ion-button>
+      </div>
+    </div>
+    <ion-button class="secondary-btn update-btn" (click)="createLesson()">Create Lesson</ion-button>
+  </div>
+
+  <div class="page-inner" *ngIf="segmentValue == 'pending'">
+    <div class="event-card" *ngFor="let plesson of pendinglesson">
+      <div class="card-inner">
+        <div class="card-heading">
+          <div class="name">
+            <h4>{{plesson.eventName}}</h4>
+            <div class="subject">
+              <span>Style : </span>
+              <ion-label>{{plesson.moduleName}}</ion-label>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="event-info">
+            <ion-label class="card-label">Date</ion-label>
+            <span class="card-value">{{plesson.creationDate}}</span>
+          </div>
+          <div class="event-info px-2">
+            <ion-label class="card-label">Time</ion-label>
+            <span class="card-value">{{plesson.startTime}} to {{plesson.endTime}}</span>
+          </div>
+          <div class="event-info">
+            <ion-label class="card-label">Duration</ion-label>
+            <span class="card-value">{{plesson.totalHour*60}} Minutes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <ion-button (click)="checkLessonActivity()">Add Questions</ion-button>
+        <ion-button (click)="checkLessonActivity()">Add Notes</ion-button>
+        <ion-button (click)="checkLessonActivity()">Setup Doubt Session</ion-button>
+      </div>
+    </div>
+    <ion-button class="secondary-btn update-btn" (click)="createLesson()">Create Lesson</ion-button>
+  </div>
+
+  <div class="page-inner" *ngIf="segmentValue == 'completed'">
+    <div class="event-card" *ngFor="let clesson of completedlesson">
+      <div class="card-inner">
+        <div class="card-heading">
+          <div class="name">
+            <h4>{{clesson.eventName}}</h4>
+            <div class="subject">
+              <span>Style : </span>
+              <ion-label>{{clesson.moduleName}}</ion-label>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="event-info">
+            <ion-label class="card-label">Date</ion-label>
+            <span class="card-value">{{clesson.creationDate}}</span>
+          </div>
+          <div class="event-info px-2">
+            <ion-label class="card-label">Time</ion-label>
+            <span class="card-value">{{clesson.startTime}} to {{clesson.endTime}}</span>
+          </div>
+          <div class="event-info">
+            <ion-label class="card-label">Duration</ion-label>
+            <span class="card-value">{{clesson.totalHour*60}} Minutes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <ion-button (click)="checkLessonActivity()">Activity</ion-button>
+        <ion-button (click)="checkLessonActivity()">Rewards and Recognition</ion-button>
+      </div>
+    </div>
+    <ion-button class="secondary-btn update-btn" (click)="createLesson()">Create Lesson</ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,477 @@
+ion-header {
+    height: 64px;
+    background: #A4CBFF;
+    padding: 30px 16px 10px;
+    display: flex;
+    align-items: center;
+
+    &::after {
+        height: 0;
+    }
+
+    ion-button {
+        height: 30px;
+        width: 30px;
+        font-size: 18px;
+        margin: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --box-shadow: none;
+
+        ion-icon {
+            color: #191919;
+        }
+    }
+
+    ion-title {
+        font-size: 18px;
+        line-height: 22px;
+        font-family: "Nunito-Bold";
+        color: #1A1A1A;
+        text-align: center;
+    }
+}
+
+ion-content {
+    --background: linear-gradient(180deg, #89C9FF -43.16%, #D1CDFF 78.19%);
+}
+
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px 20px;
+
+    .title {
+        padding: 16px 0;
+        text-align: center;
+
+        h4 {
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Nunito-Bold";
+            display: block;
+            margin: 0;
+            color: #1A1A1A;
+        }
+    }
+
+    .page-inner {
+        padding: 0 10px;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .subject-type {
+        font-size: 20px;
+        line-height: 22px;
+        font-family: 'Nunito-SemiBold';
+        display: block;
+        color: #0A395A;
+        padding: 0 10px;
+    }
+
+    .subject-container {
+        .subject-inner {
+            display: flex;
+            align-items: center;
+            flex-flow: row wrap;
+            padding: 0;
+            margin: 0 -10px;
+
+            .subject-box {
+                position: relative;
+                --ripple-color: transparent;
+                --padding-start: 0;
+                --inner-padding-end: 0;
+                --inner-border-width: 0 0 0px 0;
+                --min-height: 100%;
+                --background: transparent;
+                flex: 1 1 25%;
+                max-width: calc(25% - 20px);
+                height: 135px;
+                border-radius: 15px;
+                overflow: hidden;
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                background: #fff;
+                margin: 10px;
+
+                @media screen and (max-width: 520px) {
+                    flex: 1 1 33.33%;
+                    max-width: calc(33.33% - 20px);
+                }
+
+                @media screen and (max-width: 440px) {
+                    flex: 1 1 50%;
+                    max-width: calc(50% - 20px);
+                }
+
+                ion-img {
+                    min-width: 100%;
+                    height: 100%;
+
+                    &.active {
+                        z-index: 2;
+                    }
+                }
+
+                .box-label {
+                    width: 100%;
+                    font-size: 15px;
+                    line-height: 18px;
+                    letter-spacing: 1px;
+                    font-family: "Nunito-SemiBold";
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    justify-content: center;
+                    color: #000;
+                    margin: 0;
+                    padding: 10px 10px 16px;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+ion-footer {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+
+    ion-button {
+        font-size: 12px;
+        font-family: 'Nunito-ExtraBold';
+        color: #71CEED;
+        --border-color: #71CEED;
+        --border-radius: 23px;
+    }
+}
+
+
+.selectBottomSheet {
+    .header-md::after {
+        bottom: -5px;
+        height: 1px;
+    }
+
+    ion-header {
+        background: #fff;
+        padding: 0;
+    }
+
+    ion-toolbar {
+        --min-height: 44px;
+
+        ion-title {
+            color: #101010;
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Nunito-Bold';
+            text-align: start;
+        }
+
+        ion-button {
+            height: 25px;
+            margin: 0 8px 0 0;
+            text-transform: capitalize;
+            width: auto;
+            font-size: 14px;
+        }
+    }
+
+    ion-content {
+        --background: #fff !important;
+    }
+
+    .page-inner {
+        padding: 16px;
+
+        .test-section {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 80%;
+
+            span {
+                font-size: 11px;
+                line-height: 16px;
+                display: block;
+                font-family: 'Nunito-SemiBold';
+                margin-bottom: 20px;
+                color: #000;
+
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+
+            ion-label {
+                font-size: 13px;
+                line-height: 16px;
+                font-family: "Nunito-ExtraBold";
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+
+                label {
+                    text-decoration: underline;
+                    margin: 0 4px;
+                }
+            }
+
+            .test-raw {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                &.test-raw1 {
+                    justify-content: center;
+
+                    .test-col {
+                        width: auto;
+                    }
+                }
+
+                &.test-raw2 {
+                    flex-direction: column;
+
+                    .test-col {
+                        width: auto;
+                    }
+
+                    .test-col1 {
+                        width: 70%;
+                    }
+                }
+
+                &.reward {
+                    align-items: flex-start;
+
+                    .test-col {
+                        border: 0;
+                        border-radius: 0;
+                        text-align: center;
+                        padding: 0;
+                        width: calc(50% - 10px);
+
+                        ion-label {
+                            border: 2px solid #1a1a1a;
+                            border-radius: 4px;
+                            margin-bottom: 6px;
+                            padding: 5px 10px;
+                        }
+
+                        &.test-col1 {
+                            width: 75%;
+                        }
+                    }
+                }
+
+                .test-col {
+                    border: 2px solid #1a1a1a;
+                    border-radius: 4px;
+                    margin-bottom: 12px;
+                    padding: 5px 10px;
+                    font-size: 12px;
+                    line-height: 16px;
+                    font-family: 'Nunito-ExtraBold';
+                    color: #000;
+                    width: calc(50% - 20px);
+                }
+            }
+        }
+
+        h2 {
+            font-size: 18px;
+            line-height: 24px;
+            margin: 0;
+            font-family: 'Nunito-ExtraBold';
+            text-align: center;
+            color: #000;
+            border-bottom: 1px solid #1a1a1a;
+            width: max-content;
+            margin: 0 auto 10px;
+        }
+
+        h5 {
+            font-size: 15px;
+            line-height: 20px;
+            margin: 0 0 10px;
+            font-family: 'Nunito-ExtraBold';
+            // text-align: center;
+            color: #000;
+        }
+
+        .hBorder {
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 4px;
+        }
+
+        p {
+            font-size: 13px;
+            line-height: 18px;
+            margin: 0;
+            font-family: 'Nunito-SemiBold';
+            color: #000;
+
+            b {
+                font-family: 'Nunito-Bold';
+            }
+        }
+
+        ion-title {
+            font-size: 14px;
+            line-height: 13px;
+            margin: 0 auto 16px;
+            font-family: 'Nunito-ExtraBold';
+            width: fit-content;
+            padding: 0;
+            color: #000;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        ul {
+            padding-left: 30px;
+            margin: 0;
+
+            li {
+                font-size: 14px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                font-family: 'Nunito-SemiBold';
+                color: #000;
+                padding-left: 6px;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                span {
+                    display: block;
+                    margin-top: 6px;
+                    text-align: center;
+
+                }
+
+
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+        }
+
+        .table {
+
+            tr {
+                border-color: #000;
+            }
+
+            td,
+            th {
+                font-size: 13px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                font-family: "Nunito-SemiBold";
+                text-align: center;
+
+                &.w100 {
+                    width: 100px;
+                }
+
+                &.title {
+                    background: #FCD5B4;
+                }
+
+                &.head {
+                    background: #FFEB3B;
+                }
+
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+
+        }
+
+        .reward-table {
+
+
+            .table {
+                width: 90%;
+                margin: 16px auto;
+                min-width: 350px;
+            }
+        }
+
+
+        .rewardlist {
+            list-style: auto;
+
+            span {
+                text-align: start !important;
+            }
+        }
+
+        .last {
+            text-align: center;
+            margin-top: 16px;
+
+            p {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .blue {
+                font-size: 16px;
+                color: #0A395A;
+                font-family: 'Nunito-ExtraBold';
+            }
+        }
+    }
+
+}
+
+.welcome {
+    text-align: left;
+}
+
+.welcome-header {
+  padding: 12px 16px;
+  text-align: left;
+
+  ion-title {
+    padding: 0;
+  }
+
+  .main-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .sub-title {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 400;
+    color: #333;
+    margin-top: 4px;
+  }
+}
+
+.updated {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.welcome-header ion-title {
+  font-size: 16px;
+  display: block;
+}

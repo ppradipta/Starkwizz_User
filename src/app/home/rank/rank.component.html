@@ -1,0 +1,68 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <div class="select-container">
+      <ion-segment mode="md" (ionChange)="segmentTabChanged($event)" [value]="selectedSegment">
+        <ion-segment-button mode="md" value="COUNTRY">
+          <!--future date -->
+          <ion-label>India</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="md" value="STATE">
+          <!--Currend date -->
+          <ion-label>{{userDetails.stateName}}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="md" value="DISTRICT">
+          <!--after event date complete via schduled-->
+          <ion-label>{{userDetails.districtName}}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="md" value="CITY">
+          <!--after event date complete via schduled-->
+          <ion-label>{{userDetails.cityName}}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button mode="md" class="segmentBtn" value="SCHOOL">
+          <ion-label>{{userDetails.schoolName}}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div>
+      <div class="subject-container" *ngFor="let exams of eventCategory | keyvalue">
+        <div class="section-title">
+          <h4 class="subject-type">{{exams.key}}</h4>
+        </div>
+
+        <swiper-container>
+          <swiper-slide  *ngFor="let exam of exams.value">
+            <div class="card-inner">
+              <div class="card-heading">
+                <div class="name">
+                  <h4>{{exam.eventName}}</h4>
+                  <div class="subject">
+                    <span>Subject : </span>
+                    <ion-label>{{exam.subjectName}}</ion-label>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="event-info">
+                  <ion-label class="card-label">Apperar Date</ion-label>
+                  <span class="card-value">{{exam.appearedDate}}</span>
+                </div>
+                <div class="event-info">
+                  <ion-label class="card-label">Time Taken</ion-label>
+                  <span class="card-value">{{exam.totalExamTimeDisplay}}</span>
+                </div>
+                <div class="event-info">
+                  <ion-label class="card-label">Score</ion-label>
+                  <span class="card-value">{{exam.totalSecuredMark}}</span>
+                </div>
+              </div>
+            </div>
+          </swiper-slide>
+        </swiper-container>
+      </div>
+    </div>
+  </div>
+</ion-content>

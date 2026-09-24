@@ -1,0 +1,85 @@
+<div class="page-container">
+  <ion-header>
+    <div class="header-toolbar">
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue" mode="md">
+        <ion-segment-button value="upcoming">
+          <ion-label>Upcoming</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="completed">
+          <ion-label>Completed</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <div class="page-inner" *ngIf="segmentValue == 'upcoming'">
+      <div class="event-card" *ngFor="let event of eventDtls" [ngStyle]="{'background': event.colorCode}">
+        <div class="card-inner">
+          <div class="card-heading">
+            <div class="name">
+              <h4>{{event.eventName}}</h4>
+              <div class="subject">
+                <span>Style : </span>
+                <ion-label>{{event.moduleName}}</ion-label>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="event-info">
+              <ion-label class="card-label">Date</ion-label>
+              <span class="card-value">{{event.creationDate}}</span>
+            </div>
+            <div class="event-info px-2">
+              <ion-label class="card-label">Time</ion-label>
+              <span class="card-value">{{event.startTime}} to {{event.endTime}}</span>
+            </div>
+            <div class="event-info">
+              <ion-label class="card-label">Duration</ion-label>
+              <span class="card-value fw-semibold">{{event.displayTotalHour}}</span>
+              <span class="card-value format">Hr Min Sec</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <ion-button (click)="onClickAppear(event)">Appear</ion-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-inner" *ngIf="segmentValue == 'completed'">
+      <div class="event-card" *ngFor="let event of completedEvents" [ngStyle]="{'background': event.colorCode}">
+        <div class="card-inner">
+          <div class="card-heading">
+            <div class="name">
+              <h4>{{event.eventName}}</h4>
+              <div class="subject">
+                <span>Style : </span>
+                <ion-label>{{event.moduleName}}</ion-label>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="event-info">
+              <ion-label class="card-label">Date</ion-label>
+              <span class="card-value">{{event.appearedDate}}</span>
+            </div>
+            <div class="event-info px-2">
+              <ion-label class="card-label">Time</ion-label>
+              <span class="card-value">{{event.eventAppearStartTime}} to {{event.eventAppearEndTime}}</span>
+            </div>
+            <div class="event-info">
+              <ion-label class="card-label">Duration</ion-label>
+              <span class="card-value">{{event.totalExamTime}} Minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="card-footer">
+          <ion-button (click)="onClickAppear(event)">Appear</ion-button>
+        </div> -->
+      </div>
+    </div>
+  </ion-content>
+</div>

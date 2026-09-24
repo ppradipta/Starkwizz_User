@@ -1,0 +1,228 @@
+<ion-header>
+  <ion-button (click)="goBack()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </ion-button>
+  <!-- <ion-title>DYNAMO</ion-title> -->
+   <div class="updated">
+    <div class="welcome-header">
+      <ion-title>Academic Learning Hub</ion-title>
+      <ion-title>School-aligned self-assessment</ion-title>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="page-container">
+    <div class="title">
+      <!-- <h4>Fixture for {{currentMonth}} has Started, let's dive in!</h4> -->
+      <!-- <h4>Hi “{{userDetails?.firstName}} {{userDetails?.lastName}}”! Welcome to Dynamo Test Series 😊</h4>
+      <h4>Choose your SUBJECT and Let’s Dive in!</h4> -->
+      <!-- <div class="welcome">
+        <h4>Academic Learning Hub</h4>
+        <p>School-aligned self-assessment</p>
+      </div> -->
+      <h4>Choose a subject and start practice</h4>
+    </div>
+    <div class="subject-container" *ngFor="let types of subjForSubscriptionMap | keyvalue">
+      <div class="subject-inner">
+        <ng-container *ngFor="let type of types.value">
+          <div class="subject-box" (click)="onClickSubjectDetail(type)">
+            <ng-container *ngFor="let subs of subsImages">
+              <ion-img [src]="subs.img" [ngClass]="{'active': subs.label === type.displayName}"
+                *ngIf="subs.label === type.displayName"></ion-img>
+            </ng-container>
+            <ion-label class="box-label">{{type.displayName}}</ion-label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <!-- <ion-button fill="outline" (click)="knowMoreInfo()">Know more about DYNAMO</ion-button> -->
+</ion-footer>
+
+
+
+<ion-modal #dynamoInfoModal class="selectBottomSheet" [isOpen]="isDynamoInfoModalOpen" [initialBreakpoint]=""
+  [breakpoints]="[0, 1.0]" backdrop-dismiss="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Dynamo Info</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalDismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="page-inner">
+        <h2>DYNAMO</h2>
+        <p class="mb-3">Academic Methodical Test Series <b>[5 Steps Test &amp; Analysis]</b></p>
+        <p><b>Dynamo platform</b> is a unique concept meant for the e-assessment and analysis of
+          children (Standard 3-10) which would be carried out through five steps such as, individual chapter-wise
+          practice and revision tests, multi-chapters wise quarterly and mid-term tests, and a final test comprising
+          of all the chapters and subjects based on the updated school syllabus of CBSE and ICSE education board.
+          Dynamo provides a 24x7 platform where the children can carry out their self-assessments irrespective of
+          their source of education. These tests are not time bound and children can assess themselves upon completion
+          of a chapter in the school. The purpose of the Dynamo platform is to monitor children’s learning and provide
+          valuable feedback to help them modify their goals. This platform allows children to visually organize their
+          thoughts, connect ideas, and gains a deeper understanding of various topics and subjects. This platform is
+          designed and developed in such a way that the children from different Board would have
+          a better growth rate by going through regular systematic assessments with a vision <b>“BETTER THE ASSESSMENT,
+            BETTER THE GROWTH”</b>. These objective exams are not time bound and children can assess themselves on
+          completion of each chapter, without doing any modifications or changes to their regular busy study schedule.
+          Research shows that learning and practice objectives are helpful as they capture children’s attention, which
+          can make them more engaged and can improve their academic performance. Intelligent server-based these MCQ
+          tests are prepared by the top most educators for each and every chapter covered according to the updated
+          syllabus. It is a platform which would be truly helpful for both children and parents as children would be
+          able to assess their level of understanding on a topic by going through regular systematic assessments and
+          parents would be able to easily monitor the progress of their child education.</p>
+        <div class="test-section">
+          <div>
+            <ion-title>SUBJECT OFFERED</ion-title>
+            <span><b>MATHEMATICS, ENGLISH, SCIENCE, ENVIRONMENTAL SCIENCE, PHYSICS, CHEMISTRY, BIOLOGY,
+                SST, SOCIAL SCIENCE, GEOGRAPHY, HISTORY &amp; CIVICS, COMPUTER, HINDI, ODIA, GK</b></span>
+          </div>
+          <div>
+            <ion-title>TEST PROCEDURE</ion-title>
+            <span class="m-0">DYNAMO PLATFORM PROVIDES</span>
+            <span class="m-0"><b>A FIVE (5) STEPS ASSESSMENT AND ANALYSIS PLATFORM</b></span>
+            <span class="m-0">COMPRISING OF THESE FOLLOWING TESTS</span>
+            <ion-label>
+              <label>DIAGNOSTIC</label> |
+              <label>PROGRESSIVE</label> |
+              <label>QUARTERLY</label> |
+              <label>PROFICIENCY</label> |
+              <label>BENCHMARK</label>
+            </ion-label>
+          </div>
+          <div class="test-raw">
+            <div class="test-col">DIAGNOSTIC TEST</div>
+            <div class="test-col">PROGRESSIVE TEST</div>
+          </div>
+          <div class="test-raw">
+            <div class="test-col">1st QUARTER TEST</div>
+            <div class="test-col">2nd QUARTER TEST</div>
+          </div>
+          <div class="test-raw test-raw1">
+            <div class="test-col">1st PROFICIENCY TEST</div>
+          </div>
+          <div class="test-raw">
+            <div class="test-col">3rd QUARTER TEST</div>
+            <div class="test-col">4th QUARTER TEST</div>
+          </div>
+          <div class="test-raw test-raw2">
+            <div class="test-col">2nd PROFICIENCY TEST</div>
+            <div class="test-col test-col1">BENCHMARK TEST</div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">DIAGNOSTIC TEST :</h5>
+          <p>DIAGNOSTIC tests for all the chapters of a subject are always in the activated form. On completion of a
+            chapter in the school, children would be able to appear the DIAGNOSTIC test on that particular chapter.
+            It would help children to assess and analysis their preliminary understanding on that particular chapter.
+            It would guide the children know their weak areas in a chapter and where they need to improve through real
+            time reports.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">PROGRESSIVE TEST :</h5>
+          <p>After completion of the DIAGNOSTIC test, children would have an opportunity to learn and revise before
+            appearing the same chapter again through PROGRESSIVE test. The children must have to secure 100% score
+            to qualify the PROGRESSIVE test within a term of five (5) times maximum.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">1st QUARTER TEST :</h5>
+          <p>After completion of PROGRESSIVE tests for chapters belonging to 25% of a particular subject, the children
+            would be able to appear in the 1st QUARTER test comprising of questions related to that 25% chapters only.
+          </p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">2nd QUARTER TEST :</h5>
+          <p>For 2nd QUARTER test the children need to follow the same procedure of appearing DIAGNOSTIC and PROGRESSIVE
+            tests for the next 25% chapters belonging to a particular subject.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">1st PROFICIENCY TEST</h5>
+          <p>Once a child completes the 1st and 2nd QUARTER test, the 1 ST PROFICIENCY test will be activated. This
+            test will comprise of questions related to the first 50% completed chapters of a particular subject.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">3rd QUARTER TEST</h5>
+          <p>For 3rd QUARTER test the children need to follow the same procedure of appearing DIAGNOSTIC and PROGRESSIVE
+            tests for the third 25% chapters belonging to a particular subject.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">4th QUARTER TEST</h5>
+          <p>For 4th QUARTER test the children need to follow the same procedure of appearing DIAGNOSTIC and
+            PROGRESSIVE tests for the last 25% chapters belonging to a particular subject.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">2nd PROFICIENCY TEST</h5>
+          <p>Once a child completes the 3rd and 4th QUARTER test, the 2 ND PROFICIENCY test will be activated. This
+            test will comprise of questions related to the last 50% completed chapters of a particular subject.</p>
+        </div>
+        <div class="mb-4">
+          <h5 class="underLine">BENCHMARK TEST</h5>
+          <p>The Final BENCHMARK test will be activated on completion of the 2 ND PROFICIENCY Test for a particular
+            subject. This test would comprise of questions related to all the completed chapters for a subject.</p>
+        </div>
+        <div class="key-section">
+          <ion-title>KEY ADVANTAGES</ion-title>
+          <ul class="mb-4">
+            <li>Dynamo platform help children self-regulate their learning process.</li>
+            <li>Encourages for regular self-assessment and analysis, reduce exam nerves.</li>
+            <li>Provide children a five (5) steps practice, revision, test and analysis platform for all academic
+              chapters.</li>
+            <li>Give a moral support to the weak children by providing extra chance of examinations.</li>
+            <li>The MCQ pattern, shorter exam length, flexible questioning technique and fixed time per question are
+              designed to make the Dynamo test series less stressful for children.</li>
+            <li>Get performance-based points and score card upon completion of each test.</li>
+            <li>Watch and review own performance analysis upon completion of each test.</li>
+            <li>Get detailed report of correct and incorrect answers, solutions and explanations.</li>
+            <li>Download and save the answer sheet, share the performance record with others.</li>
+            <li>Help children know their weak areas in a chapter; where they need to improve through real time reports.
+            </li>
+            <li>Improve children’s learning and testing skills, time management, memory, and recall abilities.</li>
+            <li>Get an opportunity to complete the syllabus more efficiently well before the school examinations.</li>
+            <li>Improve goals and objective, get more academic achievement.</li>
+            <li>Provide parents a healthy platform for assessment of their children as and when they need.</li>
+            <li>Help parents stay engaged and up-to-date with their child’s education, strengths, and learning goals.
+            </li>
+          </ul>
+        </div>
+        <div class="exam-section">
+          <ion-title>EXAM INFO</ion-title>
+          <ul>
+            <li>24 x 7 online assessment platforms for the school children of Std. 3 to Std.10.</li>
+            <li>There is no fixed timelines scheduled for attending a test in the Dynamo platform.</li>
+            <li>Points are given for every correct answer in a test.</li>
+            <li>There is no negative marking for wrong answers (No points are reduced for wrong answers).</li>
+            <li>It is the children’s responsibility to complete all the tests available on the Dynamo test series, in
+              due time.</li>
+            <li>It is the children’s responsibility to monitor and manage the time scheduled for completes a test in
+              time.</li>
+            <li>There’s no option of review or change the answer, once progressed for the next question during a test.
+            </li>
+            <li>Skipping or returning from a test in between before completion of the exam, might result into
+              withholding and also unable to attain the same test later again.</li>
+            <li>A children who <u>experiences technical difficulties during an exam</u> with accessing, completing,
+              and/or submitting the test; should immediately contact the <b><u>Exam Helpdesk,</u></b> using the contact
+              details provided herewith and in the Application’s Contact Info.
+              <span><b><u>Exam Helpdesk</u></b>: 6371469050. [10:00 – 17:00]</span>
+              <span>Monday – Friday [excluding national holidays]</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="last">
+          <p>Now <b>ANYTIME, ANYWHERE</b> chapter wise <b>DAY-TO-DAY REVISION, PRACTICE, TEST,</b>
+            and <b>ANALYSIS</b>
+          </p>
+          <p>ARE SO EASY WITH <b class="blue">DYNAMO</b></p>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

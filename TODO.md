@@ -1,0 +1,6 @@
+- [ ] Add institutes array and actionSheetInstitute in TS
+- [ ] Add selectInstitute method in TS
+- [ ] Update reset logic in selectState, selectDistrict, selectCity, selectSchool to include institute
+- [ ] Update onClickProceed to set instituteName
+- [ ] Add institute dropdown in HTML after school
+- [ ] Make Continue button not require instituteId (optional)

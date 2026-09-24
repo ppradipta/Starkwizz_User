@@ -1,0 +1,184 @@
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .search-bar {
+        padding: 20px;
+        ::ng-deep ion-searchbar {
+            --background: #fff;
+            box-shadow: 0px 0px 5px #00000029;
+            border-radius: 30px;
+            padding: 0;
+            height: 46px;
+            --placeholder-opacity: 1;
+            .searchbar-input-container.sc-ion-searchbar-ios {
+                height: 46px;
+            }
+            .searchbar-input.sc-ion-searchbar-ios {
+                padding-inline-start: 40px; 
+                color: #979797;
+                font-size: 16px;
+                font-family: 'Nunito-SemiBold';
+            }
+            .searchbar-search-icon.sc-ion-searchbar-ios {
+                left: 10px;
+                width: 20px;
+                color: #979797;
+            }
+            .searchbar-clear-button.sc-ion-searchbar-ios {
+                right: 5px;
+            }
+        }
+    }
+    .page-inner {
+        padding: 0 10px;
+        flex: 1;
+        overflow-y: auto;
+        .inner-title {
+            font-size: 20px;
+            line-height: 22px;
+            font-family: 'Nunito-SemiBold';
+            display: block;
+            color: #0A395A;
+        }
+        .clear-btn {
+            --color: #70CFED;
+            font-family: 'Nunito-Regular';
+        }
+        .category-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .category-box {
+                flex: 1 1 25%;
+                max-width: calc(25% - 8px);
+                overflow: hidden;
+                text-align: center;
+                margin: 4px;
+                &.diseabled {
+                    opacity: 0.2;
+                }
+                .box-img {
+                    max-width: 44px;
+                    margin: 0 auto 10px;
+                    ion-img {
+                        object-fit: cover;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                ion-label {
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: 'Nunito-semiBold';
+                    display: block;
+                    color: #0A395A;
+                }
+            }
+        }
+        .book-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            .book-box {
+                flex: 1 1 25%;
+                max-width: calc(25% - 20px);
+                overflow: hidden;
+                margin: 10px;
+                @media screen and (max-width: 500px) {
+                    flex: 1 1 33.33%;
+                    max-width: calc(33.33% - 20px);
+                }
+                @media screen and (max-width: 400px) {
+                    flex: 1 1 50%;
+                    max-width: calc(50% - 20px);
+                }
+                .box-img {
+                    width: 100%;
+                    height: 130px;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    margin-bottom: 8px;
+                    border: 2px solid #51c1e9;
+                    .swiper {
+                        height: 100%;
+                        width: 100%;
+                    }
+                    ion-img {
+                        object-fit: cover;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                .box-label {
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: 'Nunito-Regular';
+                    display: block;
+                    color: #0A395A;
+                }
+                .actual-price {
+                    color: #0a395a80;
+                    font-size: 18px;
+                    line-height: 22px;
+                    font-family: 'Nunito-Bold';
+                    display: block;
+                    margin-bottom: 2px;
+                    text-decoration: line-through;
+                }
+                .offer-price {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    margin-bottom: 6px;
+                    ion-label {
+                        color: #0A395A;
+                        display: block;
+                        font-size: 18px;
+                        line-height: 20px;
+                        font-family: 'Nunito-Bold';
+                        margin-right: 4px;
+                    }
+                    span {
+                        display: block;
+                        font-size: 16px;
+                        line-height: 18px;
+                        font-family: 'Nunito-SemiBold';
+                        display: block;
+                        color: #0A395A;
+                    }
+                }
+                .book-desc {
+                    display: block;
+                    font-size: 18px;
+                    line-height: 22px;
+                    font-family: 'Nunito-SemiBold';
+                    display: block;
+                    color: #51c1e9;
+                    margin-bottom: 6px;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep ion-fab {
+    &.fab-horizontal-end {
+        right: calc(20px + var(--ion-safe-area-right, 0px)) !important;
+    }
+    &.fab-vertical-bottom {
+        bottom: 20px !important;
+    }
+    ion-fab-button {
+        width: 50px !important;
+        height: 50px !important;
+        --background: #51c1e9 !important;
+        --box-shadow: 0px 8px 15px #00000029 !important;
+        ion-img {
+            width: 28px;
+            padding-top: 4px;
+        }
+    }
+}

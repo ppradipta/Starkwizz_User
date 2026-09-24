@@ -1,0 +1,70 @@
+<ion-header>
+  <div class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Replies</ion-title>
+    <div class="close-icon" (click)="close()">
+      <ion-icon class="close-icon" name="close"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="modal-inner">
+    <div class="comment-section comment-heading">
+      <div class="first-latter">B</div>
+      <div class="section-right">
+        <ion-label class="user-name">Bipin Merchant . <span>5d ago</span></ion-label>
+        <ion-label class="section-label">Nice Lecture, very easy to understand. loreium ipsium loreum ipsiam lorium ipsiaum.</ion-label>
+        <div class="video-panel">
+          <div class="video-info">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/like-icon.svg"></ion-img>
+            </div>
+            <span>102</span>
+          </div>
+          <div class="video-info second-icon">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/unlike-icon.svg"></ion-img>
+            </div>
+            <span>05</span>
+          </div>
+          <div class="video-info">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/comment-icon.svg"></ion-img>
+            </div>
+            <span>02</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="add-comment">
+      <div class="first-latter">A</div>
+      <ion-label class="section-label">Add a Comment...….</ion-label>
+    </div>
+    <div class="comment-section" *ngFor="let reply of replies">
+      <div class="first-latter">B</div>
+      <div class="section-right">
+        <ion-label class="user-name">{{reply.name}} <span>{{reply.date}} ago</span></ion-label>
+        <ion-label class="section-label">{{reply.text}}</ion-label>
+        <div class="video-panel">
+          <div class="video-info">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/like-icon.svg"></ion-img>
+            </div>
+            <span>{{reply.like}}</span>
+          </div>
+          <div class="video-info second-icon">
+            <div class="video-icon">
+              <ion-img src="/assets/svg/unlike-icon.svg"></ion-img>
+            </div>
+            <span>{{reply.dislike}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

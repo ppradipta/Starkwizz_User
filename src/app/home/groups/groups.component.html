@@ -1,0 +1,48 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content>
+  <div class="page-inner">
+    <h2>Groups</h2>
+    <div class="search-bar">
+      <ion-searchbar placeholder="Search group" mode="ios"></ion-searchbar>
+    </div>
+    <div>
+      <div class="accounts-container">
+        <div class="group-card" (click)="onClickCreate()">
+          <div class="card-left m-0">
+            <div class="addGroup">
+              +<ion-icon name="people"></ion-icon>
+            </div>
+            <div class="card-inner">
+              <ion-label class="group-name">Create new group</ion-label>
+            </div>
+          </div>
+        </div>
+        <div class="group-card" *ngFor="let group of groupList; let i = index" (click)="onClickGroupChat(group)">
+          <div class="card-left">
+            <div class="group-img">
+              <ion-img  [src]="group.groupImage?group.groupImage:'assets/images/menu-user.gif'">
+              </ion-img>
+            </div>
+            <div class="card-inner">
+              <ion-label class="user-name">{{group.groupName}}</ion-label>
+            </div>
+          </div>
+          <div class="card-right">
+            <ion-icon class="ellips-icon" name="ellipsis-horizontal" (click)="$event.stopPropagation()" id="trigger-button{{i}}"></ion-icon>
+            <ion-popover trigger="trigger-button{{i}}" [dismissOnSelect]="true">
+              <ng-template>
+                <ion-content class="popover-inner">
+                  <ion-label class="first-label" (click)="onClickGroupChat(group)">Chat</ion-label>
+                  <ion-label (click)="onClickDetail(group)">Info</ion-label>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,36 @@
+<ion-content>
+  <div class="page-container">
+    <div class="right-top">
+      <ion-img src="/assets/svg/combo-design2.svg"></ion-img>
+    </div>
+    <div class="left-bottom">
+      <ion-img src="/assets/svg/combo-design3.svg"></ion-img>
+    </div>
+
+    <div class="yellowCircel"></div>
+    <div class="custom">
+      <div class="logo">
+        <ion-img src="/assets/images/home/logo.svg"></ion-img>
+      </div>
+      <div class="col">
+        <h5>You would like to Sign in as!</h5>
+      </div>
+      <div>
+        <div class="custom-raw">
+          <ng-container *ngFor="let type of selectedType">
+            <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}"
+              (click)="onClickType(type)">{{type.name}}</ion-button>
+          </ng-container>
+        </div>
+      </div>
+      <!-- <div class="raw" (click)="clickKnowMore()">
+        <ion-icon name="alert-circle"></ion-icon>
+        <a>Know more</a>
+      </div> -->
+
+      <div class="btn-content">
+        <ion-button class="primary-btn" [disabled]="!checkedBtn" (click)="onClickProceed()">Proceed</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

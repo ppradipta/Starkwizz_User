@@ -1,0 +1,31 @@
+<ion-header>
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="header-logo">
+      <ion-img src="/assets/images/theme-logo.svg"></ion-img>
+    </div>
+    <!-- <div class="d-flex align-items-center">
+      <ion-img class="camera-icon" src="/assets/images/camera.svg"></ion-img>
+      <ion-img class="filter-icon" src="/assets/images/filter.svg"></ion-img>
+    </div> -->
+  </div>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="accounts-container" *ngFor="let student of studentProfiles">
+    <div class="account-card" (click)="viewProfile(student)">
+      <div class="card-left">
+        <div class="user-img">
+          <ion-img [src]="null!=student.imageUrl?student.imageUrl:'assets/images/menu-user.gif'"></ion-img>
+        </div>
+        <div>
+          <ion-label class="user-name"> <b>{{student.displayName}}</b></ion-label>
+          <ion-label class="school-name">Board : <b>{{student.boardName}}</b></ion-label>
+          <span class="section-label">Class : <b>{{student.className}}</b></span>
+          <span class="section-label">Last visit: <b>{{student.lastseen}}</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

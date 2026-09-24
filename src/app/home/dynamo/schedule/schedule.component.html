@@ -1,0 +1,49 @@
+<div class="page-inner">
+  <div class="card-container">
+    <div class="schedule-card" *ngFor="let list of rescheduledExams" [ngStyle]="{'background': list.colorCode}">
+      <div class="card-top">
+        <div class="date">
+          <ion-label>{{list.scheduledDate | date: 'd'}}</ion-label>
+          <ion-label>{{list.scheduledDate | date: 'MMM'}}</ion-label>
+        </div>
+        <div class="name">
+          <div class="text-center">
+            <h4>{{list.eventName}}</h4>
+            <h5>{{list.subjectName}}</h5>
+            <ion-label class="card-label">{{list.moduleName}}</ion-label>
+          </div>
+        </div>
+        <div class="mark">
+          <ion-label class="card-label">Marks</ion-label>
+          <span class="card-value">{{list.totalMarks}}</span>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <div class="time">
+          <ion-label class="card-label">Time</ion-label>
+          <span class="card-value">{{list.scheduledTime}}</span>
+        </div>
+        <div class="remaining">
+          <div class="text-center">
+            <ion-label class="card-label">Time Remaining</ion-label>
+            <span class="card-value" *ngIf="list.schdulestatus=='ACTIVE'">
+              <countdown #cd [config]="list.timerConfig" displayFormat='d:H:mm:ss'></countdown>
+            </span>
+            <span class="card-value" *ngIf="list.schdulestatus=='EXPIRED'">
+              <ion-label class="card-label">00:00:00:00</ion-label>
+            </span>
+          </div>
+        </div>
+        <div class="duration">
+          <ion-label class="card-label">Duration</ion-label>
+          <span class="card-value">{{list.totalHour}}mins</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="default-card">
+      <ion-icon name="add-circle"></ion-icon>
+      <ion-label>Schedule all of your Subjects here !</ion-label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,481 @@
+.header-md::after {
+    height: 1px;
+}
+
+.quiz-section {
+    background: url(/assets/images/quizwhizz-banner.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    width: 100%;
+    // height: 230px;
+    height: 150px;
+
+    .quiz-img {
+        width: 230px;
+        height: 83px;
+        margin: 0 auto 16px;
+
+        ion-img {
+            object-fit: none;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .quiz-info {
+        .quiz-span {
+            font-size: 14px;
+            line-height: 18px;
+            font-family: "Nunito-SemiBold";
+            color: #fff;
+            // display: block;
+            display: flex;
+            justify-content: left;
+            margin-left: 8px;
+        }
+
+        .quiz-btn {
+            margin: 16px 0 0;
+            height: 36px;
+            border: 1px solid rgb(255 255 255 / 12%);
+            --background: rgb(255 255 255 / 40%);
+            --border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: capitalize;
+            --box-shadow: none;
+        }
+    }
+
+}
+
+.page-container {
+    height: calc(100% - 230px);
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+    overflow-y: auto;
+
+    .motivation-text {
+        text-align: center;
+        margin-bottom: 12px;
+
+        span {
+            display: block;
+            font-size: 14px;
+            line-height: 20px;
+            font-family: 'Nunito-ExtraBold';
+            font-weight: 800;
+            color: #1A1A1A;
+        }
+    }
+
+    .head-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        ion-label {
+            font-size: 14px;
+            line-height: 21px;
+            font-family: 'Nunito-ExtraBold';
+            display: block;
+        }
+
+        .score-btn {
+            --background: transparent;
+            --box-shadow: none;
+            color: #00AEFF;
+            margin: 0;
+            height: 21px;
+            font-size: 13px;
+            font-family: 'Nunito-ExtraBold';
+            text-transform: capitalize;
+            --padding-start: 0;
+            --padding-end: 0;
+        }
+    }
+
+    .custom-segment {
+        margin-bottom: 20px;
+
+        ion-segment {
+            background: #EFF0FF;
+            border-radius: 8px;
+
+            ion-segment-button {
+                height: 36px;
+                font-size: 12px;
+                font-family: "Nunito-Regular";
+                color: #3F3939;
+
+                &.segment-button-checked {
+                    color: #1A1A1A;
+                    font-family: 'Nunito-ExtraBold';
+                    background: #D6D9FF;
+
+                    ion-label {
+                        &::after {
+                            height: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    .custom-card {
+        border: 1px solid #EEEEEE;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+        margin-bottom: 16px;
+        position: relative;
+        background: #d6d9ff;
+
+        &::after {
+            content: '';
+            background: url(/assets/images/vector.svg);
+            position: absolute;
+            top: 21px;
+            right: -5px;
+            width: 5px;
+            z-index: 5;
+            height: 20px;
+            background-repeat: no-repeat;
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        .contest-box-body {
+            padding: 18px 16px 52px;
+            text-align: center;
+        }
+
+        .contest-title {
+            font-size: 18px;
+            line-height: 24px;
+            font-family: 'Nunito-ExtraBold';
+            color: #1A1A1A;
+            margin-bottom: 14px;
+        }
+
+        .contest-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 20px;
+            font-family: 'Nunito-SemiBold';
+            color: #1A1A1A;
+            margin-bottom: 14px;
+
+            .contest-date,
+            .contest-duration {
+                white-space: nowrap;
+            }
+        }
+
+        .contest-categories {
+            font-size: 14px;
+            line-height: 20px;
+            font-family: 'Nunito-ExtraBold';
+            color: #1A1A1A;
+            letter-spacing: 0.3px;
+        }
+
+        .custom-body {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            padding: 16px;
+
+            .card-img {
+                width: 54px;
+                height: 54px;
+                margin-right: 16px;
+
+                ion-img {
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .card-info {
+                flex: 1;
+
+                .title {
+                    color: #1A1A1A;
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: 'Nunito-ExtraBold';
+                    display: block;
+                }
+
+                span {
+                    display: flex;
+                    font-size: 12px;
+                    font-family: 'Nunito-Regular';
+                    line-height: 16px;
+                    color: #282828;
+
+                    svg {
+                        // width: 16px;
+                        // height: 16px;
+                        margin-right: 4px;
+                    }
+                }
+            }
+        }
+
+        .circul {
+            background: rgb(242 248 255 / 70%);
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            z-index: -1;
+            left: 10px;
+        }
+
+        .statusLabel {
+            position: absolute;
+            right: -5px;
+            top: -6px;
+            padding: 4px 8px;
+            font-size: 12px;
+            line-height: 19px;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 4px 4px 0px 4px;
+            background: #888888;
+
+            &.ACTIVE,
+            &.STARTED {
+                background: #00BFFF;
+            }
+
+            &.COMPLETED {
+                background: #2AC7C1;
+            }
+
+            &.INACTIVE {
+                background: #4E4E4E;
+            }
+
+            &.UPCOMING {
+                background: #A10071;
+            }
+
+            &.EXPIRED {
+                background: #888888 !important;
+            }
+        }
+
+        .card-footer {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            display: flex;
+
+            ion-button {
+                --background: transparent;
+                --box-shadow: none;
+                color: #00AEFF;
+                margin: 0;
+                height: 18px;
+                font-size: 13px;
+                font-family: "Nunito-ExtraBold";
+                text-transform: capitalize;
+                --padding-start: 6px;
+                --padding-end: 6px;
+                --border-radius: 4px;
+            }
+        }
+    }
+}
+
+ion-skeleton-text {
+    margin: 0;
+}
+
+.selectBottomSheet {
+    .header-md::after {
+        bottom: -5px;
+    }
+
+    ion-toolbar {
+        --min-height: 45px;
+
+        ion-title {
+            color: #101010;
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Nunito-Bold';
+        }
+
+        ion-button {
+            height: 25px;
+            margin: 0 8px 0 0;
+            text-transform: capitalize;
+        }
+    }
+
+    .page-inner {
+        padding: 16px;
+
+        h2 {
+            font-size: 18px;
+            line-height: 24px;
+            margin: 0;
+            font-family: 'Nunito-ExtraBold';
+            text-align: center;
+            color: #000;
+            border-bottom: 1px solid #1a1a1a;
+            width: max-content;
+            margin: 0 auto 10px;
+        }
+
+        h5 {
+            font-size: 15px;
+            line-height: 20px;
+            margin: 0 0 10px;
+            font-family: 'Nunito-ExtraBold';
+            text-align: center;
+            color: #000;
+        }
+
+        .hBorder {
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 4px;
+        }
+
+        p {
+            font-size: 13px;
+            line-height: 18px;
+            margin: 0;
+            font-family: 'Nunito-SemiBold';
+            color: #000;
+
+            b {
+                font-family: 'Nunito-Bold';
+            }
+        }
+
+        ion-title {
+            font-size: 14px;
+            line-height: 13px;
+            margin: 0 auto 16px;
+            font-family: 'Nunito-ExtraBold';
+            width: fit-content;
+            padding: 0;
+            color: #000;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        ul {
+            padding-left: 30px;
+            margin: 0;
+
+            li {
+                font-size: 14px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                font-family: 'Nunito-SemiBold';
+                color: #000;
+                padding-left: 6px;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                span {
+                    display: block;
+                    margin-top: 6px;
+                    text-align: center;
+
+                }
+
+                
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+        }
+
+        .table {
+
+            tr {
+                border-color: #000;
+            }
+
+            td,
+            th {
+                font-size: 13px;
+                line-height: 20px;
+                margin-bottom: 10px;
+                font-family: "Nunito-SemiBold";
+                text-align: center;
+
+                &.w100 {
+                    width: 100px;
+                }
+
+                &.title {
+                    background: #FCD5B4;
+                }
+
+                &.head {
+                    background: #FFEB3B;
+                }
+
+                b {
+                    font-family: 'Nunito-ExtraBold';
+                }
+            }
+
+        }
+
+        .reward-table {
+
+
+            .table {
+                width: 90%;
+                margin: 16px auto;
+                min-width: 350px;
+            }
+        }
+
+
+        .rewardlist {
+            list-style: auto;
+
+            span {
+                text-align: start !important;
+            }
+        }
+    }
+
+}
+
+
+.main-header {
+    height: 64px;
+
+    ion-button {
+        height: 28px;
+        width: 28px;
+        font-size: 28px;
+    }
+
+    .notify-icon {
+        font-size: 28px;
+    }
+}

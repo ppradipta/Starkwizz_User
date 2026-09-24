@@ -1,0 +1,185 @@
+.date-ion-content {
+    --keyboard-offset: 0px !important;
+}
+
+.inner-container {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+
+    .headerBtn {
+        height: 64px;
+        padding-top: 20px;
+
+        ion-button {
+            height: 44px;
+            --background: transparent;
+            color: #292929;
+            margin: 0;
+            --box-shadow: none;
+
+            ion-icon {
+                margin-right: auto;
+                font-size: 24px;
+            }
+        }
+    }
+
+    .inner-page {
+        padding: 16px 26px 40px;
+        background: #fff;
+        // height: 100%;
+
+        .left-bottom {
+            width: 106px;
+            height: 178px;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .yellowCircel {
+            width: 249px;
+            height: 249px;
+            background: #FFF8DA;
+            border-radius: 50%;
+            position: absolute;
+            left: -107px;
+            top: 201px;
+        }
+
+        .procesBar {
+            margin-bottom: 20px;
+
+            h5 {
+                font-size: 18px;
+                line-height: 20px;
+                font-family: 'Nunito-SemiBold';
+                color: #152F48;
+                margin: 0 0 12px;
+            }
+
+            .progress {
+                background-color: #F6F7FA;
+                --bs-progress-height: 12px;
+
+                .progress-bar {
+                    background-color: #71CEED;
+                    border-radius: 18px;
+                }
+            }
+
+            .processSize {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 8px;
+
+                span {
+                    font-size: 14px;
+                    line-height: 16px;
+                    color: #1C1D1F;
+                    font-family: "Nunito-Regular";
+                }
+            }
+
+        }
+
+        .section {
+            position: relative;
+
+            h4 {
+                font-size: 22px;
+                line-height: 26px;
+                font-family: "Nunito-Bold";
+                color: #0A395A;
+                margin: 0 0 30px;
+            }
+        }
+
+        .section-row {
+            margin-bottom: 16px;
+
+            .section-label {
+                font-size: 15px;
+                line-height: 20px;
+                font-family: "Nunito-SemiBold";
+                display: block;
+                color: #1C1D1F;
+                margin: 0 0 8px;
+            }
+
+            ion-select {
+                height: 48px;
+                width: 100%;
+                font-size: 16px;
+                font-family: "Nunito-SemiBold";
+                border-radius: 12px;
+                background: #fff;
+                color: #1C1D1F;
+                border: 1px solid #625D5D;
+                --padding-top: 14px;
+                --padding-end: 20px;
+                --padding-bottom: 13px;
+                --padding-start: 20px;
+                text-align: left;
+                --placeholder-color: #625D5D66;
+                --placeholder-opacity: 1;
+                --highlight-height: 0px;
+                --highlight-color-focused: transparent;
+                --highlight-color: transparent;
+            }
+
+            ion-select::part(container) {
+                width: calc(100vh - 16px);
+            }
+
+            ion-select::part(placeholder) {
+                width: 100%;
+            }
+
+            ion-select::part(icon) {
+                opacity: 1;
+                color: #000;
+            }
+
+
+            ion-textarea {
+                --padding-top: 16px;
+                --padding-end: 16px;
+                --padding-bottom: 16px;
+                --padding-start: 16px;
+                --highlight-height: 0px;
+                --highlight-color-focused: transparent;
+                --highlight-color: transparent;
+                border-radius: 6px;
+                border: 1px solid #d2d2d2;
+                font-family: "Nunito-SemiBold" !important;
+                height: 100px;
+                max-height: unset;
+                margin: 0;
+            }
+        }
+
+        .btn-content {
+            .secondary-btn {
+                margin-bottom: 12px;
+                --color: #fff;
+
+                &.button-disabled {
+                    --background: #E7F7FC;
+                    opacity: 1;
+                    color: #B1DCEA;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .alert-wrapper {
+    .alert-head {
+        text-align: center;
+    }
+}
+

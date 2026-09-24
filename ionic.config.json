@@ -1,0 +1,7 @@
+{
+  "name": "Starkwizz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

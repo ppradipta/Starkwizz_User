@@ -1,0 +1,28 @@
+<ion-header>
+  <app-header></app-header>
+</ion-header>
+
+<ion-content class="faq-content" fullscreen>
+  <div class="faq-container">
+    <section class="faq-hero">
+      <h1>Frequently Asked Questions</h1>
+      <p class="subtitle">Find quick answers to common questions about the app</p>
+    </section>
+
+    <ion-list class="faq-list">
+      <div *ngFor="let f of faqs; let i = index" class="faq-block">
+        <ion-item button lines="full" (click)="toggle(i)" class="faq-item">
+          <ion-label>
+            <h2>{{ f.question }}</h2>
+          </ion-label>
+          <ion-icon slot="end" name="chevron-down-outline" [class.open]="f.open"></ion-icon>
+        </ion-item>
+        <div class="faq-answer" [class.open]="f.open" *ngIf="f.open">
+          <p [innerHTML]="f.answer"></p>
+        </div>
+      </div>
+    </ion-list>
+
+    <div class="no-results" *ngIf="faqs.length === 0">No FAQs available</div>
+  </div>
+</ion-content>"

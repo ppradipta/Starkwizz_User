@@ -1,0 +1,129 @@
+.page-container {
+    position: relative;
+    min-height: 100%;
+    padding: 26px;
+    overflow: auto;
+
+    .right-top {
+        width: 80px;
+        height: 128px;
+        position: absolute;
+        top: 0px;
+        right: 0;
+        z-index: -1;
+    }
+
+    .left-bottom {
+        width: 106px;
+        height: 178px;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .yellowCircel {
+        width: 249px;
+        height: 249px;
+        background: #FFF8DA;
+        border-radius: 50%;
+        position: absolute;
+        left: -107px;
+        top: 241px;
+        z-index: -1;
+    }
+
+    .custom {
+        height: 620px;
+    }
+
+    .logo {
+        ion-img {
+            max-width: 200px;
+            margin: 40px auto 80px;
+            height: 75px;
+        }
+    }
+
+    .col {
+        margin-bottom: 100px;
+
+        h5 {
+            font-size: 20px;
+            font-family: "Nunito-Bold";
+            color: #1C1D1F;
+            line-height: 24px;
+            text-align: center;
+            margin: 0 0 11px;
+        }
+    }
+
+    .custom-raw {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 54px;
+
+        .selectBtn {
+            width: calc(50% - 10px);
+            border: 1px solid #E2E2E2;
+            border-radius: 12px;
+            --border-radius: 12px;
+            --padding-start: 16px;
+            --inner-padding-end: 16px;
+            --background: #F6F7FA;
+            color: #1C1D1F;
+            min-height: 44px;
+            --box-shadow: none;
+            margin: 0;
+            font-size: 16px;
+            line-height: 18px;
+            font-family: "Nunito-Bold";
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+
+            &.ACTIVE {
+                border: 1px solid #00AEFF;
+                --background: #E7F7FC;
+                color: #00AEFF;
+            }
+        }
+    }
+
+    .raw {
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        margin-bottom: 60px;
+
+        ion-icon {
+            color: #70CFED;
+            font-size: 20px;
+            margin-right: 4px;
+        }
+
+        a {
+            color: #70CFED;
+            font-family: "Nunito-ExtraBold";
+            font-size: 18px;
+            line-height: 20px;
+            text-decoration: underline;
+        }
+    }
+
+
+    .btn-content {
+        .primary-btn {
+            --background: #71CEED;
+
+            &.button-disabled {
+                --background: #E7F7FC;
+                opacity: 1;
+                color: #B1DCEA;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,95 @@
+ion-header {
+    &.header-md::after {
+        height: 0;
+    }
+    .header-toolbar {
+        padding: 20px 20px 12px;
+        ion-title {
+            font-size: 20px;
+            line-height: 24px;
+            font-family: 'Nunito-Bold';
+            display: block;
+            color: #0A395A;
+            padding: 0;
+        }
+    }
+}
+ion-content {
+    .modal-inner {
+        padding: 16px;
+        .section-row {
+            margin-bottom: 12px;
+            display: flex;
+            .section-label {
+                width: 80px;
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-SemiBold';
+                display: block;
+                color: #0A395A;
+            }
+            .section-value {
+                flex: 1;
+                font-size: 16px;
+                line-height: 20px;
+                font-family: 'Nunito-Regular';
+                display: block;
+                color: #0A395A;
+                --padding-top: 0;
+                --padding-end: 0;
+                --padding-bottom: 0;
+                --padding-start: 0;
+                --border-radius: 0;
+                --border-style: none;
+                text-decoration: underline;
+                margin: 0;
+            }
+        }
+        .map-container {
+            flex: 1;
+            .map-img {
+                width: 100%;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-bottom: 10px;
+                ion-img {
+                    object-fit: cover;
+                }
+            }
+            p {
+                font-size: 15px;
+                line-height: 18px;
+                font-family: 'Nunito-Regular';
+                display: block;
+                color: #0A395A;
+                margin: 0;
+            }
+        }
+    }
+}
+
+ion-footer {
+    &.footer-md::before {
+        height: 0;
+    }
+    .footer-toolbar {
+        padding: 16px 20px 20px;
+        text-align: center;
+        ion-button {
+            height: 40px;
+            font-size: 18px;
+            width: 100px;
+        }
+    }
+}
+
+::ng-deep .value-textarea {
+    height: 60px;
+    max-height: unset;
+    .textarea-wrapper {
+        height: 100%;
+        textarea {
+            height: 100%;
+        }
+    }
+}
