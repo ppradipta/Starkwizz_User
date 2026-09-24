@@ -68,3 +68,16 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# For an Angular project
+node_modules/
+dist/
+.angular/
+.env
+.env.*
+!.env.example
+
+# for Visual Studio/.NET
+bin/
+obj/
+.vs/
