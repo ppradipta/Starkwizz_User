@@ -87,19 +87,24 @@ export class ComboOfferComponent implements OnInit {
 
   onClickOfferDetail() {
     this.loading.present();
-    let transactions = this.comboOffer.offerApplicables.filter(so => so.isSelected == true);
-    if (transactions && transactions.length > 0) {
-      this.comboOffer.offerApplicables = transactions;
-      this.comboOffer.totalPrice = transactions.reduce((sum, item) => sum + item.price, 0);
-      if (this.selectedOfferDiscount > 0) {
-        this.comboOffer.discount = this.selectedOfferDiscount;
-
-      }
-      this.eventService.setComboOfferSubs(this.comboOffer);
-      this.router.navigate(['home/category-offer'], { queryParams: { subscription: 'SUBSCRIBE' } });
-    } else {
-      this.util.showToast(('Please Select Events'), 'danger', 'bottom');
+    const bundleTypes = ['DYNAMO', 'QUIZWHIZZ', 'EVENT'];
+    const bundle = (this.comboOffer?.offerApplicables ?? []).filter((offer: any) =>
+      bundleTypes.includes(String(offer?.type ?? '').toUpperCase())
+    );
+    if (bundleTypes.some(type => !bundle.some((offer: any) => String(offer?.type ?? '').toUpperCase() === type))) {
+      this.loading.dismiss();
+      this.util.showToast('Subscription offer is unavailable. Please try again.', 'danger', 'bottom');
+      return;
     }
+
+    // The current subscription offer is the full Dynamo + Quiz-Whizz + Event bundle.
+    // Keep the price and discount configured for this offer in the admin app.
+    this.comboOffer.offerApplicables = bundle.map((offer: any) => ({
+      ...offer,
+      isSelected: true,
+    }));
+    this.eventService.setComboOfferSubs(this.comboOffer);
+    this.router.navigate(['home/offer-detail'], { queryParams: { subscription: 'SUBSCRIBE' } });
   }
 
   onClickFreeTrial() {
