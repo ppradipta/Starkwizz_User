@@ -758,7 +758,12 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
 
   reviewAnswer() {
     this.eventService.setSelectedSubject(this.selectedSubject);
-    this.router.navigate(['home/dynamo/reviewAnswer', { eventId: this.userEventData.eventId, type: this.eventType }]);
+    this.router.navigate(['home/dynamo/reviewAnswer', {
+      eventId: this.userEventData.eventId,
+      type: this.eventType,
+      examType: this.examType,
+      userEventId: this.userEventData.id,
+    }]);
   }
 
   viewLeaderBoard(rankType: 'SCHOOL' | 'CITY' | 'DISTRICT' | 'STATE' | 'COUNTRY' = 'SCHOOL') {
