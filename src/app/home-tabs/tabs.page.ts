@@ -334,8 +334,17 @@ export class TabsPage implements OnInit {
 
 
   onClickQuizWhizz() {
-    this.loadingService.present();
-    this.validateAndCheckSubscriptionForQuizWhizz();
+    this.presentQuizWhizzPausedAlert();
+  }
+
+  private async presentQuizWhizzPausedAlert() {
+    const alert = await this.alertController.create({
+      header: 'Quiz-Whizz Temporarily Paused',
+      message: 'The Quiz-Whizz platform is temporarily paused. Please check back later.',
+      buttons: ['OK'],
+      cssClass: 'customAlert popAlert',
+    });
+    await alert.present();
   }
 
 
