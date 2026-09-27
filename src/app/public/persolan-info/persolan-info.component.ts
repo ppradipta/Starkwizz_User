@@ -71,6 +71,11 @@ export class PersolanInfoComponent implements OnInit {
   }
 
   onClickProceed() {
+    if ((this.userDetails.userType === 'STUDENT' || this.userDetails.userType === 'PARENT') &&
+      (!this.selectdClass?.id || this.isClassPaused(this.selectdClass))) {
+      return;
+    }
+
     if (this.userDetails.userType == 'PARENT') {
       let parent = {
         id: this.userDetails.id,
@@ -269,6 +274,10 @@ export class PersolanInfoComponent implements OnInit {
   }
 
   onSelectClass(clas: any) {
+    if (this.isClassPaused(clas)) {
+      return;
+    }
+
     this.selectdClass = clas;
     this.classOfEducations.forEach(el => {
       if (clas?.id === el?.id) {
@@ -279,5 +288,10 @@ export class PersolanInfoComponent implements OnInit {
       }
       return el;
     });
+  }
+
+  isClassPaused(clas: any): boolean {
+    const classNumber = String(clas?.name ?? clas?.displayName ?? '').match(/\d+/)?.[0];
+    return classNumber === '9' || classNumber === '10';
   }
 }

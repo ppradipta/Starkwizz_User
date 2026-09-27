@@ -132,6 +132,7 @@
               <div class="custom-raw custom-raw1">
                 <ng-container *ngFor="let class of classOfEducations">
                   <ion-button class="selectBtn" [ngClass]="{'ACTIVE': class.isActive}"
+                    [disabled]="isClassPaused(class)"
                     (click)="onSelectClass(class)">{{class.displayName}}</ion-button>
                 </ng-container>
               </div>
@@ -271,6 +272,7 @@
               <div class="custom-raw custom-raw1">
                 <ng-container *ngFor="let class of classOfEducations">
                   <ion-button class="selectBtn" [ngClass]="{'ACTIVE': class.isActive}"
+                    [disabled]="isClassPaused(class)"
                     (click)="onSelectClass(class)">{{class.displayName}}</ion-button>
                 </ng-container>
               </div>
