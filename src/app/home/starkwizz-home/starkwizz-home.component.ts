@@ -220,63 +220,14 @@ export class StarkwizzHomeComponent implements OnInit {
     await alert.present();
   }
 
-  onClickQuizWhizz() {
-    this.loading.present();
-    // Query for ALL subscriptions (don't filter by status to catch expired ones too)
-    const query = this.firestore.collection("user_subscription_quizwhizz").ref
-      .where("userId", "==", this.userDetails.id)
-      .where("boardName", "==", this.userDetails.boardName)
-      .where("classId", "==", this.userDetails.classId);
-    
-    query.get().then((subscription: any) => {
-      if (!subscription.empty) {
-        let hasActiveSubscription = false;
-        let expiredSubscriptionId: string = '';
-        let wasFreeTrial = (this.userDetails?.profileType ?? []).map((t: any) => String(t ?? '').toUpperCase()).some((t) => t === 'FREETRAIL' || t === 'FREETRIAL');
-        
-        subscription.forEach((data: any) => {
-          let subscriptionDetails: any = data.data();
-          const isExpired = this.dateUtilService.isExpired(subscriptionDetails.expiryDate);
-          
-          if (!isExpired) {
-            // Found an active (non-expired) subscription
-            hasActiveSubscription = true;
-            this.userService.setQuizWhizzSubjectSubscribed(subscriptionDetails);
-          } else {
-            // Subscription is expired - update status in Firestore
-            const isFreeTrial = this.isFreeTrialSubscription(subscriptionDetails);
-            wasFreeTrial = wasFreeTrial || isFreeTrial;
-            expiredSubscriptionId = subscriptionDetails.id;
-            this.firestore.collection('user_subscription_quizwhizz').doc(subscriptionDetails.id).update({
-              status: 'EXPIRED',
-              ...(isFreeTrial ? { wasFreeTrial: true } : {}),
-            });
-          }
-        });
-        
-        if (hasActiveSubscription) {
-          // User has active subscription - allow access
-          this.loadingService.presentLoading(3000);
-          this.getAllQuizWhizzEvents();
-        } else {
-          // All subscriptions are expired - redirect to subscription page
-          if (wasFreeTrial) {
-            this.presentFreeTrialEndedAlert('QUIZWHIZZ').then(() => {
-              this.router.navigate(['home/combo-offer'], { queryParams: { subscription: 'EXPIRED' } });
-            });
-            return;
-          }
-          this.router.navigate(['home/combo-offer'], { queryParams: { subscription: 'EXPIRED' } });
-        }
-      } else {
-        // No subscription found - new user
-        this.userService.setQuizWhizzSubjectSubscribed(null);
-        this.router.navigate(['home/combo-offer'], { queryParams: { subscription: 'NEW' } });
-      }
-    }).catch((error) => {
-      console.error('Error checking subscription:', error);
-      this.router.navigate(['home/combo-offer'], { queryParams: { subscription: 'NEW' } });
+  async onClickQuizWhizz() {
+    const alert = await this.alertController.create({
+      header: 'Quiz-Whizz Temporarily Paused',
+      message: 'The Quiz-Whizz platform is temporarily paused. Please check back later.',
+      buttons: ['OK'],
+      cssClass: 'customAlert popAlert',
     });
+    await alert.present();
   }
 
   onClickHubs() {
