@@ -144,6 +144,7 @@ export class SubjectModuleListComponent implements OnInit {
       const query = this.firestore.collection('modules');
       query.ref
         .where("subjectId", "==", this.subject.id)
+        .where("classId", "==", this.userDetails.classId)
         .where("publisherId", "==", pub.id)
         .get().then((modules: any) => {
           this.moduleList = [];
@@ -163,6 +164,7 @@ export class SubjectModuleListComponent implements OnInit {
     const query = this.firestore.collection('modules');
     query.ref
       .where("subjectId", "==", this.subject.id)
+      .where("classId", "==", this.userDetails.classId)
       .where("linkvalues", "array-contains", this.userDetails.schoolId)
       .get().then((modules: any) => {
         this.moduleList = [];

@@ -422,15 +422,20 @@ export class SubjectDetailComponent implements OnInit {
   getUserDetails() {
     this.userService.getUserDetails().subscribe((userData) => {
       this.userDetails = userData;
+      if (this.selectedSubject && this.userDetails?.classId) {
+        this.getSubjectModules(this.selectedSubject);
+      }
     });
   }
 
   getSubjectModules(subject: any) {
+    if (!subject?.id || !this.userDetails?.classId) return;
     // this.loadingService.presentLoading(7000);
     if (this.userDetails.userLinkType != 'SCHOOL_SPECIFICE') {
       const query = this.firestore.collection('modules');
       query.ref
         .where("subjectId", "==", subject.id)
+        .where("classId", "==", this.userDetails.classId)
         .get().then((modules: any) => {
           this.moduleList = [];
           if (!modules.empty) {
@@ -456,6 +461,7 @@ export class SubjectDetailComponent implements OnInit {
       const query = this.firestore.collection('modules');
       query.ref
         .where("subjectId", "==", subject.id)
+        .where("classId", "==", this.userDetails.classId)
         .where("linkvalues", "array-contains", this.userDetails.schoolId)
         .get().then((modules: any) => {
           this.moduleList = [];
@@ -558,6 +564,7 @@ export class SubjectDetailComponent implements OnInit {
   getDynamoSubscribedEvents(moduleIds: string[]) {
     this.loading.present();
     let query;
+    this.subjectDtls = [];
 
     // this.firestore.collection("events", ref => ref
     //   .where("type", "==", 'EXAM')
@@ -568,7 +575,7 @@ export class SubjectDetailComponent implements OnInit {
 
     if(this.segmentValue == 'DYNAMO_MS') {
       query = this.firestore.collection("events").ref
-      .where("type", "==", 'DYNAMO EXAM')
+      .where("type", "in", ['DYNAMO EXAM', 'EXAM'])
       .where("stateId", "==", this.userDetails.stateId)
       .where("districtId", "==", this.userDetails.districtId)
       .where("cityId", "==", this.userDetails.cityId)
@@ -577,14 +584,13 @@ export class SubjectDetailComponent implements OnInit {
       .where("subjectId", '==', this.selectedSubject.id);
     } else {
       query = this.firestore.collection("events").ref
-      .where("type", "==", 'EXAM')
+      .where("type", "in", ['DYNAMO EXAM', 'EXAM'])
       .where("boardId", "==", this.userDetails.boardId)
       .where("subjectId", '==', this.selectedSubject.id);
     }
 
       query.get().then(data => {
         if (!data.empty) {
-          this.subjectDtls = [];
           // Use a Set to track unique event IDs and prevent duplicates from Firebase
           let uniqueEventIds = new Set();
           
@@ -610,13 +616,10 @@ export class SubjectDetailComponent implements OnInit {
               }
             }
             
-            // Fix: Also check for subjectId match for Diagnostic and Progressive Tests
-            // Previously it was allowing ALL Diagnostic/Progressive tests regardless of subject
-            const isDiagnosticOrProgressive = examRecord.category == 'Diagnostic Test' || examRecord.category == 'Progressive Test';
-            const isSameClass = examRecord.classId == this.selectedSubject.classId;
+            const isSameClass = examRecord.classId == this.userDetails.classId;
             const isSameSubject = examRecord.subjectId == this.selectedSubject.id;
-            
-            if (!(isSameClass || (isDiagnosticOrProgressive && isSameSubject))) return;
+
+            if (!isSameClass || !isSameSubject) return;
             
             examRecord['isPassScoreApplicable'] = false;
             examRecord['allowToAttempt'] = false;
