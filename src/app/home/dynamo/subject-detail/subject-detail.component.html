@@ -175,7 +175,7 @@
         </div>
 
 
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="quarterOne.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">1st Quarter Test</h4>
             <!-- <ion-button (click)="openDescription('1st Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
@@ -209,7 +209,7 @@
           </div>
         </div>
 
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="quarterTwo.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">2nd Quarter Test</h4>
             <!-- <ion-button (click)="openDescription('2nd Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
@@ -242,7 +242,7 @@
             </div>
           </div>
         </div>
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="proficiencyOne.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">1st Proficiency Test</h4>
             <!-- <ion-button (click)="openDescription('1st Proficiency Test')">Know More <ion-icon
@@ -276,7 +276,7 @@
             </div>
           </div>
         </div>
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="quarterThree.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">3rd Quarter Test</h4>
             <!-- <ion-button (click)="openDescription('3rd Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
@@ -309,7 +309,7 @@
             </div>
           </div>
         </div>
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="quarterFour.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">4th Quarter Test</h4>
             <!-- <ion-button (click)="openDescription('4th Quarter Test')">Know More <ion-icon name="help-circle"></ion-icon>
@@ -342,7 +342,7 @@
             </div>
           </div>
         </div>
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="proficiencyTwo.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">2nd Proficiency Test</h4>
             <!-- <ion-button (click)="openDescription('2nd Proficiency Test')">Know More <ion-icon
@@ -376,7 +376,7 @@
             </div>
           </div>
         </div>
-        <div class="subject-container">
+        <div class="subject-container" *ngIf="benchMark.status != 'NOQUESTION'">
           <div class="section-title">
             <h4 class="subject-type">Benchmark Test</h4>
             <!-- <ion-button (click)="openDescription('Benchmark Test')">Know More <ion-icon name="help-circle"></ion-icon>
