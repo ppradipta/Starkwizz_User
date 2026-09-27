@@ -195,8 +195,18 @@ export class ReviewAnswerComponent implements OnInit {
   }
 
   private isDynamoContext(): boolean {
-    const effectiveType = String(this.examType || this.eventType || '').toUpperCase();
-    if (effectiveType.includes('DYNAMO')) return true;
+    const contextTypes = [
+      this.examType,
+      this.eventType,
+      (this.userEventData as any)?.examType,
+      (this.userEventData as any)?.eventType,
+      (this.userEventData as any)?.type,
+    ];
+    if (contextTypes.some(type => {
+      const normalizedType = String(type ?? '').trim().toUpperCase();
+      // Some Dynamo entry points use the generic EXAM type and don't provide examType.
+      return normalizedType.includes('DYNAMO') || normalizedType === 'EXAM';
+    })) return true;
     return this.loadedUserEventCollection === 'user_dyanmo_exam';
   }
 
@@ -365,15 +375,22 @@ export class ReviewAnswerComponent implements OnInit {
   }
 
   async onClickAnswerExplanation(question: any) {
+    // Dynamo explanations are available directly from the completed exam review.
+    // Keep this before subscription checks so Dynamo's paused page and paywall don't intercept it.
+    if (this.isDynamoContext()) {
+      await this.openAnswerExplanationModalIfAvailable(question);
+      return;
+    }
+
     // Fast path: block free-trial users without waiting for Firestore checks.
     const quickAccess = this.getQuickAccessFromProfileType();
     const access = quickAccess?.hasFreeTrial
       ? quickAccess
       : (this.subscriptionAccessCache ?? await this.getSubscriptionAccess());
 
-    // Paid users can always access Answer Explanation.
+    // Paid users can access Answer Explanation in QuizWhizz and Events.
     if (access.hasPaid) {
-      // Only QuizWhizz + Events use the popup modal. Everything else keeps Dynamo behavior (separate page).
+      // QuizWhizz and Events show explanations directly from Review Answer.
       if (this.isQuizWhizzOrEventContext()) {
         await this.openAnswerExplanationModalIfAvailable(question);
         return;

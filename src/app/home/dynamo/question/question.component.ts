@@ -688,7 +688,12 @@ export class QuestionComponent implements OnInit {
              this.eventService.setTestEvent(this.testEvent);
             // Replace the question page in history so back from Final Score won't reopen the test again.
             this.router.navigate(
-              ['home/dynamo/finalScore', { eventId: this.userEventData.eventId, userEventId: this.userEventData.id, type: this.userEventData.type }],
+              ['home/dynamo/finalScore', {
+                eventId: this.userEventData.eventId,
+                userEventId: this.userEventData.id,
+                type: this.userEventData.type,
+                examType: this.testEvent?.type || this.userEventData.type,
+              }],
               { replaceUrl: true }
             );
             this.appearedQuestions = [];
