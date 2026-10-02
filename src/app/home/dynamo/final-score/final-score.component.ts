@@ -72,6 +72,10 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
     return String(this.eventType || '').toUpperCase().includes('QUIZWHIZZ');
   }
 
+  get isEventsExam(): boolean {
+    return String(this.eventType || '').toUpperCase().includes('EVENT');
+  }
+
   constructor(
     private router: Router,
     private firestore: AngularFirestore,
@@ -767,7 +771,7 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
   }
 
   viewLeaderBoard(rankType: 'SCHOOL' | 'CITY' | 'DISTRICT' | 'STATE' | 'COUNTRY' = 'SCHOOL') {
-    if (!this.isQuizwhizzExam) return;
+    if (!this.isQuizwhizzExam && !this.isEventsExam) return;
     const eventId = String(this.userEventData?.eventId || this.route.snapshot.params['eventId'] || '').trim();
     if (!eventId) return;
 
