@@ -6,6 +6,7 @@ import { DateUtilService } from 'src/app/common/util/date-util.service';
 import { UserDetails } from 'src/app/model/user';
 import { LoadingService } from 'src/app/services/loading.service';
 import { UserServiceService } from 'src/app/services/user-service.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-leader-board',
@@ -59,187 +60,190 @@ export class LeaderBoardComponent implements OnInit {
     this.rankType = this.activeRoute.snapshot.queryParams['rankType'];
     this.eventId = this.activeRoute.snapshot.queryParams['eventId'];
     this.eventType = this.activeRoute.snapshot.queryParams['eventType'];
-    this.userService.getUserDetails().subscribe((userData) => {
+    this.userService.getUserDetails().pipe(
+      filter((userData: any) => !!userData?.id),
+      take(1),
+    ).subscribe((userData) => {
       this.userDetails = userData;
-    });
-    this.userService.intializeUserRanks();
-    if (this.rankType == 'SCHOOL') {
-      //this.userService.nextQueryAfterSchool = null;
-      this.userService.getRanksSchoolWise(this.eventId, this.userDetails.schoolId, this.eventType);
-      if (this.eventType == 'QUIZWHIZZ EXAM') {
-        let myRankQuery = this.firestore.collection("user_quizwhizz_school_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('schoolId', '==', this.userDetails.schoolId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
-      } else {
-        let myRankQuery = this.firestore.collection("user_event_school_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('schoolId', '==', this.userDetails.schoolId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
+      this.userService.intializeUserRanks();
+      if (this.rankType == 'SCHOOL') {
+        //this.userService.nextQueryAfterSchool = null;
+        this.userService.getRanksSchoolWise(this.eventId, this.userDetails.schoolId, this.eventType);
+        if (this.eventType == 'QUIZWHIZZ EXAM') {
+          let myRankQuery = this.firestore.collection("user_quizwhizz_school_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('schoolId', '==', this.userDetails.schoolId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        } else {
+          let myRankQuery = this.firestore.collection("user_event_school_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('schoolId', '==', this.userDetails.schoolId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        }
       }
-    }
-    if (this.rankType == 'CITY') {
-      //this.userService.nextQueryAfterCity = null;
-      this.userService.getRanksCityWise(this.eventId, this.userDetails.cityId, this.userDetails.districtId, this.eventType);
-      if (this.eventType == 'QUIZWHIZZ EXAM') {
-        let myRankQuery = this.firestore.collection("user_quizwhizz_city_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('cityId', '==', this.userDetails.cityId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
-      } else {
-        let myRankQuery = this.firestore.collection("user_event_city_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('cityId', '==', this.userDetails.cityId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
+      if (this.rankType == 'CITY') {
+        //this.userService.nextQueryAfterCity = null;
+        this.userService.getRanksCityWise(this.eventId, this.userDetails.cityId, this.userDetails.districtId, this.eventType);
+        if (this.eventType == 'QUIZWHIZZ EXAM') {
+          let myRankQuery = this.firestore.collection("user_quizwhizz_city_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('cityId', '==', this.userDetails.cityId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        } else {
+          let myRankQuery = this.firestore.collection("user_event_city_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('cityId', '==', this.userDetails.cityId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        }
+  
       }
-
-    }
-    if (this.rankType == 'DISTRICT') {
-      // this.userService.nextQueryAfterDistrict = null;
-      this.userService.getRanksDistrictWise(this.eventId, this.userDetails.districtId, this.eventType);
-      if (this.eventType == 'QUIZWHIZZ EXAM') {
-        let myRankQuery = this.firestore.collection("user_quizwhizz_district_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('districtId', '==', this.userDetails.districtId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
-      } else {
-        let myRankQuery = this.firestore.collection("user_event_district_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('districtId', '==', this.userDetails.districtId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
+      if (this.rankType == 'DISTRICT') {
+        // this.userService.nextQueryAfterDistrict = null;
+        this.userService.getRanksDistrictWise(this.eventId, this.userDetails.districtId, this.eventType);
+        if (this.eventType == 'QUIZWHIZZ EXAM') {
+          let myRankQuery = this.firestore.collection("user_quizwhizz_district_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('districtId', '==', this.userDetails.districtId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        } else {
+          let myRankQuery = this.firestore.collection("user_event_district_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('districtId', '==', this.userDetails.districtId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        }
       }
-    }
-    if (this.rankType == 'STATE') {
-      // this.userService.nextQueryAfterState = null;
-      this.userService.getRanksStateyWise(this.eventId, this.userDetails.stateId, this.eventType);
-      if (this.eventType == 'QUIZWHIZZ EXAM') {
-        let myRankQuery = this.firestore.collection("user_quizwhizz_state_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('stateId', '==', this.userDetails.stateId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
-      } else {
-        let myRankQuery = this.firestore.collection("user_event_state_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('stateId', '==', this.userDetails.stateId)
-          .where('userId', '==', this.userDetails.id);
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
+      if (this.rankType == 'STATE') {
+        // this.userService.nextQueryAfterState = null;
+        this.userService.getRanksStateyWise(this.eventId, this.userDetails.stateId, this.eventType);
+        if (this.eventType == 'QUIZWHIZZ EXAM') {
+          let myRankQuery = this.firestore.collection("user_quizwhizz_state_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('stateId', '==', this.userDetails.stateId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        } else {
+          let myRankQuery = this.firestore.collection("user_event_state_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('stateId', '==', this.userDetails.stateId)
+            .where('userId', '==', this.userDetails.id);
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        }
       }
-    }
-    if (this.rankType == 'COUNTRY') {
-      //this.userService.nextQueryAfterCountry = null;
-      this.userService.getRanksCountryWise(this.eventId, this.eventType);
-      if (this.eventType == 'QUIZWHIZZ EXAM') {
-        let myRankQuery = this.firestore.collection("user_quizwhizz_all_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('userId', '==', this.userDetails.id)
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
-      } else {
-        let myRankQuery = this.firestore.collection("user_event_all_ranks").ref
-          .where('status', '==', 'COMPLETED')
-          .where('eventId', '==', this.eventId)
-          .where('userId', '==', this.userDetails.id)
-        myRankQuery.get().then((eventRankDetail: any) => {
-          this.myRankPostion = null;
-          if (!eventRankDetail.empty) {
-            eventRankDetail.forEach((data: any) => {
-              this.myRankPostion = data.data();
-            });
-          }
-        });
+      if (this.rankType == 'COUNTRY') {
+        //this.userService.nextQueryAfterCountry = null;
+        this.userService.getRanksCountryWise(this.eventId, this.eventType);
+        if (this.eventType == 'QUIZWHIZZ EXAM') {
+          let myRankQuery = this.firestore.collection("user_quizwhizz_all_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('userId', '==', this.userDetails.id)
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        } else {
+          let myRankQuery = this.firestore.collection("user_event_all_ranks").ref
+            .where('status', '==', 'COMPLETED')
+            .where('eventId', '==', this.eventId)
+            .where('userId', '==', this.userDetails.id)
+          myRankQuery.get().then((eventRankDetail: any) => {
+            this.myRankPostion = null;
+            if (!eventRankDetail.empty) {
+              eventRankDetail.forEach((data: any) => {
+                this.myRankPostion = data.data();
+              });
+            }
+          });
+        }
       }
-    }
-
-    this.userService.userRanks.subscribe(record => {
-      if (null != record && record.length > 0) {
-        record.forEach(urecord => {
-          this.rankRecords.push(urecord.data());
-        });
-        this.rankOnePostion = this.rankRecords.find(rank => rank.calculateRank == 1);
-        this.rankTwoPostion = this.rankRecords.find(rank => rank.calculateRank == 2);
-        this.rankThreewoPostion = this.rankRecords.find(rank => rank.calculateRank == 3);
-      } else {
-        this.rankRecords = [];
-      }
-
+  
+      this.userService.userRanks.subscribe(record => {
+        if (null != record && record.length > 0) {
+          record.forEach(urecord => {
+            this.rankRecords.push(urecord.data());
+          });
+          this.rankOnePostion = this.rankRecords.find(rank => rank.calculateRank == 1);
+          this.rankTwoPostion = this.rankRecords.find(rank => rank.calculateRank == 2);
+          this.rankThreewoPostion = this.rankRecords.find(rank => rank.calculateRank == 3);
+        } else {
+          this.rankRecords = [];
+        }
+  
+      });
     });
 
   }

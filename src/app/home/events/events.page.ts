@@ -313,6 +313,7 @@ export class EventsPage implements OnInit {
     }
 
     this.loading.present();
+    this.eventService.setTestEvent(event);
     this.router.navigate(['home/dynamo/finalScore', { eventId: eventId, userEventId: userEventId, type: 'EVENT' }]);
 
   }

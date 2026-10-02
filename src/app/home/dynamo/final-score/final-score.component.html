@@ -251,7 +251,8 @@
           <span>Share score</span>
         </div>
 
-        <div class="test-info" (click)="viewLeaderBoard()" *ngIf="isQuizwhizzExam && userEventData?.isLeaderBoardAllow">
+        <div class="test-info" (click)="viewLeaderBoard()"
+          *ngIf="(isQuizwhizzExam || isEventsExam) && userEventData?.isLeaderBoardAllow">
           <div class="info-icon">
             <ion-img src="/assets/svg/crown.svg"></ion-img>
           </div>
