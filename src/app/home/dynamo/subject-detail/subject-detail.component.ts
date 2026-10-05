@@ -102,6 +102,14 @@ export class SubjectDetailComponent implements OnInit {
     return events.length;
   }
 
+  moveModule(carousel: any, direction: 'prev' | 'next') {
+    const swiper = carousel?.swiper;
+    if (!swiper) return;
+
+    if (direction === 'prev') swiper.slidePrev();
+    else swiper.slideNext();
+  }
+
   constructor(
     private modalController: ModalController,
     private firestore: AngularFirestore,

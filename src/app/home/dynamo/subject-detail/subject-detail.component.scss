@@ -86,6 +86,30 @@
 
         .subject-container {
             margin-bottom: 20px;
+            .module-carousel {
+                position: relative;
+            }
+            .module-arrow {
+                position: absolute;
+                top: 50%;
+                z-index: 5;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 48px;
+                padding: 0;
+                border: 0;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.68);
+                color: #1900ff;
+                font-size: 34px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                &.module-arrow-prev { left: 0; }
+                &.module-arrow-next { right: 0; }
+                ion-icon { pointer-events: none; }
+            }
             .section-title {
                 display: flex;
                 align-items: center;
@@ -281,4 +305,11 @@
 
 .welcome {
     text-align: left;
+}
+
+.alignarrowleft{
+    left: 8px !important;
+}
+.alignarrowright{
+    right: 8px !important;
 }
