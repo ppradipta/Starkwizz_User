@@ -13,8 +13,8 @@ export const environment = {
     measurementId: "G-V1NJHSTGYC"
   },
   production: true,
-  version: '1.6.8.1',
-  versionNumber: 1681,
+  version: '1.6.8.3',
+  versionNumber: 1683,
   razorpayConfig: {
       key: 'rzp_live_xvAoiBHMFWAdKr'
    // key: 'rzp_test_rD4r9gTr7emaSX'
