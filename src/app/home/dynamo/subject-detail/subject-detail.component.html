@@ -72,7 +72,12 @@
             </ion-button> -->
           </div>
 
-          <swiper-container [slidesPerView]="1" [loop]="false" *ngIf="'Diagnostic Test'==exams.key">
+          <div class="module-carousel" *ngIf="'Diagnostic Test'==exams.key">
+          <button *ngIf="exams.value?.length > 1" class="module-arrow module-arrow-prev alignarrowleft" type="button" aria-label="Previous module"
+            (click)="moveModule(diagnosticSwiper, 'prev')">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <swiper-container #diagnosticSwiper [slidesPerView]="1" [loop]="false">
             <swiper-slide *ngFor="let exam of exams.value | orderBy:'moduleOrder'">
               <div class="subject-card swiper-card">
                 <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
@@ -106,6 +111,11 @@
               </div>
             </swiper-slide>
           </swiper-container>
+          <button *ngIf="exams.value?.length > 1" class="module-arrow module-arrow-next alignarrowright" type="button" aria-label="Next module"
+            (click)="moveModule(diagnosticSwiper, 'next')">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+          </div>
         </div>
         
         <div class="subject-container" *ngFor="let exams of  sortedRecords | keyvalue">
@@ -115,7 +125,12 @@
             </ion-button> -->
           </div>
 
-          <swiper-container [slidesPerView]="1" [loop]="false" *ngIf="'Progressive Test'==exams.key">
+          <div class="module-carousel" *ngIf="'Progressive Test'==exams.key">
+          <button *ngIf="exams.value?.length > 1" class="module-arrow module-arrow-prev alignarrowleft" type="button" aria-label="Previous module"
+            (click)="moveModule(progressiveSwiper, 'prev')">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <swiper-container #progressiveSwiper [slidesPerView]="1" [loop]="false">
             <swiper-slide *ngFor="let exam of exams.value | orderBy:'moduleOrder'">
               <div class="subject-card swiper-card">
                 <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
@@ -143,6 +158,11 @@
               </div>
             </swiper-slide>
           </swiper-container>
+          <button *ngIf="exams.value?.length > 1" class="module-arrow module-arrow-next alignarrowright" type="button" aria-label="Next module"
+            (click)="moveModule(progressiveSwiper, 'next')">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+          </div>
 
           <!-- <ion-slides pager="true" [options]="slideOpts" *ngIf="'Progressive Test'==exams.key">
             <ion-slide *ngFor="let exam of exams.value | orderBy:'eventName'">
