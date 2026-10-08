@@ -228,6 +228,8 @@ export class UserHelperService {
                 userEvent.isReviewAnsAllow = testEvent.isReviewAnsAllow;
                 userEvent.isPublishRankAllow = false;
                 userEvent.totalMarks = Number(testEvent.eventMarks);
+                userEvent.levelNumber = testEvent.levelNumber || 1;
+                userEvent.levelName = testEvent.levelName || '';
                 return userEvent;
             } else {
                 userEvent.id = this.generateKeyService.generateUniqueFirestoreId();
@@ -273,6 +275,8 @@ export class UserHelperService {
                 userEvent.isReviewAnsAllow = testEvent.isReviewAnsAllow;
                 userEvent.isPublishRankAllow = testEvent.isPublishRankAllow;
                 userEvent.totalMarks = Number(testEvent.eventMarks);
+                userEvent.levelNumber = testEvent.levelNumber || 1;
+                userEvent.levelName = testEvent.levelName || '';
                 return userEvent;
             }
         }

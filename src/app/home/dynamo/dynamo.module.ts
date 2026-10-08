@@ -26,6 +26,7 @@ import { SubjectDetailComponent } from './subject-detail/subject-detail.componen
 import { SubjectModuleListComponent } from './subject-module-list/subject-module-list.component';
 import { SubscriptionProfileComponent } from './subscription-profile/subscription-profile.component';
 import { TestScheduleComponent } from './test-schedule/test-schedule.component';
+import { ChapterLevelsComponent } from './chapter-levels/chapter-levels.component';
 
 export const routes = [
   { 
@@ -87,6 +88,10 @@ export const routes = [
   {
     path: 'subject-modules',
     component: SubjectModuleListComponent
+  },
+  {
+    path: 'chapter-levels',
+    component: ChapterLevelsComponent
   }
 ];
 
@@ -110,6 +115,7 @@ export const routes = [
         BeforePaidComponent,
         SubjectDetailComponent,
         SubjectAppearComponent,
+        ChapterLevelsComponent,
         ScheduleComponent,
         QuestionComponent,
         FinalScoreComponent,

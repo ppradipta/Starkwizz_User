@@ -138,6 +138,8 @@ export class userEvents {
     isReviewAnsAllow: boolean = false;
     isPublishRankAllow: boolean = false;
     categoryId: string = '';
+    levelNumber?: number;
+    levelName?: string;
 }
 
 export class Questions {

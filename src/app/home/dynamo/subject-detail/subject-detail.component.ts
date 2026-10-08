@@ -15,6 +15,7 @@ import { UtilServiceService } from 'src/app/services/util-service.service';
 //import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
 import { CancelExamAlertComponent } from '../cancel-exam-alert/cancel-exam-alert.component';
 import { SubjectAppearComponent } from '../subject-appear/subject-appear.component';
+import { ChapterLevelsComponent } from '../chapter-levels/chapter-levels.component';
 //SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 
 @Component({
@@ -139,6 +140,7 @@ export class SubjectDetailComponent implements OnInit {
     this.getAllNotifications();
     this.eventService.getDynamoExamForSelectedSubject().subscribe(dynamoExams => {
       this.dynamoExams = dynamoExams;
+      this.refreshExamStatusesInSubjectDtls();
     });
 
     setTimeout(() => {
@@ -147,11 +149,17 @@ export class SubjectDetailComponent implements OnInit {
 
   }
 
+  ionViewWillEnter() {
+    if (this.selectedSubject?.id && this.userDetails?.id) {
+      this.getEventsForSelectedSubjects();
+    }
+  }
+
   getEventsForSelectedSubjects() {
     this.eventService.getEventsForSelectedSubject().subscribe(events => {
       this.eventsOfSelectedSubject = events;
+      this.refreshExamStatusesInSubjectDtls();
     });
-
   }
 
   doRefresh(event: any) {
@@ -223,6 +231,17 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   async onClickAppear(eventView: any) {
+    if (eventView?.category === 'Progressive Test') {
+      const isDiagCompleted = this.isDiagnosticTestCompletedForModule(eventView.moduleId);
+      if (!isDiagCompleted) {
+        this.util.showToast('Please complete all levels of this module in Diagnostic Test to unlock Progressive Test.', 'danger', 'bottom');
+        return;
+      }
+      if (!eventView.allowToAttempt) {
+        return;
+      }
+    }
+
     const canProceed = await this.confirmProgressiveAttemptIfNeeded(eventView);
     if (!canProceed) return;
 
@@ -277,11 +296,129 @@ export class SubjectDetailComponent implements OnInit {
     const eventId = eventView?.id;
     if (!eventId) return [];
 
-    if (eventView?.type === 'DYNAMO EXAM') {
-      return (this.dynamoExams ?? []).filter((uev: any) => uev?.eventId === eventId);
+    const subjectAttempts = (this.eventsOfSelectedSubject ?? []).filter((uev: any) => uev?.eventId === eventId);
+    const dynamoAttempts = (this.dynamoExams ?? []).filter((uev: any) => uev?.eventId === eventId);
+    const combined = [...subjectAttempts, ...dynamoAttempts];
+    return Array.from(new Map(combined.map(item => [item.id, item])).values());
+  }
+
+  isModuleAllLevelsCompleted(examRecord: any, attemptRecords: any[]): boolean {
+    if (!attemptRecords || attemptRecords.length === 0) {
+      return false;
     }
 
-    return (this.eventsOfSelectedSubject ?? []).filter((uev: any) => uev?.eventId === eventId);
+    const totalRequiredLevels = (examRecord?.levels && Array.isArray(examRecord.levels) && examRecord.levels.length > 0)
+      ? examRecord.levels.length
+      : 5;
+
+    const completedLevelNumbers = new Set<number>();
+    attemptRecords.forEach((a: any) => {
+      const isCompleted = String(a?.status || a?.examStatus || '').toUpperCase() === 'COMPLETED';
+      if (isCompleted) {
+        const lvl = Number(a?.levelNumber);
+        if (Number.isFinite(lvl) && lvl > 0) {
+          completedLevelNumbers.add(lvl);
+        }
+      }
+    });
+
+    if (completedLevelNumbers.size < totalRequiredLevels) {
+      return false;
+    }
+
+    for (let i = 1; i <= totalRequiredLevels; i++) {
+      if (!completedLevelNumbers.has(i)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  isDiagnosticTestCompletedForModule(moduleId: string): boolean {
+    if (!moduleId) return false;
+    const diagEvent = this.subjectDtls?.find(sd =>
+      sd.category === 'Diagnostic Test' &&
+      String(sd.moduleId || '') === String(moduleId)
+    );
+    if (!diagEvent) {
+      return true;
+    }
+    const diagAttempts = this.getAttemptRecordsForEvent(diagEvent);
+    return this.isModuleAllLevelsCompleted(diagEvent, diagAttempts);
+  }
+
+  refreshExamStatusesInSubjectDtls() {
+    if (!this.subjectDtls || this.subjectDtls.length === 0) return;
+
+    // Step 1: Process Diagnostic and all non-Progressive tests first
+    this.subjectDtls.forEach(examRecord => {
+      if (examRecord.category !== 'Progressive Test') {
+        const exampAttempRecords = this.getAttemptRecordsForEvent(examRecord);
+        if (exampAttempRecords.length > 0) {
+          const latestAttempt =
+            this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
+
+          examRecord['userEventId'] = latestAttempt?.id;
+          examRecord['attemptCount'] = exampAttempRecords?.length;
+
+          const allLevelsCompleted = this.isModuleAllLevelsCompleted(examRecord, exampAttempRecords);
+          if (allLevelsCompleted) {
+            examRecord['allowToAttempt'] = false;
+            examRecord.status = 'COMPLETED';
+          } else {
+            examRecord['allowToAttempt'] = true;
+            examRecord.status = 'ACTIVE';
+          }
+        } else {
+          examRecord['allowToAttempt'] = true;
+          examRecord.status = examRecord.status || 'ACTIVE';
+        }
+      }
+    });
+
+    // Step 2: Process Progressive Tests: only unlocked if module's Diagnostic Test is 100% completed with all levels
+    this.subjectDtls.forEach(examRecord => {
+      if (examRecord.category === 'Progressive Test') {
+        const isDiagCompleted = this.isDiagnosticTestCompletedForModule(examRecord.moduleId);
+        const exampAttempRecords = this.getAttemptRecordsForEvent(examRecord);
+
+        if (!isDiagCompleted) {
+          // Diagnostic Test not fully completed with all levels -> Lock Progressive Test
+          examRecord.status = 'UPCOMING';
+          examRecord['allowToAttempt'] = false;
+          if (exampAttempRecords.length > 0) {
+            const latestAttempt =
+              this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
+            examRecord['userEventId'] = latestAttempt?.id;
+            examRecord['attemptCount'] = exampAttempRecords.length;
+          }
+        } else {
+          // Diagnostic Test is fully completed -> evaluate Progressive Test attempt status
+          if (exampAttempRecords.length > 0) {
+            const hasQuit = exampAttempRecords.some(uear => uear?.progressiveQuit === true);
+            const allLevelsCompleted = this.isModuleAllLevelsCompleted(examRecord, exampAttempRecords);
+            const latestAttempt =
+              this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
+
+            examRecord['userEventId'] = latestAttempt?.id;
+            examRecord['attemptCount'] = exampAttempRecords.length;
+
+            if (hasQuit || allLevelsCompleted || exampAttempRecords.length >= 5) {
+              examRecord.status = 'COMPLETED';
+              examRecord['allowToAttempt'] = false;
+            } else {
+              examRecord.status = 'ACTIVE';
+              examRecord['allowToAttempt'] = true;
+            }
+          } else {
+            examRecord.status = 'ACTIVE';
+            examRecord['allowToAttempt'] = true;
+            examRecord['attemptCount'] = 0;
+          }
+        }
+      }
+    });
   }
 
   private getLatestAttemptRecord(records: any[]): any | null {
@@ -376,47 +513,38 @@ export class SubjectDetailComponent implements OnInit {
 
   async createUserExam(eventView: any) {
     eventView.isPublishRankAllow = false;
-    let quesData = {
-      id: '',
-      isPublishRankAllow: false
-    };
-    if (eventView.type == 'DYNAMO EXAM') {
-      quesData = this.userHelperService.populateUserEventData(null, eventView, this.userDetails, 'STARTED', 'DYNAMO EXAM', this.selectedSubject.category);
-      quesData.isPublishRankAllow = false;
-      this.userService.setUserDynamoEventsToCollections(quesData);
-    } else {
-      quesData = this.userHelperService.populateUserEventData(null, eventView, this.userDetails, 'STARTED', 'EXAM', this.selectedSubject.category);
-      quesData.isPublishRankAllow = false;
-      this.userService.setUserEventsToCollections(quesData)
-    }
+    this.eventService.setTestEvent(eventView);
 
     const modal = await this.modalController.create({
-      component: SubjectAppearComponent,
-      breakpoints: [1],
-      initialBreakpoint: 0.75,
-      backdropDismiss: true,
-      cssClass: 'fullScreenModal, eventModal',
+      component: ChapterLevelsComponent,
+      backdropDismiss: false,
+      cssClass: 'fullScreenModal chapterLevelsModal',
       componentProps: {
         event: eventView,
-        userEventId: quesData.id
+        selectedSubject: this.selectedSubject
       }
     });
     await modal.present();
+    await modal.onDidDismiss();
+    this.getEventsForSelectedSubjects();
   }
 
   async updateUserExam(userEventData: any, id: any) {
+    userEventData.isPublishRankAllow = false;
+    this.eventService.setTestEvent(userEventData);
+
     const modal = await this.modalController.create({
-      component: SubjectAppearComponent,
-      breakpoints: [1],
-      initialBreakpoint: 0.75,
-      backdropDismiss: true,
-      cssClass: 'fullScreenModal, eventModal',
+      component: ChapterLevelsComponent,
+      backdropDismiss: false,
+      cssClass: 'fullScreenModal chapterLevelsModal',
       componentProps: {
         event: userEventData,
-        userEventId: id
+        selectedSubject: this.selectedSubject
       }
     });
     await modal.present();
+    await modal.onDidDismiss();
+    this.getEventsForSelectedSubjects();
   }
 
 
@@ -630,55 +758,64 @@ export class SubjectDetailComponent implements OnInit {
             if (!isSameClass || !isSameSubject) return;
             
             examRecord['isPassScoreApplicable'] = false;
-            examRecord['allowToAttempt'] = false;
-              if (this.eventsOfSelectedSubject.length > 0) {
-                let exampAttempRecords: any[] = this.eventsOfSelectedSubject.filter(uev => uev.eventId === examRecord.id);
-                // examRecord.status = 'ACTIVE';
-                // examRecord['allowToAttempt'] = true;
-                if (exampAttempRecords.length > 0 && examRecord.category != 'Progressive Test') {
-                const latestAttempt =
-                  this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
-                const latestStatus = String(latestAttempt?.status ?? latestAttempt?.examStatus ?? '').toUpperCase();
+            examRecord['allowToAttempt'] = true;
 
-                examRecord['userEventId'] = latestAttempt?.id;
+            const exampAttempRecords: any[] = this.getAttemptRecordsForEvent(examRecord);
+            if (exampAttempRecords.length > 0 && examRecord.category != 'Progressive Test') {
+              const latestAttempt =
+                this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
+
+              examRecord['userEventId'] = latestAttempt?.id;
+              examRecord['attemptCount'] = exampAttempRecords?.length;
+
+              const allLevelsCompleted = this.isModuleAllLevelsCompleted(examRecord, exampAttempRecords);
+              if (allLevelsCompleted) {
+                examRecord['allowToAttempt'] = false;
+                examRecord.status = 'COMPLETED';
+              } else {
+                examRecord['allowToAttempt'] = true;
+                examRecord.status = 'ACTIVE';
+              }
+            } else if (examRecord.category != 'Progressive Test') {
+              examRecord['allowToAttempt'] = true;
+              examRecord.status = 'ACTIVE';
+            }
+
+            if (examRecord.category == 'Progressive Test' && exampAttempRecords.length > 0) {
+              const hasQuit = exampAttempRecords.some(uear => uear?.progressiveQuit === true);
+              if (hasQuit) {
+                const quitRecord = exampAttempRecords.find(uear => uear?.progressiveQuit === true) ?? exampAttempRecords[exampAttempRecords.length - 1];
+                examRecord.status = 'COMPLETED';
+                examRecord['userEventId'] = quitRecord?.id;
+                examRecord['allowToAttempt'] = false;
                 examRecord['attemptCount'] = exampAttempRecords?.length;
-
-                // Fix: don't mark an exam as COMPLETED just because a user-event record exists.
-                // When user only opens instructions and goes back, the record is STARTED and the exam should remain attemptable.
-                if (latestStatus === 'COMPLETED') {
-                  examRecord['allowToAttempt'] = false;
+              } else if (examRecord.levels && Array.isArray(examRecord.levels) && examRecord.levels.length > 0) {
+                const allLevelsCompleted = this.isModuleAllLevelsCompleted(examRecord, exampAttempRecords);
+                if (allLevelsCompleted) {
                   examRecord.status = 'COMPLETED';
+                  examRecord['allowToAttempt'] = false;
                 } else {
+                  examRecord.status = 'ACTIVE';
                   examRecord['allowToAttempt'] = true;
-                  examRecord.status = latestStatus || examRecord.status || 'ACTIVE';
                 }
-                }
-                if (examRecord.category == 'Progressive Test' && exampAttempRecords.length > 0) {
-                  const hasQuit = exampAttempRecords.some(uear => uear?.progressiveQuit === true);
-                  if (hasQuit) {
-                    const quitRecord = exampAttempRecords.find(uear => uear?.progressiveQuit === true) ?? exampAttempRecords[exampAttempRecords.length - 1];
+                examRecord['attemptCount'] = exampAttempRecords?.length;
+              } else if (exampAttempRecords.length < 5) {
+                const appearedEvents = exampAttempRecords.find(uear => uear.totalCorrect >= Number(examRecord.passMark));
+                if (appearedEvents) {
                   examRecord.status = 'COMPLETED';
-                  examRecord['userEventId'] = quitRecord?.id;
+                  examRecord['userEventId'] = appearedEvents.id;
                   examRecord['allowToAttempt'] = false;
                   examRecord['attemptCount'] = exampAttempRecords?.length;
-                } else if (exampAttempRecords.length < 5) {
-                  const appearedEvents = exampAttempRecords.find(uear => uear.totalCorrect >= Number(examRecord.passMark));
-                  if (appearedEvents) {
-                    examRecord.status = 'COMPLETED';
-                    examRecord['userEventId'] = appearedEvents.id;
-                    examRecord['allowToAttempt'] = false;
-                    examRecord['attemptCount'] = exampAttempRecords?.length;
-                  } else {
-                    examRecord.status = 'ACTIVE';
-                    examRecord['allowToAttempt'] = true;
-                    examRecord['attemptCount'] = exampAttempRecords?.length;
-                  }
                 } else {
-                  examRecord.status = 'COMPLETED';
-                  examRecord['userEventId'] = exampAttempRecords[exampAttempRecords.length - 1]?.id;
-                  examRecord['allowToAttempt'] = false;
+                  examRecord.status = 'ACTIVE';
+                  examRecord['allowToAttempt'] = true;
                   examRecord['attemptCount'] = exampAttempRecords?.length;
                 }
+              } else {
+                examRecord.status = 'COMPLETED';
+                examRecord['userEventId'] = exampAttempRecords[exampAttempRecords.length - 1]?.id;
+                examRecord['allowToAttempt'] = false;
+                examRecord['attemptCount'] = exampAttempRecords?.length;
               }
             }
 
@@ -691,17 +828,7 @@ export class SubjectDetailComponent implements OnInit {
           // Show only events that admin uploaded for this subject.
 
           if (this.subjectDtls.length > 0) {
-            let diagnosticCOmpletedEvents: any[] = this.subjectDtls.filter(sd => sd.category == 'Diagnostic Test' && sd.status == 'COMPLETED');
-
-            if (diagnosticCOmpletedEvents.length > 0) {
-              diagnosticCOmpletedEvents.forEach(devt => {
-                let progressiveInActive = this.subjectDtls.find(sd => sd.category == 'Progressive Test' && sd.status == 'UPCOMING' && sd.moduleId == devt.moduleId);
-                if (progressiveInActive) {
-                  progressiveInActive.status = 'ACTIVE';
-                  progressiveInActive['allowToAttempt'] = true;
-                }
-              });
-            }
+            this.refreshExamStatusesInSubjectDtls();
 
             let progressiveTestEvents: any[] = this.subjectDtls.filter(sd => sd.category == 'Progressive Test' && sd.status == 'COMPLETED');
             let isQuatorOne = this.eventService.checkEligibilityForQuatorOneTest(progressiveTestEvents, this.moduleList);
@@ -860,14 +987,7 @@ export class SubjectDetailComponent implements OnInit {
               }
             }
 
-            this.subjectDtls.forEach(examSubjectrecord => {
-              if (examSubjectrecord.status == 'COMPLETED' && examSubjectrecord.category == 'Diagnostic Test') {
-                let proTestIndex = this.subjectDtls.findIndex(sd => sd.category == 'Progressive Test' && sd.moduleId == examSubjectrecord.moduleId);
-                if (proTestIndex != -1) {
-                  this.subjectDtls[proTestIndex].allowToAttempt = true;
-                }
-              }
-            })
+            this.refreshExamStatusesInSubjectDtls();
             
             // Final deduplication: Remove duplicate events by event ID before creating sortedRecords
             const uniqueEventsMap = new Map();
@@ -908,13 +1028,15 @@ export class SubjectDetailComponent implements OnInit {
               appearedRecords.push(userEvnt);
             });
             if (appearedRecords.length > 0) {
-              let event = appearedRecords.find(aprvideo => (aprvideo.status == 'COMPLETED' && aprvideo.totalCorrect >= eventView.passMark));
-              if (null != event) {
-                this.util.showToast(('You have already Completed this Exam'), 'danger', 'bottom')
+              const allLevelsCompleted = this.isModuleAllLevelsCompleted(eventView, appearedRecords);
+              if (allLevelsCompleted) {
+                this.util.showToast(('You have already Completed all levels of this Exam'), 'danger', 'bottom');
               } else {
                 eventView.isPublishRankAllow = false;
                 this.createUserExam(eventView);
               }
+            } else {
+              this.createUserExam(eventView);
             }
 
           } else {
@@ -962,7 +1084,11 @@ export class SubjectDetailComponent implements OnInit {
 
   onClickViewScore(exam: any) {
     this.eventService.setTestEvent(exam);
-    this.router.navigate(['home/dynamo/finalScore', { eventId: exam.id, userEventId: exam.userEventId, type: exam.type, examType: 'DYNAMO EXAM' }]);
+    if ((exam.levels && exam.levels.length > 0) || exam.moduleId) {
+      this.createUserExam(exam);
+    } else {
+      this.router.navigate(['home/dynamo/finalScore', { eventId: exam.id, userEventId: exam.userEventId, type: exam.type, examType: 'DYNAMO EXAM' }]);
+    }
   }
 
 
