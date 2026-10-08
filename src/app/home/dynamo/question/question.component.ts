@@ -179,24 +179,81 @@ export class QuestionComponent implements OnInit {
 
   getUserEventData(testEvent: any) {
     let collectionName = testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : testEvent.type == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+
+    // 1. Direct userEventData passed inside testEvent
+    if (testEvent.userEventData && testEvent.userEventData.id) {
+      this.userEventData = testEvent.userEventData;
+      const persistedStartUs = Number((this.userEventData as any)?.examStartEpochUs);
+      if (Number.isFinite(persistedStartUs) && persistedStartUs > 0) {
+        this.examStartEpochUs = persistedStartUs;
+      }
+      return;
+    }
+
     if (testEvent.type === 'DYNAMO EXAM') {
       this.userEventData = testEvent;
       const persistedStartUs = Number((this.userEventData as any)?.examStartEpochUs);
       if (Number.isFinite(persistedStartUs) && persistedStartUs > 0) {
         this.examStartEpochUs = persistedStartUs;
       }
-    } else {
-      this.firestore.collection(collectionName, ref => ref.where("eventId", "==", testEvent.id).where("userId", "==", this.userDetails.id)).get().subscribe((data: any) => {
-        data.forEach((res: any) => {
-          this.userEventData = res.data();
+    } else if (testEvent.userEventId || testEvent.userEventDocId) {
+      const docId = testEvent.userEventId || testEvent.userEventDocId;
+      this.userEventData.id = docId;
+      this.userEventData.eventId = testEvent.eventId || testEvent.id;
+      this.userEventData.userId = this.userDetails?.id;
+      this.firestore.collection(collectionName).doc(docId).get().subscribe((doc: any) => {
+        if (doc && doc.exists) {
+          const docData = doc.data();
+          if (docData) {
+            this.userEventData = { ...this.userEventData, ...docData };
+            if (!this.userEventData.id) {
+              this.userEventData.id = doc.id;
+            }
+          }
           const persistedStartUs = Number((this.userEventData as any)?.examStartEpochUs);
           if (Number.isFinite(persistedStartUs) && persistedStartUs > 0) {
             this.examStartEpochUs = persistedStartUs;
           }
-        })
+        }
       });
+    } else {
+      const eventIdToQuery = testEvent.eventId || testEvent.id;
+      const userId = this.userDetails?.id;
+      if (userId && eventIdToQuery) {
+        this.firestore.collection(collectionName, ref => ref.where("eventId", "==", eventIdToQuery).where("userId", "==", userId)).get().subscribe((data: any) => {
+          data.forEach((res: any) => {
+            this.userEventData = res.data();
+            if (!this.userEventData.id) {
+              this.userEventData.id = res.id;
+            }
+            const persistedStartUs = Number((this.userEventData as any)?.examStartEpochUs);
+            if (Number.isFinite(persistedStartUs) && persistedStartUs > 0) {
+              this.examStartEpochUs = persistedStartUs;
+            }
+          });
+        });
+      }
     }
+  }
 
+  private getTargetUserEventDocId(collectionName: string): string {
+    const rawId = String(
+      this.userEventData?.id ||
+      (this.testEvent as any)?.userEventId ||
+      (this.testEvent as any)?.userEventDocId ||
+      `${(this.testEvent as any)?.eventId || this.testEvent?.id || 'event'}_L${(this.testEvent as any)?.levelNumber || 1}_${this.userDetails?.id || 'user'}`
+    ).trim();
+
+    if (!this.userEventData.id) {
+      this.userEventData.id = rawId;
+    }
+    if (!this.userEventData.eventId) {
+      this.userEventData.eventId = (this.testEvent as any)?.eventId || this.testEvent?.id;
+    }
+    if (!this.userEventData.userId && this.userDetails?.id) {
+      this.userEventData.userId = this.userDetails.id;
+    }
+    return rawId;
   }
 
   getSelectedEvent() {
@@ -269,6 +326,8 @@ export class QuestionComponent implements OnInit {
               }
               if (this.question.perQuestionTimer) {
                 this.questionConfig.leftTime = this.question.perQuestionTimer;
+              } else if (this.testEvent.perQuestionHour) {
+                this.questionConfig.leftTime = this.testEvent.perQuestionHour;
               }
             }
           });
@@ -292,6 +351,8 @@ export class QuestionComponent implements OnInit {
               }
               if (this.question.perQuestionTimer) {
                 this.questionConfig.leftTime = this.question.perQuestionTimer;
+              } else if (this.testEvent.perQuestionHour) {
+                this.questionConfig.leftTime = this.testEvent.perQuestionHour;
               }
             }
           });
@@ -371,8 +432,9 @@ export class QuestionComponent implements OnInit {
     let totalSecuredMark = totalCorrectMark - totalNgeativeMark;
     let totalExamTime = this.dateUtilService.getTimeDifferenceInSeconds(this.examStartTime, this.examEndTime);
     let collectionName = this.testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : this.testEvent.type == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+    const docId = this.getTargetUserEventDocId(collectionName);
     this.firestore.collection(collectionName)
-      .doc(this.userEventData.id).update({
+      .doc(docId).set({
         totalAppearQuesiton: this.appearedQuestions.length,
         totalSkipQuestions: totalSkipQuestions,
         totalCorrect: totalCorrect,
@@ -392,39 +454,44 @@ export class QuestionComponent implements OnInit {
         totalExamTimeUsDisplay: totalExamTimeUs != null ? this.dateUtilService.formatMicroSecondsToHhMmSsUs(totalExamTimeUs) : null,
         status: "INPROGRESS",
         examStatus: "INPROGRESS",
-      }).then(result => {
-        this.isQuesDisabled = false;
-        this.skipLoadder = false;
-        this.questionStartTime = this.dateUtilService.getCurrentDateWithMinAndSecondFormat();
-        this.questionStartEpochUs = this.dateUtilService.getCurrentEpochMicroSeconds();
-        this.updateElapsedExamTimeUsDisplay();
-        if (this.lastq) {
-          this.examCompleted();
-        } else {
-          this.question = new Questions();
-          this.question.options = [];
-          this.selectedQuestionIndex = this.selectedQuestionIndex + 1;
-          this.question = this.questionList[this.selectedQuestionIndex];
-          this.question.options = this.questionList[this.selectedQuestionIndex].options;
-          if (this.question.perQuestionTimer) {
-            this.questionConfig.leftTime = this.question.perQuestionTimer;
-          } else {
-            this.questionConfig.leftTime = this.testEvent.perQuestionHour;
-          }
-        }
-        if (this.selectedQuestionIndex == this.questionList.length - 1) {
-          this.lastq = true;
-        } else {
-          this.lastq = false;
-        }
+        levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+        levelName: String((this.userEventData as any)?.levelName || (this.testEvent as any)?.levelName || ''),
+      }, { merge: true }).then(() => {
+        this.advanceQuestionAfterSkip();
+      }).catch(err => {
+        console.error('Error in skipQuestion save:', err);
+        this.advanceQuestionAfterSkip();
       });
-
-    //  });
-
   }
 
-
-
+  private advanceQuestionAfterSkip() {
+    this.isQuesDisabled = false;
+    this.skipLoadder = false;
+    this.questionStartTime = this.dateUtilService.getCurrentDateWithMinAndSecondFormat();
+    this.questionStartEpochUs = this.dateUtilService.getCurrentEpochMicroSeconds();
+    this.updateElapsedExamTimeUsDisplay();
+    if (this.lastq) {
+      this.examCompleted();
+    } else {
+      this.question = new Questions();
+      this.question.options = [];
+      this.selectedQuestionIndex = this.selectedQuestionIndex + 1;
+      this.question = this.questionList[this.selectedQuestionIndex];
+      if (this.question && this.questionList[this.selectedQuestionIndex]) {
+        this.question.options = this.questionList[this.selectedQuestionIndex].options;
+      }
+      if (this.question && this.question.perQuestionTimer) {
+        this.questionConfig.leftTime = this.question.perQuestionTimer;
+      } else {
+        this.questionConfig.leftTime = this.testEvent.perQuestionHour;
+      }
+    }
+    if (this.selectedQuestionIndex >= this.questionList.length - 1) {
+      this.lastq = true;
+    } else {
+      this.lastq = false;
+    }
+  }
 
   nextQuestion() {
     this.userAnswerImages = [];
@@ -498,8 +565,9 @@ export class QuestionComponent implements OnInit {
     let totalSecuredMark = totalCorrectMark - totalNgeativeMark;
     let totalExamTime = this.dateUtilService.getTimeDifferenceInSeconds(this.examStartTime, this.examEndTime);
     let collectionName = this.testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : this.testEvent.type == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+    const docId = this.getTargetUserEventDocId(collectionName);
     this.firestore.collection(collectionName)
-      .doc(this.userEventData.id).update({
+      .doc(docId).set({
         totalAppearQuesiton: this.appearedQuestions.length,
         totalSkipQuestions: totalSkipQuestions,
         totalCorrect: totalCorrect,
@@ -519,32 +587,42 @@ export class QuestionComponent implements OnInit {
         totalExamTimeUsDisplay: totalExamTimeUs != null ? this.dateUtilService.formatMicroSecondsToHhMmSsUs(totalExamTimeUs) : null,
         status: "INPROGRESS",
         examStatus: "INPROGRESS",
-      }).then(result => {
-        this.isQuesDisabled = false;
-        this.nextLoadder = false;
-        this.updateElapsedExamTimeUsDisplay();
-        if (this.lastq) {
-          this.examCompleted();
-        } else {
-          this.question = new Questions();
-          this.question.options = [];
-          this.selectedQuestionIndex = this.selectedQuestionIndex + 1;
-          this.question = this.questionList[this.selectedQuestionIndex];
-          if (this.question.perQuestionTimer) {
-            this.questionConfig.leftTime = this.question.perQuestionTimer;
-          } else {
-            this.questionConfig.leftTime = this.testEvent.perQuestionHour;
-          }
-        }
-        if (this.selectedQuestionIndex == this.questionList.length - 1) {
-          this.lastq = true;
-        } else {
-          this.lastq = false;
-        }
-
+        levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+        levelName: String((this.userEventData as any)?.levelName || (this.testEvent as any)?.levelName || ''),
+      }, { merge: true }).then(() => {
+        this.advanceQuestionAfterNext();
+      }).catch(err => {
+        console.error('Error in nextQuestion save:', err);
+        this.advanceQuestionAfterNext();
       });
   }
 
+  private advanceQuestionAfterNext() {
+    this.isQuesDisabled = false;
+    this.nextLoadder = false;
+    this.updateElapsedExamTimeUsDisplay();
+    if (this.lastq) {
+      this.examCompleted();
+    } else {
+      this.question = new Questions();
+      this.question.options = [];
+      this.selectedQuestionIndex = this.selectedQuestionIndex + 1;
+      this.question = this.questionList[this.selectedQuestionIndex];
+      if (this.question && this.questionList[this.selectedQuestionIndex]) {
+        this.question.options = this.questionList[this.selectedQuestionIndex].options;
+      }
+      if (this.question && this.question.perQuestionTimer) {
+        this.questionConfig.leftTime = this.question.perQuestionTimer;
+      } else {
+        this.questionConfig.leftTime = this.testEvent.perQuestionHour;
+      }
+    }
+    if (this.selectedQuestionIndex >= this.questionList.length - 1) {
+      this.lastq = true;
+    } else {
+      this.lastq = false;
+    }
+  }
 
   examCompleted() {
     this.userAnswerImages = [];
@@ -624,9 +702,21 @@ export class QuestionComponent implements OnInit {
     if (this.testEvent.passMark) {
       examQualifyStatus = totalCorrect >= this.testEvent.passMark ? 'PASS' : 'FAIL';
     }
+    const totalQList = this.questionList && this.questionList.length > 0 ? this.questionList : this.appearedQuestions;
+    let finalAttemptTotalMarks = totalQList.reduce((sum: number, q: any) => sum + (Number(q?.mark) || 0), 0);
+    if (!finalAttemptTotalMarks || finalAttemptTotalMarks <= 0) {
+      finalAttemptTotalMarks = Number((this.testEvent as any)?.eventMarks) ||
+        Number((this.userEventData as any)?.totalMarks) ||
+        (totalQList.length * 2);
+    }
+    if (this.userEventData) {
+      this.userEventData.totalMarks = finalAttemptTotalMarks;
+    }
+
     let collectionName = this.testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : this.testEvent.type == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+    const docId = this.getTargetUserEventDocId(collectionName);
     this.firestore.collection(collectionName)
-      .doc(this.userEventData.id).update({
+      .doc(docId).set({
         status: "COMPLETED",
         examStatus: "COMPLETED",
         examPassStatus: examQualifyStatus,
@@ -644,6 +734,7 @@ export class QuestionComponent implements OnInit {
         totalNgeativeMarkInCorrect: totalNgeativeMarkInCorrect,
         totalCorrectMark: totalCorrectMark,
         totalQuestion: this.questionList.length,
+        totalMarks: finalAttemptTotalMarks,
         examEndTime: this.examEndTime,
         examStartTime: this.examStartTime,
         examStartEpochUs: this.examStartEpochUs,
@@ -652,7 +743,9 @@ export class QuestionComponent implements OnInit {
         totalExamTimeDisplay: this.dateUtilService.formattTimeDifferenceInSeconds(totalExamTime),
         totalExamTimeUs: totalExamTimeUs ?? null,
         totalExamTimeUsDisplay: totalExamTimeUs != null ? this.dateUtilService.formatMicroSecondsToHhMmSsUs(totalExamTimeUs) : null,
-      }).then(res => {
+        levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+        levelName: String((this.userEventData as any)?.levelName || (this.testEvent as any)?.levelName || ''),
+      }, { merge: true }).then(res => {
 
         if (this.testEvent.type == 'QUIZWHIZZ EXAM') {
           let lastSunday = this.lastSundays.filter(clas => clas.lastSunday == this.testEvent.eventStartDate);
@@ -670,7 +763,7 @@ export class QuestionComponent implements OnInit {
         }
 
         this.firestore.collection(collectionName)
-          .doc(this.userEventData.id).set(
+          .doc(docId).set(
             { questions: JSON.parse(JSON.stringify(this.appearedQuestions)) },
             { merge: true }
           ).then(res => {
@@ -689,17 +782,45 @@ export class QuestionComponent implements OnInit {
             // Replace the question page in history so back from Final Score won't reopen the test again.
             this.router.navigate(
               ['home/dynamo/finalScore', {
-                eventId: this.userEventData.eventId,
-                userEventId: this.userEventData.id,
-                type: this.userEventData.type,
+                eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+                userEventId: docId,
+                type: this.userEventData.type || this.testEvent.type,
                 examType: this.testEvent?.type || this.userEventData.type,
+                levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+                totalMarks: finalAttemptTotalMarks
               }],
               { replaceUrl: true }
             );
             this.appearedQuestions = [];
+          }).catch(err => {
+            console.error('Error saving appeared questions on exam complete:', err);
+            this.finishLoader = false;
+            this.router.navigate(
+              ['home/dynamo/finalScore', {
+                eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+                userEventId: docId,
+                type: this.userEventData.type || this.testEvent.type,
+                examType: this.testEvent?.type || this.userEventData.type,
+                levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+              }],
+              { replaceUrl: true }
+            );
           });
 
-      })
+      }).catch(err => {
+        console.error('Error completing exam:', err);
+        this.finishLoader = false;
+        this.router.navigate(
+          ['home/dynamo/finalScore', {
+            eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+            userEventId: docId,
+            type: this.userEventData.type || this.testEvent.type,
+            examType: this.testEvent?.type || this.userEventData.type,
+            levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+          }],
+          { replaceUrl: true }
+        );
+      });
     //  })
 
 
@@ -822,11 +943,12 @@ export class QuestionComponent implements OnInit {
       if (res.data == 'FINISH') {
         if (this.userEventData) {
           this.location.back();
-          let collectionName = this.testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : FirebaseCollection.USER_EVENTS;
+          let collectionName = this.testEvent.type == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : this.testEvent.type == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+          const docId = this.getTargetUserEventDocId(collectionName);
           this.firestore.collection(collectionName)
-             .doc(this.userEventData.id).update({
+             .doc(docId).set({
                status: "COMPLETED"
-             }).then(() => {
+             }, { merge: true }).then(() => {
               void this.tryAutoSaveQuizwhizzContestBadge();
             }).catch(() => undefined);
         }

@@ -136,7 +136,7 @@
                 <div *ngIf="exam.status == 'ACTIVE'" class="status-label Active">
                   <ion-label class="card-label">Active</ion-label>
                 </div>
-                <div *ngIf="exam.status == 'UPCOMING' " class="status-label Inprogress">
+                <div *ngIf="exam.status == 'UPCOMING'" class="status-label Inactive">
                   <ion-label class="card-label">Inactive</ion-label>
                 </div>
                 <div *ngIf="exam.status == 'COMPLETED'" class="status-label Completed">
@@ -152,7 +152,7 @@
                   <!-- <ion-button class="schedule-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickSchedule(exam)"
                     [disabled]="!exam.allowToAttempt">Schedule</ion-button> -->
                   <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED'"
-                    (click)="onClickViewScore(exam)" [disabled]="!exam.allowToAttempt">View Score
+                    (click)="onClickViewScore(exam)">View Score
                   </ion-button>
                 </div>
               </div>

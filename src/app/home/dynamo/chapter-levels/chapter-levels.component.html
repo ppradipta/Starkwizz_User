@@ -1,0 +1,198 @@
+<ion-header class="ion-no-border chapter-header">
+  <div class="top-bar">
+    <button type="button" class="back-btn" (click)="goBack()" aria-label="Go Back">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+  </div>
+</ion-header>
+
+<ion-content class="chapter-content">
+  <div class="chapter-container">
+
+    <!-- 1. Chapter Hero Banner Card -->
+    <div class="chapter-hero-card">
+      <div class="hero-left">
+        <!-- Subject 3D Cube Badge -->
+        <div class="subject-cube-badge">
+          <div class="cube-symbols">
+            <span class="sym-plus">+</span>
+            <span class="sym-minus">−</span>
+            <span class="sym-mult">×</span>
+            <span class="sym-div">÷</span>
+          </div>
+          <span class="subject-title-small">{{selectedSubject?.displayName || 'MATHEMATICS' | uppercase}}</span>
+        </div>
+
+        <div class="hero-text-content">
+          <div class="breadcrumb-text">
+            <span>Class {{userDetails?.className || event?.className || '6'}}</span>
+            <span class="separator">|</span>
+            <span>{{event?.category || 'Diagnostic Test'}}</span>
+          </div>
+          <h2 class="chapter-title-heading">{{chapterNumberText}}</h2>
+          <h3 class="chapter-name-sub">{{chapterNameText}}</h3>
+        </div>
+      </div>
+
+      <!-- Chapter Circular Progress Meter -->
+      <div class="hero-right">
+        <div class="progress-box">
+          <div class="progress-ring-container">
+            <svg class="progress-ring" viewBox="0 0 72 72">
+              <circle class="ring-bg" cx="36" cy="36" r="30"></circle>
+              <circle class="ring-fill" cx="36" cy="36" r="30"
+                [style.strokeDashoffset]="188.4 - (188.4 * chapterProgress / 100)"></circle>
+            </svg>
+            <div class="progress-text-center">
+              <span class="progress-percent">{{chapterProgress}}%</span>
+            </div>
+          </div>
+          <div class="progress-labels">
+            <span class="progress-lbl-main">Chapter Progress</span>
+            <span class="progress-lbl-sub">{{completedLevelsCount}} of {{totalLevelsCount}} Levels Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Diagnostic Test - 5 Level Practice Sub-banner -->
+    <div class="practice-info-card">
+      <div class="info-icon-wrapper">
+        <div class="target-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="#FFE4E6" />
+            <circle cx="24" cy="24" r="17" fill="#EF4444" />
+            <circle cx="24" cy="24" r="12" fill="#FFFFFF" />
+            <circle cx="24" cy="24" r="7" fill="#EF4444" />
+            <circle cx="24" cy="24" r="3" fill="#FACC15" />
+            <path d="M34 14L24 24" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" />
+            <polygon points="34,14 38,10 37,17" fill="#F59E0B" />
+            <polygon points="34,14 31,11 38,10" fill="#F59E0B" />
+          </svg>
+        </div>
+      </div>
+      <div class="info-content-wrapper">
+        <h4 class="info-heading">{{event?.category || 'Diagnostic Test'}} – 5 Level Practice</h4>
+        <p class="info-description">Start from Level 1 and complete all 5 levels to master this chapter.</p>
+        <div class="info-chips-row">
+          <div class="info-chip">
+            <span>• Total {{totalChapterQuestions}} questions for this chapter</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. List of 5 Level Practice Cards -->
+    <div class="levels-list">
+      <div *ngFor="let lvl of levels" class="level-card" [class.completed]="lvl.isCompleted"
+        [class.unlocked]="lvl.isUnlocked && !lvl.isCompleted" [class.locked]="!lvl.isUnlocked"
+        [style.--lvl-accent]="lvl.color" [style.--lvl-bg]="lvl.bgLight">
+
+        <!-- Column 1: Left Level Pill Badge -->
+        <div class="lvl-badge-col">
+          <div class="lvl-pill-box">
+            <span class="lvl-label-text">Level</span>
+            <span class="lvl-number-text">{{lvl.levelNumber}}</span>
+            <div class="lvl-icon-wrapper">
+              <ion-icon [name]="lvl.icon"></ion-icon>
+            </div>
+            <div class="lvl-tag-pill" [style.background]="lvl.color">
+              <span>{{lvl.tag}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Middle Level Information -->
+        <div class="lvl-info-col">
+          <h4 class="lvl-title">{{lvl.levelName}}</h4>
+          <p class="lvl-description">{{lvl.description}}</p>
+
+          <div class="lvl-metrics-row">
+            <div class="metric-item">
+              <div class="metric-icon doc-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
+                    stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M14 2V8H20" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M16 13H8" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M16 17H8" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M10 9H9H8" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="metric-text">
+                <span class="metric-label">Total Questions</span>
+                <span class="metric-val">{{lvl.totalQuestions}}</span>
+              </div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-icon clock-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#2563EB" stroke-width="2" />
+                  <path d="M12 6V12L16 14" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="metric-text">
+                <span class="metric-label">Total Time</span>
+                <span class="metric-val">{{lvl.displayTime || (lvl.totalTimeMinutes + ' Minutes')}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Right Action/Status -->
+        <div class="lvl-action-col">
+
+          <!-- State A: Completed -->
+          <ng-container *ngIf="lvl.isCompleted">
+            <div class="completed-badge">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              <span>Completed</span>
+            </div>
+
+            <button type="button" class="score-review-btn" (click)="viewLevelScore(lvl)"
+              aria-label="View Score and Review">
+              <div class="score-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 20V10" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M12 20V4" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M6 20V14" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="score-text-group">
+                <span class="score-fraction">{{lvl.scoreText}}</span>
+                <span class="score-accuracy">{{lvl.accuracy}}% Accuracy</span>
+              </div>
+              <ion-icon name="chevron-forward-outline" class="score-arrow"></ion-icon>
+            </button>
+          </ng-container>
+
+          <!-- State B: Unlocked (Active, ready to appear) -->
+          <ng-container *ngIf="lvl.isUnlocked && !lvl.isCompleted">
+            <button type="button" class="appear-test-btn" (click)="startLevelTest(lvl)">
+              <span>Appear Test</span>
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </ng-container>
+
+          <!-- State C: Locked -->
+          <ng-container *ngIf="!lvl.isUnlocked">
+            <button type="button" class="locked-test-btn" disabled>
+              <ion-icon name="lock-closed"></ion-icon>
+              <span>Appear Test</span>
+            </button>
+            <div class="lock-hint-pill">
+              <span>Complete Level {{lvl.levelNumber - 1}} to unlock this level.</span>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

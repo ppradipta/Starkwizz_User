@@ -382,8 +382,58 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
     this.totalScore = userEventData.totalSecuredMark;
     this.bonusPoint = 0;
     this.terminalPoint = Number(this.totalScore) || 0;
-    this.totalQuestions = userEventData.totalAppearQuesiton;
-    this.totalMarks = Number(userEventData?.totalMarks) || 0;
+    this.totalQuestions = Number(userEventData.totalQuestion) || Number(userEventData.totalAppearQuesiton) || 0;
+    const rawTotalMarks = Number(userEventData?.totalMarks) || 0;
+
+    const isLevelTest = !!(
+      userEventData?.levelNumber ||
+      this.route.snapshot.params['levelNumber'] ||
+      (typeof userEventData?.id === 'string' && userEventData.id.includes('_L')) ||
+      (typeof userEventData?.eventName === 'string' && /Level\s*\d+/i.test(userEventData.eventName))
+    );
+
+    if (isLevelTest) {
+      let qMarksSum = 0;
+      if (userEventData?.questions && Array.isArray(userEventData.questions) && userEventData.questions.length > 0) {
+        qMarksSum = userEventData.questions.reduce((sum: number, q: any) => sum + (Number(q?.mark) || 0), 0);
+      }
+
+      if (qMarksSum > 0) {
+        if (this.totalQuestions > 0 && userEventData.questions.length < this.totalQuestions) {
+          const avgPerQ = qMarksSum / userEventData.questions.length;
+          this.totalMarks = Math.round(this.totalQuestions * avgPerQ);
+        } else {
+          this.totalMarks = qMarksSum;
+        }
+      } else if (rawTotalMarks > 0 && this.totalQuestions > 0 && rawTotalMarks <= this.totalQuestions * 4) {
+        this.totalMarks = rawTotalMarks;
+      } else if (this.totalQuestions > 0) {
+        const correctCount = Number(userEventData?.totalCorrect) || 0;
+        const correctMarks = Number(userEventData?.totalCorrectMark) || 0;
+        const markPerQ = (correctCount > 0 && correctMarks > 0)
+          ? Math.round(correctMarks / correctCount)
+          : 2;
+        this.totalMarks = this.totalQuestions * markPerQ;
+      } else {
+        this.totalMarks = rawTotalMarks;
+      }
+
+      // Auto-heal firestore record if rawTotalMarks was inflated or mismatched
+      if (this.totalMarks > 0 && rawTotalMarks !== this.totalMarks) {
+        const cleanUserEventId = String(userEventData?.id || this.route.snapshot.params['userEventId'] || '').trim();
+        let collection = this.eventType == 'QUIZWHIZZ EXAM' ? 'user_quizwhizz_events' : this.eventType == 'DYNAMO EXAM' ? 'user_dyanmo_exam' : FirebaseCollection.USER_EVENTS;
+        userEventData.totalMarks = this.totalMarks;
+        if (cleanUserEventId) {
+          this.firestore.collection(collection).doc(cleanUserEventId).set({
+            totalMarks: this.totalMarks
+          }, { merge: true }).catch(err => {
+            console.warn('Auto-healing totalMarks in firestore error:', err);
+          });
+        }
+      }
+    } else {
+      this.totalMarks = rawTotalMarks;
+    }
 
     const persistedUs = Number(userEventData?.totalExamTimeUs);
     if (Number.isFinite(persistedUs) && persistedUs >= 0) {
@@ -423,8 +473,8 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
 
     this.totalExamTime = this.totalExamTimeUsDisplay || userEventData.totalExamTimeUsDisplay || userEventData.totalExamTimeDisplay;
 
-    let totalMarks = userEventData.totalMarks;
-    if (this.totalQuestions == 0) {
+    let totalMarks = this.totalMarks;
+    if (this.totalQuestions == 0 || totalMarks == 0) {
       this.totalAttempted = 0;
       this.totalAccuracy = 0;
       this.totalPercentage = 0;
@@ -432,10 +482,14 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
       this.totalAttempted = Number((Number(this.totalQuestions - this.skippedQuestions) * 100) / this.totalQuestions).toFixed();
       this.attempted = this.circelLine * (1 - this.totalAttempted / 100);
 
-      this.totalAccuracy = Number((Number(this.correctAnswers) * 100) / Number(this.totalQuestions - this.skippedQuestions)).toFixed();
+      const answeredCount = Number(this.totalQuestions - this.skippedQuestions);
+      this.totalAccuracy = answeredCount > 0
+        ? Number((Number(this.correctAnswers) * 100) / answeredCount).toFixed()
+        : 0;
       this.accuracy = this.circelLine * (1 - this.totalAccuracy / 100);
 
-      this.totalPercentage = Number((Number(this.totalScore) * 100) / totalMarks).toFixed();
+      const validScore = Math.max(0, Number(this.totalScore) || 0);
+      this.totalPercentage = Number((validScore * 100) / totalMarks).toFixed();
       this.percentile = this.circelLine * (1 - this.totalPercentage / 100);
     }
 
@@ -646,7 +700,7 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
             // Show whole seconds only (no microsecond fraction).
             quesDetail['timeTakenUsDisplay'] = timeTakenUs != null ? `${this.dateUtilService.formatMicroSecondsAsSeconds(timeTakenUs, 0)} sec` : null;
             quesDetail['timeTakenSeconds'] = this.getTimeTakenSeconds(question.startTime, question.endTime);
-            quesDetail['mark'] = question.mark;
+            quesDetail['mark'] = question.mark ?? quesDetail.mark;
             quesDetail['isnegativeallow'] = quesDetail.isnegativeallow;
             if (quesDetail.options.length > 0 && quesDetail.status != 'SKIPPED') {
               quesDetail.options.forEach((ops: any) => {
@@ -675,6 +729,16 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
                 this.questionList.push(quesDetail);
               } else {
                 this.questionList.push(quesDetail);
+              }
+
+              if (this.questionList.length === this.userEventData.questions.length && this.totalMarks <= 0) {
+                const qSum = this.questionList.reduce((sum, q) => sum + (Number(q.mark) || 0), 0);
+                if (qSum > 0) {
+                  this.totalMarks = qSum;
+                  const validScore = Math.max(0, Number(this.totalScore) || 0);
+                  this.totalPercentage = Number((validScore * 100) / this.totalMarks).toFixed();
+                  this.percentile = this.circelLine * (1 - this.totalPercentage / 100);
+                }
               }
             });
           }
