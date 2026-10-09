@@ -20,6 +20,9 @@ export class Questions {
     public questionExplanationId: string='';
     public animationType:string='';
     public examPassStatus:string='';
+    public seqno?: number;
+    public order?: number;
+    public createdAt?: any;
 }
 
 export class Options {
