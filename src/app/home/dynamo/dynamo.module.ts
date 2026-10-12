@@ -27,6 +27,7 @@ import { SubjectModuleListComponent } from './subject-module-list/subject-module
 import { SubscriptionProfileComponent } from './subscription-profile/subscription-profile.component';
 import { TestScheduleComponent } from './test-schedule/test-schedule.component';
 import { ChapterLevelsComponent } from './chapter-levels/chapter-levels.component';
+import { ChapterProgressiveComponent } from './chapter-progressive/chapter-progressive.component';
 
 export const routes = [
   { 
@@ -92,6 +93,10 @@ export const routes = [
   {
     path: 'chapter-levels',
     component: ChapterLevelsComponent
+  },
+  {
+    path: 'chapter-progressive',
+    component: ChapterProgressiveComponent
   }
 ];
 
@@ -116,6 +121,7 @@ export const routes = [
         SubjectDetailComponent,
         SubjectAppearComponent,
         ChapterLevelsComponent,
+        ChapterProgressiveComponent,
         ScheduleComponent,
         QuestionComponent,
         FinalScoreComponent,

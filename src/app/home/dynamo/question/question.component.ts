@@ -587,6 +587,7 @@ export class QuestionComponent implements OnInit {
         totalExamTimeUsDisplay: totalExamTimeUs != null ? this.dateUtilService.formatMicroSecondsToHhMmSsUs(totalExamTimeUs) : null,
         status: "INPROGRESS",
         examStatus: "INPROGRESS",
+        attemptNumber: Number((this.userEventData as any)?.attemptNumber || (this.testEvent as any)?.attemptNumber || 1),
         levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
         levelName: String((this.userEventData as any)?.levelName || (this.testEvent as any)?.levelName || ''),
       }, { merge: true }).then(() => {
@@ -743,6 +744,7 @@ export class QuestionComponent implements OnInit {
         totalExamTimeDisplay: this.dateUtilService.formattTimeDifferenceInSeconds(totalExamTime),
         totalExamTimeUs: totalExamTimeUs ?? null,
         totalExamTimeUsDisplay: totalExamTimeUs != null ? this.dateUtilService.formatMicroSecondsToHhMmSsUs(totalExamTimeUs) : null,
+        attemptNumber: Number((this.userEventData as any)?.attemptNumber || (this.testEvent as any)?.attemptNumber || 1),
         levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
         levelName: String((this.userEventData as any)?.levelName || (this.testEvent as any)?.levelName || ''),
       }, { merge: true }).then(res => {

@@ -1,0 +1,334 @@
+<ion-header class="ion-no-border progressive-header">
+  <div class="top-nav-bar">
+    <button type="button" class="nav-back-btn" (click)="goBack()" aria-label="Go Back">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <div class="nav-title">
+      <span class="brand-text">Dynamo</span>
+      <span class="divider">|</span>
+      <span class="series-text">Academic Test Series</span>
+    </div>
+    <div class="nav-actions">
+      <div class="action-bell">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span class="bell-dot"></span>
+      </div>
+      <div class="user-avatar-mini">
+        <ion-img [src]="userDetails?.imageUrl || 'assets/images/user-dummy.png'"></ion-img>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="progressive-content">
+  <div class="page-container">
+
+    <!-- 1. Hero Banner Card -->
+    <div class="hero-banner-card">
+      <div class="hero-left">
+        <!-- 3D Subject Cube Badge -->
+        <div class="subject-cube-badge">
+          <div class="cube-symbols">
+            <span class="sym-plus">+</span>
+            <span class="sym-minus">−</span>
+            <span class="sym-mult">×</span>
+            <span class="sym-div">÷</span>
+          </div>
+          <span class="subject-title-small">{{selectedSubject?.displayName || 'MATHEMATICS' | uppercase}}</span>
+        </div>
+
+        <div class="hero-text-content">
+          <div class="hero-subtitle">
+            <span>Class {{userDetails?.className || event?.className || '6'}}</span>
+            <span class="separator">|</span>
+            <span>Academic Test Series</span>
+          </div>
+          <h1 class="hero-subject-name">{{selectedSubject?.displayName || 'Mathematics'}}</h1>
+          <p class="hero-subtag">Chapter-wise 5 Level Test Series</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Breadcrumbs Bar -->
+    <div class="breadcrumbs-bar">
+      <ion-icon name="home" class="home-icon"></ion-icon>
+      <ion-icon name="chevron-forward-outline" class="crumb-arrow"></ion-icon>
+      <span class="crumb-item">{{selectedSubject?.displayName || 'Mathematics'}}</span>
+      <ion-icon name="chevron-forward-outline" class="crumb-arrow"></ion-icon>
+      <span class="crumb-item">{{chapterNumberText}}</span>
+      <ion-icon name="chevron-forward-outline" class="crumb-arrow"></ion-icon>
+      <span class="crumb-item active">Progressive Test</span>
+    </div>
+
+    <!-- 3. Chapter Title Row -->
+    <div class="chapter-title-row">
+      <div class="chapter-circle-badge">
+        <span>{{chapterNumberText.replace('Chapter', 'Ch')}}</span>
+      </div>
+      <div class="chapter-heading-wrap">
+        <h2 class="chapter-name">{{chapterNameText}}</h2>
+        <div class="diag-completed-pill">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <span>Diagnostic Test Completed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Diagnostic Test Status (Completed) Banner -->
+    <div class="diagnostic-status-card">
+      <div class="status-card-header">
+        <span class="status-card-title">Your Diagnostic Test Status (Completed)</span>
+        <div class="all-completed-indicator">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <span>All 5 Levels Completed</span>
+        </div>
+      </div>
+
+      <div class="diagnostic-levels-track">
+        <div class="level-track-item" *ngFor="let lvl of diagnosticLevels; let i = index">
+          <div class="track-node">
+            <div class="node-circle completed">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </div>
+            <div class="track-line" *ngIf="i < diagnosticLevels.length - 1"></div>
+          </div>
+          <div class="node-info">
+            <span class="node-label">Level {{lvl.levelNumber}}</span>
+            <span class="node-count">{{lvl.totalQuestions}} Q</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Progressive Test Section Header -->
+    <div class="progressive-section-header">
+      <div class="progressive-icon-wrap">
+        <div class="bar-chart-icon">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+        </div>
+      </div>
+      <div class="progressive-header-text">
+        <h2 class="section-title">Progressive Test</h2>
+        <p class="section-subtitle">Test your understanding of this chapter.</p>
+      </div>
+    </div>
+
+    <!-- 6. Four Feature / Info Cards -->
+    <div class="info-grid-row">
+      <!-- Card 1: Number of Questions -->
+      <div class="info-card">
+        <div class="info-card-icon blue">
+          <ion-icon name="newspaper-outline"></ion-icon>
+        </div>
+        <div class="info-card-body">
+          <span class="info-card-label">Number of Questions</span>
+          <h3 class="info-card-val">{{totalQuestionsToAttempt}} Questions</h3>
+          <p class="info-card-sub">Randomly selected from the {{totalDiagnosticQuestions}} diagnostic questions (5 levels).</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Passing Criteria -->
+      <div class="info-card">
+        <div class="info-card-icon cyan">
+          <ion-icon name="disc-outline"></ion-icon>
+        </div>
+        <div class="info-card-body">
+          <span class="info-card-label">Passing Criteria</span>
+          <h3 class="info-card-val">{{passingScorePercentage}}% Score</h3>
+          <p class="info-card-sub">You need to answer all {{totalQuestionsToAttempt}} questions correctly to pass.</p>
+        </div>
+      </div>
+
+      <!-- Card 3: Attempts Allowed -->
+      <div class="info-card">
+        <div class="info-card-icon indigo">
+          <ion-icon name="reload-circle-outline"></ion-icon>
+        </div>
+        <div class="info-card-body">
+          <span class="info-card-label">Attempts Allowed</span>
+          <h3 class="info-card-val">{{totalAttemptsAllowed}} Attempts</h3>
+          <p class="info-card-sub">You can take up to {{totalAttemptsAllowed}} attempts.</p>
+        </div>
+      </div>
+
+      <!-- Card 4: Question Selection -->
+      <div class="info-card">
+        <div class="info-card-icon purple">
+          <ion-icon name="shuffle-outline"></ion-icon>
+        </div>
+        <div class="info-card-body">
+          <span class="info-card-label">Question Selection</span>
+          <h3 class="info-card-val">Random Selection</h3>
+          <p class="info-card-sub">Each attempt will have {{totalQuestionsToAttempt}} questions randomly selected from the same {{totalDiagnosticQuestions}} questions. Some questions may be repeated.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. The 3 Attempt Cards -->
+    <div class="attempts-grid-row">
+      <div class="attempt-card" *ngFor="let attempt of attempts" [ngClass]="attempt.status.toLowerCase()">
+        <!-- Card Header with Icon + Status Pill -->
+        <div class="card-header">
+          <!-- Status Icon -->
+          <div class="attempt-status-icon" [ngClass]="attempt.status.toLowerCase()">
+            <ion-icon *ngIf="attempt.status === 'NOT_STARTED' || attempt.status === 'READY_TO_ATTEMPT'" name="play"></ion-icon>
+            <ion-icon *ngIf="attempt.status === 'LOCKED' || attempt.status === 'DISABLED'" name="lock-closed"></ion-icon>
+            <ion-icon *ngIf="attempt.status === 'SUCCESSFUL'" name="checkmark"></ion-icon>
+            <ion-icon *ngIf="attempt.status === 'NOT_SUCCESSFUL'" name="close"></ion-icon>
+          </div>
+
+          <div class="attempt-header-details">
+            <h4 class="attempt-title">Attempt {{attempt.attemptNumber}}</h4>
+            <!-- Status Pill -->
+            <span class="status-pill" [ngClass]="attempt.status.toLowerCase()">
+              <ng-container *ngIf="attempt.status === 'NOT_STARTED'">Not Started</ng-container>
+              <ng-container *ngIf="attempt.status === 'READY_TO_ATTEMPT'">Ready to Attempt</ng-container>
+              <ng-container *ngIf="attempt.status === 'SUCCESSFUL'">Successful</ng-container>
+              <ng-container *ngIf="attempt.status === 'NOT_SUCCESSFUL'">Not Successful</ng-container>
+              <ng-container *ngIf="attempt.status === 'LOCKED'">Locked</ng-container>
+              <ng-container *ngIf="attempt.status === 'DISABLED'">Disabled</ng-container>
+            </span>
+          </div>
+        </div>
+
+        <!-- Attempt Metadata -->
+        <div class="attempt-meta-list">
+          <div class="meta-row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{attempt.totalQuestions}} Questions</span>
+          </div>
+          <div class="meta-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{attempt.totalTimeMinutes}} Minutes</span>
+          </div>
+        </div>
+
+        <!-- Score Obtained Box (Shown if attempted) -->
+        <div class="score-obtained-box" *ngIf="attempt.status === 'SUCCESSFUL' || attempt.status === 'NOT_SUCCESSFUL'" [ngClass]="attempt.status.toLowerCase()">
+          <span class="score-label">Score Obtained</span>
+          <span class="score-value">{{attempt.score}} / {{attempt.totalQuestions}} ({{attempt.percentage}}%)</span>
+        </div>
+
+        <!-- Card Action Button -->
+        <div class="card-action-container">
+          <!-- Button: Start Attempt (Purple Gradient) -->
+          <button *ngIf="attempt.status === 'NOT_STARTED' || attempt.status === 'READY_TO_ATTEMPT'"
+                  type="button"
+                  class="action-btn start-btn"
+                  (click)="startAttempt(attempt)">
+            <span>Start Attempt {{attempt.attemptNumber}}</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+
+          <!-- Button: Review Attempt (White with blue border) -->
+          <button *ngIf="attempt.status === 'SUCCESSFUL' || attempt.status === 'NOT_SUCCESSFUL'"
+                  type="button"
+                  class="action-btn review-btn"
+                  (click)="reviewAttempt(attempt)">
+            <ion-icon name="document-text-outline" class="btn-icon"></ion-icon>
+            <span>Review Attempt {{attempt.attemptNumber}}</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+
+          <!-- Button: Locked (Grey Disabled) -->
+          <button *ngIf="attempt.status === 'LOCKED'"
+                  type="button"
+                  class="action-btn locked-btn"
+                  disabled>
+            <span>Attempt {{attempt.attemptNumber}} (Locked)</span>
+          </button>
+
+          <!-- Box: Disabled (After Completion) -->
+          <div *ngIf="attempt.status === 'DISABLED'" class="disabled-box">
+            <span class="disabled-title">Not Available</span>
+            <span class="disabled-sub">(Progressive Test Completed)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Conditional Result Banners -->
+
+    <!-- Case A: Progressive Test Completed (Success with 100%) -->
+    <div class="result-banner-card completed-banner" *ngIf="isProgressiveCompleted">
+      <div class="confetti-bg">
+        <span class="confetti c1"></span>
+        <span class="confetti c2"></span>
+        <span class="confetti c3"></span>
+        <span class="confetti c4"></span>
+        <span class="confetti c5"></span>
+        <span class="confetti c6"></span>
+      </div>
+      <div class="trophy-icon-wrapper">
+        <div class="trophy-icon">🏆</div>
+      </div>
+      <div class="banner-text-content">
+        <h3 class="banner-heading">Progressive Test Completed!</h3>
+        <p class="banner-sub">
+          You have successfully completed the Progressive Test for this chapter with <strong>100% score in Attempt {{successfulAttemptNumber}}</strong>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Case B: Chapter Marked as Ended (3 attempts used, none 100%) -->
+    <div class="result-banners-ended-wrapper" *ngIf="isChapterEnded">
+      <!-- Ended Banner -->
+      <div class="result-banner-card ended-banner">
+        <div class="flag-icon-wrapper">
+          <div class="flag-icon">🏁</div>
+        </div>
+        <div class="banner-text-content">
+          <h3 class="banner-heading">
+            Chapter Marked as <span class="ended-pill">Ended</span>
+          </h3>
+          <p class="banner-sub">
+            You have used all 3 attempts for this chapter. Since you could not score 100% in any of the attempts, this chapter is now marked as <strong>Ended</strong> in the Progressive Test.
+          </p>
+        </div>
+      </div>
+
+      <!-- What You Can Do Now? Banner -->
+      <div class="guidance-banner-card">
+        <div class="guidance-left">
+          <div class="lightbulb-icon-wrapper">
+            <ion-icon name="bulb"></ion-icon>
+          </div>
+          <div class="guidance-text">
+            <h4 class="guidance-heading">What You Can Do Now?</h4>
+            <ul class="guidance-list">
+              <li>Review your attempt reports above to understand your mistakes and the correct answers.</li>
+              <li>Focus on your weak areas and the types of questions you found difficult in this chapter.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="guidance-right">
+          <button type="button" class="diag-review-btn" (click)="goToDiagnosticReview()">
+            <ion-icon name="book-outline"></ion-icon>
+            <span>Go to Diagnostic Test Review</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Important Note Card (Always Present at Bottom) -->
+    <div class="important-note-card">
+      <div class="note-icon-wrapper">
+        <div class="info-circle-icon">
+          <span>i</span>
+        </div>
+      </div>
+      <div class="note-content">
+        <h4 class="note-heading">Important Note</h4>
+        <ul class="note-list">
+          <li>This chapter will be marked as <strong>Completed</strong> in the Progressive Test section <strong>only after you score 100% in any one of the three attempts</strong>.</li>
+          <li>If you are not able to score 100% even after 3 attempts, the Progressive Test will be marked as <strong>Ended</strong> and no further attempt will be available for this chapter.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+</ion-content>

@@ -16,6 +16,7 @@ import { UtilServiceService } from 'src/app/services/util-service.service';
 import { CancelExamAlertComponent } from '../cancel-exam-alert/cancel-exam-alert.component';
 import { SubjectAppearComponent } from '../subject-appear/subject-appear.component';
 import { ChapterLevelsComponent } from '../chapter-levels/chapter-levels.component';
+import { ChapterProgressiveComponent } from '../chapter-progressive/chapter-progressive.component';
 //SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 
 @Component({
@@ -237,13 +238,9 @@ export class SubjectDetailComponent implements OnInit {
         this.util.showToast('Please complete all levels of this module in Diagnostic Test to unlock Progressive Test.', 'danger', 'bottom');
         return;
       }
-      if (!eventView.allowToAttempt) {
-        return;
-      }
+      this.openProgressiveTest(eventView);
+      return;
     }
-
-    const canProceed = await this.confirmProgressiveAttemptIfNeeded(eventView);
-    if (!canProceed) return;
 
     this.loading.present();
     if (eventView.type == 'DYNAMO EXAM') {
@@ -396,16 +393,26 @@ export class SubjectDetailComponent implements OnInit {
         } else {
           // Diagnostic Test is fully completed -> evaluate Progressive Test attempt status
           if (exampAttempRecords.length > 0) {
-            const hasQuit = exampAttempRecords.some(uear => uear?.progressiveQuit === true);
-            const allLevelsCompleted = this.isModuleAllLevelsCompleted(examRecord, exampAttempRecords);
+            const completedAttempts = exampAttempRecords.filter(
+              (a: any) => String(a.status || a.examStatus || '').toUpperCase() === 'COMPLETED'
+            );
             const latestAttempt =
               this.getLatestAttemptRecord(exampAttempRecords) ?? exampAttempRecords[exampAttempRecords.length - 1];
 
             examRecord['userEventId'] = latestAttempt?.id;
-            examRecord['attemptCount'] = exampAttempRecords.length;
+            examRecord['attemptCount'] = completedAttempts.length;
 
-            if (hasQuit || allLevelsCompleted || exampAttempRecords.length >= 5) {
+            const hasPassed100 = completedAttempts.some((a: any) => {
+              const correct = Number(a.totalCorrect ?? 0);
+              const total = Number(a.totalQuestion ?? 50);
+              return total > 0 && correct >= total;
+            });
+
+            if (hasPassed100) {
               examRecord.status = 'COMPLETED';
+              examRecord['allowToAttempt'] = false;
+            } else if (completedAttempts.length >= 3) {
+              examRecord.status = 'ENDED';
               examRecord['allowToAttempt'] = false;
             } else {
               examRecord.status = 'ACTIVE';
@@ -512,6 +519,10 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   async createUserExam(eventView: any) {
+    if (eventView?.category === 'Progressive Test') {
+      this.openProgressiveTest(eventView);
+      return;
+    }
     eventView.isPublishRankAllow = false;
     this.eventService.setTestEvent(eventView);
 
@@ -530,6 +541,10 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   async updateUserExam(userEventData: any, id: any) {
+    if (userEventData?.category === 'Progressive Test') {
+      this.openProgressiveTest(userEventData);
+      return;
+    }
     userEventData.isPublishRankAllow = false;
     this.eventService.setTestEvent(userEventData);
 
@@ -539,6 +554,24 @@ export class SubjectDetailComponent implements OnInit {
       cssClass: 'fullScreenModal chapterLevelsModal',
       componentProps: {
         event: userEventData,
+        selectedSubject: this.selectedSubject
+      }
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    this.getEventsForSelectedSubjects();
+  }
+
+  async openProgressiveTest(eventView: any) {
+    eventView.isPublishRankAllow = false;
+    this.eventService.setTestEvent(eventView);
+
+    const modal = await this.modalController.create({
+      component: ChapterProgressiveComponent,
+      backdropDismiss: false,
+      cssClass: 'fullScreenModal chapterProgressiveModal',
+      componentProps: {
+        event: eventView,
         selectedSubject: this.selectedSubject
       }
     });
@@ -1084,6 +1117,10 @@ export class SubjectDetailComponent implements OnInit {
 
   onClickViewScore(exam: any) {
     this.eventService.setTestEvent(exam);
+    if (exam?.category === 'Progressive Test') {
+      this.openProgressiveTest(exam);
+      return;
+    }
     if ((exam.levels && exam.levels.length > 0) || exam.moduleId) {
       this.createUserExam(exam);
     } else {

@@ -1,0 +1,1133 @@
+/* =========================================================
+   PROGRESSIVE TEST (3-ATTEMPT SYSTEM) - STYLES
+   ========================================================= */
+
+.progressive-header {
+  --background: #f8fafc;
+  background: #f8fafc;
+  padding: 8px 16px 4px;
+
+  .top-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+
+    .nav-back-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+
+      ion-icon {
+        font-size: 20px;
+        color: #1e293b;
+      }
+
+      &:active {
+        transform: scale(0.94);
+        background: #f1f5f9;
+      }
+    }
+
+    .nav-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+
+      .brand-text {
+        color: #1e293b;
+      }
+
+      .divider {
+        color: #94a3b8;
+        font-weight: 300;
+      }
+
+      .series-text {
+        color: #3b82f6;
+        font-weight: 600;
+      }
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .action-bell {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        ion-icon {
+          font-size: 19px;
+          color: #475569;
+        }
+
+        .bell-dot {
+          position: absolute;
+          top: 7px;
+          right: 7px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #ef4444;
+          border: 1.5px solid #ffffff;
+        }
+      }
+
+      .user-avatar-mini {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #e2e8f0;
+        background: #e2e8f0;
+
+        ion-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+
+.progressive-content {
+  --background: #f8fafc;
+  background: #f8fafc;
+}
+
+.page-container {
+  padding: 8px 16px 40px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   1. HERO BANNER CARD
+   ========================================================= */
+.hero-banner-card {
+  background: linear-gradient(135deg, #0b1a56 0%, #1e1b64 50%, #431264 100%);
+  border-radius: 20px;
+  padding: 20px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px -5px rgba(20, 30, 110, 0.4);
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+  }
+
+  .hero-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .subject-cube-badge {
+      width: 66px;
+      height: 66px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #7c3aed 0%, #4f46e5 100%);
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 4px;
+      flex-shrink: 0;
+
+      .cube-symbols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px 4px;
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1;
+
+        .sym-plus { color: #facc15; }
+        .sym-minus { color: #ec4899; }
+        .sym-mult { color: #38bdf8; }
+        .sym-div { color: #4ade80; }
+      }
+
+      .subject-title-small {
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        color: #ffffff;
+        margin-top: 4px;
+        text-align: center;
+        max-width: 58px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .hero-text-content {
+      .hero-subtitle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #cbd5e1;
+        font-weight: 500;
+        margin-bottom: 2px;
+
+        .separator {
+          color: #64748b;
+        }
+      }
+
+      .hero-subject-name {
+        font-size: 24px;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 2px;
+        letter-spacing: -0.3px;
+      }
+
+      .hero-subtag {
+        font-size: 12px;
+        color: #94a3b8;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* =========================================================
+   2. BREADCRUMBS BAR
+   ========================================================= */
+.breadcrumbs-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 16px;
+  padding: 4px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  .home-icon {
+    font-size: 14px;
+    color: #1e3a8a;
+  }
+
+  .crumb-arrow {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  .crumb-item {
+    color: #475569;
+    font-weight: 500;
+
+    &.active {
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+  }
+}
+
+/* =========================================================
+   3. CHAPTER TITLE ROW
+   ========================================================= */
+.chapter-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  .chapter-circle-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  }
+
+  .chapter-heading-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .chapter-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      letter-spacing: -0.2px;
+    }
+
+    .diag-completed-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #059669;
+      font-size: 11px;
+      font-weight: 700;
+      width: fit-content;
+
+      ion-icon {
+        font-size: 13px;
+        color: #10b981;
+      }
+    }
+  }
+}
+
+/* =========================================================
+   4. DIAGNOSTIC TEST STATUS (COMPLETED) BANNER
+   ========================================================= */
+.diagnostic-status-card {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.06);
+
+  .status-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .status-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #166534;
+    }
+
+    .all-completed-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #15803d;
+
+      ion-icon {
+        font-size: 14px;
+        color: #16a34a;
+      }
+    }
+  }
+
+  .diagnostic-levels-track {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+
+    .level-track-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      position: relative;
+
+      .track-node {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        justify-content: center;
+
+        .node-circle {
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          background: #16a34a;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          z-index: 2;
+          box-shadow: 0 2px 5px rgba(22, 163, 74, 0.3);
+
+          ion-icon {
+            stroke-width: 32px;
+          }
+        }
+
+        .track-line {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 2px;
+          background: #86efac;
+          z-index: 1;
+        }
+      }
+
+      .node-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 6px;
+
+        .node-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #14532d;
+        }
+
+        .node-count {
+          font-size: 11px;
+          font-weight: 600;
+          color: #15803d;
+        }
+      }
+    }
+  }
+}
+
+/* =========================================================
+   5. PROGRESSIVE TEST SECTION HEADER
+   ========================================================= */
+.progressive-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  .progressive-icon-wrap {
+    .bar-chart-icon {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 28px;
+
+      .bar {
+        width: 7px;
+        border-radius: 3px;
+        background: linear-gradient(180deg, #9333ea 0%, #6366f1 100%);
+
+        &.bar-1 { height: 14px; }
+        &.bar-2 { height: 21px; }
+        &.bar-3 { height: 28px; }
+      }
+    }
+  }
+
+  .progressive-header-text {
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin: 2px 0 0;
+      font-weight: 500;
+    }
+  }
+}
+
+/* =========================================================
+   6. FOUR INFO / FEATURE CARDS
+   ========================================================= */
+.info-grid-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .info-card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+
+      &.blue {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+
+      &.cyan {
+        background: #ecfeff;
+        color: #0891b2;
+      }
+
+      &.indigo {
+        background: #eef2ff;
+        color: #4f46e5;
+      }
+
+      &.purple {
+        background: #faf5ff;
+        color: #9333ea;
+      }
+    }
+
+    .info-card-body {
+      display: flex;
+      flex-direction: column;
+
+      .info-card-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #64748b;
+      }
+
+      .info-card-val {
+        font-size: 16px;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 2px 0 4px;
+      }
+
+      .info-card-sub {
+        font-size: 11px;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.35;
+      }
+    }
+  }
+}
+
+/* =========================================================
+   7. THE 3 ATTEMPT CARDS
+   ========================================================= */
+.attempts-grid-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  .attempt-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: all 0.25s ease;
+
+    &.not_successful {
+      border-color: #fecaca;
+      background: #fffafa;
+    }
+
+    &.successful {
+      border-color: #bbf7d0;
+      background: #fafdfb;
+    }
+
+    &.locked,
+    &.disabled {
+      background: #fafbfc;
+      border-color: #e2e8f0;
+      opacity: 0.88;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .attempt-status-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+
+        &.not_started,
+        &.ready_to_attempt {
+          background: #2563eb;
+          color: #ffffff;
+          box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+        }
+
+        &.locked,
+        &.disabled {
+          background: #64748b;
+          color: #ffffff;
+        }
+
+        &.not_successful {
+          background: #ef4444;
+          color: #ffffff;
+          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
+        }
+
+        &.successful {
+          background: #16a34a;
+          color: #ffffff;
+          box-shadow: 0 4px 10px rgba(22, 163, 74, 0.35);
+        }
+      }
+
+      .attempt-header-details {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .attempt-title {
+          font-size: 15px;
+          font-weight: 800;
+          color: #0f172a;
+          margin: 0;
+        }
+
+        .status-pill {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 12px;
+          width: fit-content;
+
+          &.not_started,
+          &.ready_to_attempt {
+            background: #e0f2fe;
+            color: #0284c7;
+          }
+
+          &.not_successful {
+            background: #fee2e2;
+            color: #dc2626;
+          }
+
+          &.successful {
+            background: #dcfce7;
+            color: #16a34a;
+          }
+
+          &.locked,
+          &.disabled {
+            background: #f1f5f9;
+            color: #64748b;
+          }
+        }
+      }
+    }
+
+    .attempt-meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .meta-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #475569;
+        font-weight: 600;
+
+        ion-icon {
+          font-size: 15px;
+          color: #64748b;
+        }
+      }
+    }
+
+    .score-obtained-box {
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &.not_successful {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+
+        .score-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: #991b1b;
+        }
+
+        .score-value {
+          font-size: 15px;
+          font-weight: 800;
+          color: #dc2626;
+        }
+      }
+
+      &.successful {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+
+        .score-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: #166534;
+        }
+
+        .score-value {
+          font-size: 15px;
+          font-weight: 800;
+          color: #16a34a;
+        }
+      }
+    }
+
+    .card-action-container {
+      margin-top: auto;
+
+      .action-btn {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+
+        &:active {
+          transform: scale(0.97);
+        }
+
+        &.start-btn {
+          background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+          color: #ffffff;
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+
+          &:hover {
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.45);
+          }
+        }
+
+        &.review-btn {
+          background: #ffffff;
+          border: 1.5px solid #2563eb;
+          color: #2563eb;
+
+          .btn-icon {
+            font-size: 16px;
+          }
+
+          &:hover {
+            background: #eff6ff;
+          }
+        }
+
+        &.locked-btn {
+          background: #f1f5f9;
+          color: #94a3b8;
+          border: 1px solid #e2e8f0;
+          cursor: not-allowed;
+        }
+      }
+
+      .disabled-box {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        .disabled-title {
+          font-size: 12px;
+          font-weight: 700;
+          color: #64748b;
+          line-height: 1.2;
+        }
+
+        .disabled-sub {
+          font-size: 10px;
+          color: #94a3b8;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+}
+
+/* =========================================================
+   8. CONDITIONAL RESULT BANNERS
+   ========================================================= */
+
+/* A. Completed Trophy Banner (100% Score) */
+.result-banner-card.completed-banner {
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.1);
+
+  .confetti-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    .confetti {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      opacity: 0.8;
+
+      &.c1 { top: 12px; left: 60px; background: #facc15; transform: rotate(15deg); }
+      &.c2 { top: 35px; left: 110px; background: #ec4899; transform: rotate(45deg); }
+      &.c3 { top: 10px; right: 120px; background: #38bdf8; transform: rotate(30deg); }
+      &.c4 { top: 40px; right: 60px; background: #f97316; transform: rotate(60deg); }
+      &.c5 { bottom: 12px; left: 180px; background: #8b5cf6; transform: rotate(20deg); }
+      &.c6 { bottom: 10px; right: 180px; background: #10b981; transform: rotate(40deg); }
+    }
+  }
+
+  .trophy-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #a7f3d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15);
+  }
+
+  .banner-text-content {
+    .banner-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: #047857;
+      margin: 0 0 4px;
+    }
+
+    .banner-sub {
+      font-size: 13px;
+      color: #065f46;
+      margin: 0;
+      line-height: 1.4;
+
+      strong {
+        color: #047857;
+      }
+    }
+  }
+}
+
+/* B. Ended Result Banner (3 attempts used without 100%) */
+.result-banners-ended-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+
+  .result-banner-card.ended-banner {
+    background: #fff7ed;
+    border: 1.5px solid #fed7aa;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08);
+
+    .flag-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid #fed7aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(234, 88, 12, 0.12);
+    }
+
+    .banner-text-content {
+      .banner-heading {
+        font-size: 18px;
+        font-weight: 800;
+        color: #9a3412;
+        margin: 0 0 4px;
+
+        .ended-pill {
+          background: #ffedd5;
+          color: #c2410c;
+          padding: 2px 10px;
+          border-radius: 12px;
+          border: 1px solid #fdba74;
+          font-size: 14px;
+        }
+      }
+
+      .banner-sub {
+        font-size: 13px;
+        color: #7c2d12;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  /* What You Can Do Now? Card */
+  .guidance-banner-card {
+    background: #f0f9ff;
+    border: 1.5px solid #bae6fd;
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .guidance-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      flex: 1;
+
+      .lightbulb-icon-wrapper {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #0284c7;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+      }
+
+      .guidance-text {
+        .guidance-heading {
+          font-size: 16px;
+          font-weight: 800;
+          color: #0369a1;
+          margin: 0 0 6px;
+        }
+
+        .guidance-list {
+          margin: 0;
+          padding-left: 18px;
+          font-size: 12px;
+          color: #0c4a6e;
+          line-height: 1.5;
+
+          li {
+            margin-bottom: 3px;
+          }
+        }
+      }
+    }
+
+    .guidance-right {
+      flex-shrink: 0;
+
+      .diag-review-btn {
+        background: #0284c7;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #0369a1;
+        }
+
+        &:active {
+          transform: scale(0.96);
+        }
+
+        ion-icon {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+/* =========================================================
+   9. IMPORTANT NOTE CARD
+   ========================================================= */
+.important-note-card {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.06);
+
+  .note-icon-wrapper {
+    .info-circle-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f59e0b;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      font-family: serif;
+      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.35);
+    }
+  }
+
+  .note-content {
+    flex: 1;
+
+    .note-heading {
+      font-size: 15px;
+      font-weight: 800;
+      color: #b45309;
+      margin: 0 0 6px;
+    }
+
+    .note-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 12px;
+      color: #78350f;
+      line-height: 1.55;
+
+      li {
+        margin-bottom: 6px;
+
+        strong {
+          color: #92400e;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.bottom-spacer {
+  height: 30px;
+}
