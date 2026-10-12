@@ -142,17 +142,20 @@
                 <div *ngIf="exam.status == 'COMPLETED'" class="status-label Completed">
                   <ion-label class="card-label">Completed</ion-label>
                 </div>
+                <div *ngIf="exam.status == 'ENDED'" class="status-label Ended">
+                  <ion-label class="card-label">Ended</ion-label>
+                </div>
                 <div class="card-body">
                   <span>Topic : </span>
                   <ion-label class="card-label">{{exam.eventName}}</ion-label>
                 </div>
-                <div class="card-footer" [ngClass]="{'active': exam.status != 'COMPLETED'}">
-                  <ion-button class="appear-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickAppear(exam)"
+                <div class="card-footer" [ngClass]="{'active': exam.status != 'COMPLETED' && exam.status != 'ENDED'}">
+                  <ion-button class="appear-btn" *ngIf="exam.status != 'COMPLETED' && exam.status != 'ENDED'" (click)="onClickAppear(exam)"
                     [disabled]="!exam.allowToAttempt">Appear</ion-button>
                   <!-- <ion-button class="schedule-btn" *ngIf="exam.status != 'COMPLETED'" (click)="onClickSchedule(exam)"
                     [disabled]="!exam.allowToAttempt">Schedule</ion-button> -->
-                  <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED'"
-                    (click)="onClickViewScore(exam)">View Score
+                  <ion-button style="display: contents;" class="appear-btn" *ngIf="exam.status == 'COMPLETED' || exam.status == 'ENDED'"
+                    (click)="onClickViewScore(exam)">View Status
                   </ion-button>
                 </div>
               </div>
