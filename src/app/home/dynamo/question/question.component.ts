@@ -781,48 +781,154 @@ export class QuestionComponent implements OnInit {
              }
              this.util.showToast(('You have successfully completed the test.'), 'success', 'bottom');
              this.eventService.setTestEvent(this.testEvent);
-            // Replace the question page in history so back from Final Score won't reopen the test again.
-            this.router.navigate(
-              ['home/dynamo/finalScore', {
-                eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
-                userEventId: docId,
-                type: this.userEventData.type || this.testEvent.type,
-                examType: this.testEvent?.type || this.userEventData.type,
-                levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
-                totalMarks: finalAttemptTotalMarks
-              }],
-              { replaceUrl: true }
-            );
-            this.appearedQuestions = [];
-          }).catch(err => {
-            console.error('Error saving appeared questions on exam complete:', err);
-            this.finishLoader = false;
-            this.router.navigate(
-              ['home/dynamo/finalScore', {
-                eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
-                userEventId: docId,
-                type: this.userEventData.type || this.testEvent.type,
-                examType: this.testEvent?.type || this.userEventData.type,
-                levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
-              }],
-              { replaceUrl: true }
-            );
-          });
+             const isLevel = !!(
+               (this.userEventData as any)?.isLevelTest ||
+               (this.testEvent as any)?.isLevelTest ||
+               (this.userEventData as any)?.category === 'Diagnostic Test' ||
+               (this.testEvent as any)?.category === 'Diagnostic Test' ||
+               (typeof this.userEventData?.id === 'string' && /_L\d+_/.test(this.userEventData.id)) ||
+               (typeof (this.testEvent as any)?.id === 'string' && /_L\d+_/.test((this.testEvent as any).id)) ||
+               (typeof (this.testEvent as any)?.userEventId === 'string' && /_L\d+_/.test((this.testEvent as any).userEventId)) ||
+               (typeof (this.testEvent as any)?.eventName === 'string' && /Level\s*\d+/i.test((this.testEvent as any).eventName)) ||
+               (typeof this.userEventData?.eventName === 'string' && /Level\s*\d+/i.test(this.userEventData.eventName)) ||
+               (
+                 ((this.userEventData as any)?.levelNumber != null || (this.testEvent as any)?.levelNumber != null) &&
+                 (this.userEventData as any)?.category !== 'Progressive Test' &&
+                 (this.testEvent as any)?.category !== 'Progressive Test' &&
+                 !(this.testEvent as any)?.isProgressiveTest &&
+                 !(this.userEventData as any)?.isProgressiveTest &&
+                 !/Progressive\s*Test/i.test((this.testEvent as any)?.eventName || '') &&
+                 !/Progressive\s*Test/i.test(this.userEventData?.eventName || '')
+               )
+             );
 
-      }).catch(err => {
-        console.error('Error completing exam:', err);
-        this.finishLoader = false;
-        this.router.navigate(
-          ['home/dynamo/finalScore', {
-            eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
-            userEventId: docId,
-            type: this.userEventData.type || this.testEvent.type,
-            examType: this.testEvent?.type || this.userEventData.type,
-            levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
-          }],
-          { replaceUrl: true }
-        );
-      });
+             const isProgressive = !isLevel && !!(
+               (this.userEventData as any)?.isProgressiveTest ||
+               (this.testEvent as any)?.isProgressiveTest ||
+               (this.userEventData as any)?.category === 'Progressive Test' ||
+               (this.testEvent as any)?.category === 'Progressive Test' ||
+               (typeof this.userEventData?.id === 'string' && (this.userEventData.id.includes('_PROG_') || /_P\d+_/.test(this.userEventData.id))) ||
+               (typeof (this.testEvent as any)?.id === 'string' && ((this.testEvent as any).id.includes('_PROG_') || /_P\d+_/.test((this.testEvent as any).id))) ||
+               (typeof (this.testEvent as any)?.eventName === 'string' && /Progressive\s*Test/i.test((this.testEvent as any).eventName)) ||
+               (typeof this.userEventData?.eventName === 'string' && /Progressive\s*Test/i.test(this.userEventData.eventName))
+             );
+
+             // Replace the question page in history so back from Final Score won't reopen the test again.
+             this.router.navigate(
+               ['home/dynamo/finalScore', {
+                 eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+                 userEventId: docId,
+                 type: this.userEventData.type || this.testEvent.type,
+                 examType: this.testEvent?.type || this.userEventData.type,
+                 category: isProgressive ? 'Progressive Test' : (isLevel ? 'Diagnostic Test' : (this.userEventData.category || (this.testEvent as any)?.category || '')),
+                 levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+                 totalMarks: finalAttemptTotalMarks,
+                 isProgressiveTest: isProgressive,
+                 isLevelTest: isLevel,
+                 attemptNumber: isProgressive ? ((this.userEventData as any)?.attemptNumber || (this.testEvent as any)?.attemptNumber || 1) : ''
+               }],
+               { replaceUrl: true }
+             );
+             this.appearedQuestions = [];
+           }).catch(err => {
+             console.error('Error saving appeared questions on exam complete:', err);
+             this.finishLoader = false;
+             const isLevel = !!(
+               (this.userEventData as any)?.isLevelTest ||
+               (this.testEvent as any)?.isLevelTest ||
+               (this.userEventData as any)?.category === 'Diagnostic Test' ||
+               (this.testEvent as any)?.category === 'Diagnostic Test' ||
+               (typeof this.userEventData?.id === 'string' && /_L\d+_/.test(this.userEventData.id)) ||
+               (typeof (this.testEvent as any)?.id === 'string' && /_L\d+_/.test((this.testEvent as any).id)) ||
+               (typeof (this.testEvent as any)?.userEventId === 'string' && /_L\d+_/.test((this.testEvent as any).userEventId)) ||
+               (typeof (this.testEvent as any)?.eventName === 'string' && /Level\s*\d+/i.test((this.testEvent as any).eventName)) ||
+               (typeof this.userEventData?.eventName === 'string' && /Level\s*\d+/i.test(this.userEventData.eventName)) ||
+               (
+                 ((this.userEventData as any)?.levelNumber != null || (this.testEvent as any)?.levelNumber != null) &&
+                 (this.userEventData as any)?.category !== 'Progressive Test' &&
+                 (this.testEvent as any)?.category !== 'Progressive Test' &&
+                 !(this.testEvent as any)?.isProgressiveTest &&
+                 !(this.userEventData as any)?.isProgressiveTest &&
+                 !/Progressive\s*Test/i.test((this.testEvent as any)?.eventName || '') &&
+                 !/Progressive\s*Test/i.test(this.userEventData?.eventName || '')
+               )
+             );
+
+             const isProgressive = !isLevel && !!(
+               (this.userEventData as any)?.isProgressiveTest ||
+               (this.testEvent as any)?.isProgressiveTest ||
+               (this.userEventData as any)?.category === 'Progressive Test' ||
+               (this.testEvent as any)?.category === 'Progressive Test' ||
+               (typeof this.userEventData?.id === 'string' && (this.userEventData.id.includes('_PROG_') || /_P\d+_/.test(this.userEventData.id))) ||
+               (typeof (this.testEvent as any)?.id === 'string' && ((this.testEvent as any).id.includes('_PROG_') || /_P\d+_/.test((this.testEvent as any).id))) ||
+               (typeof (this.testEvent as any)?.eventName === 'string' && /Progressive\s*Test/i.test((this.testEvent as any).eventName)) ||
+               (typeof this.userEventData?.eventName === 'string' && /Progressive\s*Test/i.test(this.userEventData.eventName))
+             );
+             this.router.navigate(
+               ['home/dynamo/finalScore', {
+                 eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+                 userEventId: docId,
+                 type: this.userEventData.type || this.testEvent.type,
+                 examType: this.testEvent?.type || this.userEventData.type,
+                 category: isProgressive ? 'Progressive Test' : (isLevel ? 'Diagnostic Test' : (this.userEventData.category || (this.testEvent as any)?.category || '')),
+                 levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+                 isProgressiveTest: isProgressive,
+                 isLevelTest: isLevel,
+                 attemptNumber: isProgressive ? ((this.userEventData as any)?.attemptNumber || (this.testEvent as any)?.attemptNumber || 1) : ''
+               }],
+               { replaceUrl: true }
+             );
+           });
+
+       }).catch(err => {
+         console.error('Error completing exam:', err);
+         this.finishLoader = false;
+         const isLevel = !!(
+           (this.userEventData as any)?.isLevelTest ||
+           (this.testEvent as any)?.isLevelTest ||
+           (this.userEventData as any)?.category === 'Diagnostic Test' ||
+           (this.testEvent as any)?.category === 'Diagnostic Test' ||
+           (typeof this.userEventData?.id === 'string' && /_L\d+_/.test(this.userEventData.id)) ||
+           (typeof (this.testEvent as any)?.id === 'string' && /_L\d+_/.test((this.testEvent as any).id)) ||
+           (typeof (this.testEvent as any)?.userEventId === 'string' && /_L\d+_/.test((this.testEvent as any).userEventId)) ||
+           (typeof (this.testEvent as any)?.eventName === 'string' && /Level\s*\d+/i.test((this.testEvent as any).eventName)) ||
+           (typeof this.userEventData?.eventName === 'string' && /Level\s*\d+/i.test(this.userEventData.eventName)) ||
+           (
+             ((this.userEventData as any)?.levelNumber != null || (this.testEvent as any)?.levelNumber != null) &&
+             (this.userEventData as any)?.category !== 'Progressive Test' &&
+             (this.testEvent as any)?.category !== 'Progressive Test' &&
+             !(this.testEvent as any)?.isProgressiveTest &&
+             !(this.userEventData as any)?.isProgressiveTest &&
+             !/Progressive\s*Test/i.test((this.testEvent as any)?.eventName || '') &&
+             !/Progressive\s*Test/i.test(this.userEventData?.eventName || '')
+           )
+         );
+
+         const isProgressive = !isLevel && !!(
+           (this.userEventData as any)?.isProgressiveTest ||
+           (this.testEvent as any)?.isProgressiveTest ||
+           (this.userEventData as any)?.category === 'Progressive Test' ||
+           (this.testEvent as any)?.category === 'Progressive Test' ||
+           (typeof this.userEventData?.id === 'string' && (this.userEventData.id.includes('_PROG_') || /_P\d+_/.test(this.userEventData.id))) ||
+           (typeof (this.testEvent as any)?.id === 'string' && ((this.testEvent as any).id.includes('_PROG_') || /_P\d+_/.test((this.testEvent as any).id))) ||
+           (typeof (this.testEvent as any)?.eventName === 'string' && /Progressive\s*Test/i.test((this.testEvent as any).eventName)) ||
+           (typeof this.userEventData?.eventName === 'string' && /Progressive\s*Test/i.test(this.userEventData.eventName))
+         );
+         this.router.navigate(
+           ['home/dynamo/finalScore', {
+             eventId: this.userEventData.eventId || (this.testEvent as any).eventId || this.testEvent.id,
+             userEventId: docId,
+             type: this.userEventData.type || this.testEvent.type,
+             examType: this.testEvent?.type || this.userEventData.type,
+             category: isProgressive ? 'Progressive Test' : (isLevel ? 'Diagnostic Test' : (this.userEventData.category || (this.testEvent as any)?.category || '')),
+             levelNumber: Number((this.userEventData as any)?.levelNumber || (this.testEvent as any)?.levelNumber || 1),
+             isProgressiveTest: isProgressive,
+             isLevelTest: isLevel,
+             attemptNumber: isProgressive ? ((this.userEventData as any)?.attemptNumber || (this.testEvent as any)?.attemptNumber || 1) : ''
+           }],
+           { replaceUrl: true }
+         );
+       });
     //  })
 
 

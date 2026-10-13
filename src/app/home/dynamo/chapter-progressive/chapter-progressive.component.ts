@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FirebaseCollection } from 'src/app/model/common/firebase-collection';
 import { EventService } from 'src/app/services/event.service';
 import { UserHelperService } from 'src/app/services/helper/user-helper.service';
@@ -122,7 +123,8 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
     if (!this.event?.id) {
       const eventSub = this.eventService.getTestEvent().subscribe((ev) => {
         if (ev) {
-          this.event = ev;
+          const effectiveEv = ev.baseChapterEvent || ev;
+          this.event = effectiveEv;
           this.parseChapterHeaderInfo();
           if (this.userDetails?.id) {
             this.loadProgressiveData();
@@ -131,7 +133,41 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       });
       this.subscriptions.add(eventSub);
     } else {
+      if (this.event?.baseChapterEvent) {
+        this.event = this.event.baseChapterEvent;
+      }
       this.parseChapterHeaderInfo();
+    }
+  }
+
+  ionViewWillEnter() {
+    this.refreshProgressiveData();
+  }
+
+  refreshProgressiveData() {
+    if (!this.selectedSubject?.id) {
+      this.eventService.getSelectedSubject().pipe(take(1)).subscribe((subj) => {
+        if (subj) this.selectedSubject = subj;
+      });
+    }
+
+    const currentEv = this.event?.baseChapterEvent || this.event;
+    if (currentEv?.id) {
+      this.event = currentEv;
+      this.parseChapterHeaderInfo();
+      if (this.userDetails?.id) {
+        this.loadProgressiveData();
+      }
+    } else {
+      this.eventService.getTestEvent().pipe(take(1)).subscribe((ev) => {
+        if (ev) {
+          this.event = ev.baseChapterEvent || ev;
+          this.parseChapterHeaderInfo();
+          if (this.userDetails?.id) {
+            this.loadProgressiveData();
+          }
+        }
+      });
     }
   }
 
@@ -140,12 +176,15 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
   }
 
   private parseChapterHeaderInfo() {
-    const rawName = String(this.event?.moduleName || this.event?.eventName || '').trim();
+    let rawName = String(this.event?.moduleName || this.event?.eventName || '').trim();
     if (!rawName) {
       this.chapterNumberText = 'Chapter 1';
       this.chapterNameText = 'Knowing Our Numbers';
       return;
     }
+
+    // Strip trailing "- Progressive Test" if present
+    rawName = rawName.replace(/\s*-\s*Progressive\s*Test.*$/i, '').trim();
 
     const chapterMatch = rawName.match(/^(chapter\s*\d+|module\s*\d+)\s*[:\-–—]?\s*(.*)$/i);
     if (chapterMatch) {
@@ -400,6 +439,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
 
       const progressiveTestEvent: any = {
         ...this.event,
+        baseChapterEvent: this.event,
         id: this.event.id,
         eventId: this.event.id,
         userEventId: attemptId,
@@ -407,6 +447,8 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
         attemptNumber: attemptNumber,
         levelNumber: attemptNumber,
         category: 'Progressive Test',
+        isProgressiveTest: true,
+        isLevelTest: false,
         eventName: `${this.event.eventName} - Attempt ${attemptNumber}`,
         questions: selectedQuestions,
         questionToAttemp: selectedQuestions.length,
@@ -435,6 +477,9 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       quesData.userId = this.userDetails?.id;
       quesData.attemptNumber = attemptNumber;
       quesData.levelNumber = attemptNumber;
+      quesData.category = 'Progressive Test';
+      quesData.isProgressiveTest = true;
+      quesData.isLevelTest = false;
       quesData.eventMarks = selectedQuestions.length;
       quesData.totalMarks = selectedQuestions.length;
       quesData.passMark = selectedQuestions.length;
@@ -449,6 +494,9 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
 
       // 5. Set in EventService and navigate
       this.eventService.setTestEvent(progressiveTestEvent);
+      if (this.selectedSubject) {
+        this.eventService.setSelectedSubject(this.selectedSubject);
+      }
 
       try {
         const topModal = await this.modalController.getTop();
@@ -491,12 +539,20 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       }
     } catch (e) { }
 
+    this.eventService.setTestEvent(this.event);
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
+
     this.router.navigate(['home/dynamo/finalScore', {
       eventId: this.event.id,
       userEventId: attemptItem.record.id,
       type: this.event.type || 'DYNAMO EXAM',
       examType: this.event.type || 'DYNAMO EXAM',
+      category: 'Progressive Test',
       attemptNumber: attemptItem.attemptNumber,
+      isProgressiveTest: true,
+      isLevelTest: false
     }]);
   }
 
@@ -510,16 +566,10 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
 
     if (this.diagnosticEvent) {
       this.eventService.setTestEvent(this.diagnosticEvent);
-      const modal = await this.modalController.create({
-        component: ChapterLevelsComponent,
-        backdropDismiss: false,
-        cssClass: 'fullScreenModal chapterLevelsModal',
-        componentProps: {
-          event: this.diagnosticEvent,
-          selectedSubject: this.selectedSubject,
-        },
-      });
-      await modal.present();
+      if (this.selectedSubject) {
+        this.eventService.setSelectedSubject(this.selectedSubject);
+      }
+      this.router.navigate(['home/dynamo/chapter-levels']);
     } else {
       this.navCtrl.back();
     }
@@ -534,7 +584,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       }
     } catch (e) { }
 
-    this.navCtrl.back();
+    this.router.navigate(['home/dynamo/subjectDetail'], { replaceUrl: true });
   }
 
   private async presentToast(msg: string) {

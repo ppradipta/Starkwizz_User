@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FirebaseCollection } from 'src/app/model/common/firebase-collection';
 import { EventService } from 'src/app/services/event.service';
 import { UserHelperService } from 'src/app/services/helper/user-helper.service';
@@ -145,7 +146,8 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
     if (!this.event?.id) {
       const eventSub = this.eventService.getTestEvent().subscribe(ev => {
         if (ev) {
-          this.event = ev;
+          const effectiveEv = ev.baseChapterEvent || ev;
+          this.event = effectiveEv;
           this.parseChapterHeaderInfo();
           this.syncLevelsWithEvent();
           if (this.userDetails?.id) {
@@ -155,8 +157,44 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       });
       this.subscriptions.add(eventSub);
     } else {
+      if (this.event?.baseChapterEvent) {
+        this.event = this.event.baseChapterEvent;
+      }
       this.parseChapterHeaderInfo();
       this.syncLevelsWithEvent();
+    }
+  }
+
+  ionViewWillEnter() {
+    this.refreshChapterData();
+  }
+
+  refreshChapterData() {
+    if (!this.selectedSubject?.id) {
+      this.eventService.getSelectedSubject().pipe(take(1)).subscribe(subj => {
+        if (subj) this.selectedSubject = subj;
+      });
+    }
+
+    const currentEv = this.event?.baseChapterEvent || this.event;
+    if (currentEv?.id) {
+      this.event = currentEv;
+      this.parseChapterHeaderInfo();
+      this.syncLevelsWithEvent();
+      if (this.userDetails?.id) {
+        this.loadUserLevelAttempts();
+      }
+    } else {
+      this.eventService.getTestEvent().pipe(take(1)).subscribe(ev => {
+        if (ev) {
+          this.event = ev.baseChapterEvent || ev;
+          this.parseChapterHeaderInfo();
+          this.syncLevelsWithEvent();
+          if (this.userDetails?.id) {
+            this.loadUserLevelAttempts();
+          }
+        }
+      });
     }
   }
 
@@ -184,12 +222,15 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
   }
 
   private parseChapterHeaderInfo() {
-    const rawName = String(this.event?.moduleName || this.event?.eventName || '').trim();
+    let rawName = String(this.event?.moduleName || this.event?.eventName || '').trim();
     if (!rawName) {
       this.chapterNumberText = 'Chapter 1';
       this.chapterNameText = 'Module Practice';
       return;
     }
+
+    // Strip trailing "- Level X" if present
+    rawName = rawName.replace(/\s*-\s*Level\s*\d+.*$/i, '').trim();
 
     // Match "Chapter X - Title" or "Chapter X Title" or "Module X"
     const chapterMatch = rawName.match(/^(chapter\s*\d+|module\s*\d+)\s*[:\-–—]?\s*(.*)$/i);
@@ -429,6 +470,7 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
     // Clone event data customized for this level
     const levelTestEvent: any = {
       ...this.event,
+      baseChapterEvent: this.event,
       id: this.event.id,
       eventId: this.event.id,
       userEventId: attemptId,
@@ -436,6 +478,9 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       levelNumber: level.levelNumber,
       levelName: level.levelName,
       levelTag: level.tag,
+      isLevelTest: true,
+      isProgressiveTest: false,
+      category: 'Diagnostic Test',
       eventName: `${this.event.eventName} - Level ${level.levelNumber} (${level.levelName})`,
       questions: levelQuestions,
       questionToAttemp: levelQuestions.length,
@@ -461,6 +506,9 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       quesData.userId = this.userDetails?.id;
       quesData.levelNumber = level.levelNumber;
       quesData.levelName = level.levelName;
+      quesData.category = 'Diagnostic Test';
+      quesData.isLevelTest = true;
+      quesData.isProgressiveTest = false;
       quesData.eventMarks = levelTotalMarks;
       quesData.totalMarks = levelTotalMarks;
       quesData.isPublishRankAllow = false;
@@ -484,6 +532,9 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       quesData.userId = this.userDetails?.id;
       quesData.levelNumber = level.levelNumber;
       quesData.levelName = level.levelName;
+      quesData.category = 'Diagnostic Test';
+      quesData.isLevelTest = true;
+      quesData.isProgressiveTest = false;
       quesData.eventMarks = levelTotalMarks;
       quesData.totalMarks = levelTotalMarks;
       quesData.isPublishRankAllow = false;
@@ -497,6 +548,9 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
 
     // Set test event in service
     this.eventService.setTestEvent(levelTestEvent);
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
 
     // Close modal if presented as modal, and navigate to questions
     try {
@@ -521,12 +575,20 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       }
     } catch (e) { }
 
+    this.eventService.setTestEvent(this.event);
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
+
     this.router.navigate(['home/dynamo/finalScore', {
       eventId: this.event.id,
       userEventId: level.attempt.id,
       type: this.event.type,
       examType: this.event.type,
-      levelNumber: level.levelNumber
+      category: 'Diagnostic Test',
+      levelNumber: level.levelNumber,
+      isLevelTest: true,
+      isProgressiveTest: false
     }]);
   }
 
@@ -539,7 +601,7 @@ export class ChapterLevelsComponent implements OnInit, OnDestroy {
       }
     } catch (e) { }
 
-    this.navCtrl.back();
+    this.router.navigate(['home/dynamo/subjectDetail'], { replaceUrl: true });
   }
 
   private async presentToast(msg: string) {

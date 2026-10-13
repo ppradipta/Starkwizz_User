@@ -358,8 +358,73 @@ export class FinalScoreComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const isLevelTest = !!(
+      this.route.snapshot.params['isLevelTest'] === true ||
+      this.route.snapshot.params['isLevelTest'] === 'true' ||
+      this.userEventData?.isLevelTest === true ||
+      this.event?.isLevelTest === true ||
+      this.userEventData?.category === 'Diagnostic Test' ||
+      this.event?.category === 'Diagnostic Test' ||
+      this.route.snapshot.params['category'] === 'Diagnostic Test' ||
+      (typeof this.userEventData?.id === 'string' && /_L\d+_/.test(this.userEventData.id)) ||
+      (typeof this.userEventData?.userEventId === 'string' && /_L\d+_/.test(this.userEventData.userEventId)) ||
+      (typeof this.event?.id === 'string' && /_L\d+_/.test(this.event.id)) ||
+      (typeof this.userEventData?.eventName === 'string' && /Level\s*\d+/i.test(this.userEventData.eventName)) ||
+      (typeof this.event?.eventName === 'string' && /Level\s*\d+/i.test(this.event.eventName)) ||
+      (this.event?.levels && Array.isArray(this.event.levels) && this.event.levels.length > 0) ||
+      (
+        (this.userEventData?.levelNumber != null || this.route.snapshot.params['levelNumber'] != null) &&
+        this.userEventData?.category !== 'Progressive Test' &&
+        this.event?.category !== 'Progressive Test' &&
+        this.route.snapshot.params['category'] !== 'Progressive Test' &&
+        this.route.snapshot.params['isProgressiveTest'] !== true &&
+        this.route.snapshot.params['isProgressiveTest'] !== 'true' &&
+        !/Progressive\s*Test/i.test(this.userEventData?.eventName || '') &&
+        !/Progressive\s*Test/i.test(this.event?.eventName || '')
+      )
+    );
+
+    const isProgressive = !isLevelTest && !!(
+      this.route.snapshot.params['isProgressiveTest'] === true ||
+      this.route.snapshot.params['isProgressiveTest'] === 'true' ||
+      this.userEventData?.isProgressiveTest === true ||
+      this.event?.isProgressiveTest === true ||
+      this.userEventData?.category === 'Progressive Test' ||
+      this.event?.category === 'Progressive Test' ||
+      this.route.snapshot.params['category'] === 'Progressive Test' ||
+      (typeof this.userEventData?.id === 'string' && (this.userEventData.id.includes('_PROG_') || /_P\d+_/.test(this.userEventData.id))) ||
+      (typeof this.userEventData?.userEventId === 'string' && (this.userEventData.userEventId.includes('_PROG_') || /_P\d+_/.test(this.userEventData.userEventId))) ||
+      (typeof this.userEventData?.eventName === 'string' && /Progressive\s*Test/i.test(this.userEventData.eventName)) ||
+      (typeof this.event?.eventName === 'string' && /Progressive\s*Test/i.test(this.event.eventName))
+    );
+
     if (type == 'EXAM' || type == 'DYNAMO EXAM') {
       this.userService.setUpdateExamEvent(this.userEventData);
+
+      if (isLevelTest) {
+        const baseEvent = this.event?.baseChapterEvent || this.event;
+        if (baseEvent) {
+          this.eventService.setTestEvent(baseEvent);
+        }
+        if (this.selectedSubject?.id) {
+          this.eventService.setSelectedSubject(this.selectedSubject);
+        }
+        this.router.navigate(['home/dynamo/chapter-levels'], { replaceUrl: true });
+        return;
+      }
+
+      if (isProgressive) {
+        const baseEvent = this.event?.baseChapterEvent || this.event;
+        if (baseEvent) {
+          this.eventService.setTestEvent(baseEvent);
+        }
+        if (this.selectedSubject?.id) {
+          this.eventService.setSelectedSubject(this.selectedSubject);
+        }
+        this.router.navigate(['home/dynamo/chapter-progressive'], { replaceUrl: true });
+        return;
+      }
+
       this.router.navigate(['home/dynamo/subjectDetail'], { replaceUrl: true });
     }
     else if (type == 'QUIZWHIZZ EXAM') {

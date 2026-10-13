@@ -153,6 +153,7 @@ export class SubjectDetailComponent implements OnInit {
   ionViewWillEnter() {
     if (this.selectedSubject?.id && this.userDetails?.id) {
       this.getEventsForSelectedSubjects();
+      this.getSubjectModules(this.selectedSubject);
     }
   }
 
@@ -525,19 +526,10 @@ export class SubjectDetailComponent implements OnInit {
     }
     eventView.isPublishRankAllow = false;
     this.eventService.setTestEvent(eventView);
-
-    const modal = await this.modalController.create({
-      component: ChapterLevelsComponent,
-      backdropDismiss: false,
-      cssClass: 'fullScreenModal chapterLevelsModal',
-      componentProps: {
-        event: eventView,
-        selectedSubject: this.selectedSubject
-      }
-    });
-    await modal.present();
-    await modal.onDidDismiss();
-    this.getEventsForSelectedSubjects();
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
+    this.router.navigate(['home/dynamo/chapter-levels']);
   }
 
   async updateUserExam(userEventData: any, id: any) {
@@ -547,37 +539,19 @@ export class SubjectDetailComponent implements OnInit {
     }
     userEventData.isPublishRankAllow = false;
     this.eventService.setTestEvent(userEventData);
-
-    const modal = await this.modalController.create({
-      component: ChapterLevelsComponent,
-      backdropDismiss: false,
-      cssClass: 'fullScreenModal chapterLevelsModal',
-      componentProps: {
-        event: userEventData,
-        selectedSubject: this.selectedSubject
-      }
-    });
-    await modal.present();
-    await modal.onDidDismiss();
-    this.getEventsForSelectedSubjects();
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
+    this.router.navigate(['home/dynamo/chapter-levels']);
   }
 
   async openProgressiveTest(eventView: any) {
     eventView.isPublishRankAllow = false;
     this.eventService.setTestEvent(eventView);
-
-    const modal = await this.modalController.create({
-      component: ChapterProgressiveComponent,
-      backdropDismiss: false,
-      cssClass: 'fullScreenModal chapterProgressiveModal',
-      componentProps: {
-        event: eventView,
-        selectedSubject: this.selectedSubject
-      }
-    });
-    await modal.present();
-    await modal.onDidDismiss();
-    this.getEventsForSelectedSubjects();
+    if (this.selectedSubject) {
+      this.eventService.setSelectedSubject(this.selectedSubject);
+    }
+    this.router.navigate(['home/dynamo/chapter-progressive']);
   }
 
 
