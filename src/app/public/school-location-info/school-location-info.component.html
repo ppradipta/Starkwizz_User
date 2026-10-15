@@ -28,7 +28,7 @@
         <div class="section-row" (click)="selectState($event)">
           <ion-label class="section-label">State</ion-label>
           <ion-select name="state" [(ngModel)]="profileData.stateId" placeholder="Please Select State"
-          [interfaceOptions]="actionSheetState" (click)="selectState($event)">
+            [interfaceOptions]="actionSheetState" (click)="selectState($event)">
             <ion-select-option *ngFor="let state of stateList" [value]="state.id">{{state.displayName}}
             </ion-select-option>
           </ion-select>
@@ -46,7 +46,7 @@
         <div class="section-row" (click)="selectCity($event)">
           <ion-label class="section-label">City / Block</ion-label>
           <ion-select name="city" [(ngModel)]="profileData.cityId" placeholder="Please Select City/Block"
-          [interfaceOptions]="actionSheetCity" (click)="selectCity($event)">
+            [interfaceOptions]="actionSheetCity" (click)="selectCity($event)">
             <ion-select-option *ngFor="let city of cities" [value]="city.id">{{city.displayName}}
             </ion-select-option>
           </ion-select>
@@ -55,7 +55,7 @@
         <div class="section-row" (click)="selectSchool($event)">
           <ion-label class="section-label">School</ion-label>
           <ion-select name="school" [(ngModel)]="profileData.schoolId" placeholder="Please Select School"
-          [interfaceOptions]="actionSheetSchool" (click)="selectSchool($event)">
+            [interfaceOptions]="actionSheetSchool" (click)="selectSchool($event)">
             <ion-select-option *ngFor="let school of schools" [value]="school.id">{{school.displayName}}
             </ion-select-option>
           </ion-select>
@@ -64,14 +64,14 @@
         <div class="section-row" (click)="selectInstitute($event)">
           <ion-label class="section-label">Coaching Institute</ion-label>
           <ion-select name="institute" [(ngModel)]="profileData.instituteId" placeholder="Please Select Institute"
-          [interfaceOptions]="actionSheetInstitute" (click)="selectInstitute($event)">
+            [interfaceOptions]="actionSheetInstitute" (click)="selectInstitute($event)">
             <ion-select-option *ngFor="let institute of institutes" [value]="institute.id">{{institute.displayName}}
             </ion-select-option>
           </ion-select>
         </div>
 
         <div class="section-row">
-          <ion-label class="section-label">Location</ion-label>
+          <ion-label class="section-label">Location (Optional)</ion-label>
           <ion-textarea name="location" [(ngModel)]="profileData.location" placeholder="Enter Location"
             class="section-value value-textarea">
           </ion-textarea>
@@ -79,7 +79,8 @@
       </div>
 
       <div class="btn-content">
-        <ion-button class="secondary-btn" [disabled]="!profileData.schoolId" (click)="onClickProceed()">Continue</ion-button>
+        <ion-button class="secondary-btn" [disabled]="!profileData.schoolId"
+          (click)="onClickProceed()">Continue</ion-button>
       </div>
     </div>
   </div>
