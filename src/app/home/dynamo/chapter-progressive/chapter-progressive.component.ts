@@ -99,8 +99,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.totalQuestionsToAttempt = Number(this.event?.questionToAttemp) || 50;
-    this.totalTestTimeMinutes = Number(this.event?.totalHour) > 0 ? Math.round(Number(this.event.totalHour) / 60) : 60;
+    this.syncEventConfiguration();
 
     // 1. Get user details
     const userSub = this.userService.getUserDetails().subscribe((userData) => {
@@ -125,6 +124,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
         if (ev) {
           const effectiveEv = ev.baseChapterEvent || ev;
           this.event = effectiveEv;
+          this.syncEventConfiguration(this.event);
           this.parseChapterHeaderInfo();
           if (this.userDetails?.id) {
             this.loadProgressiveData();
@@ -136,6 +136,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       if (this.event?.baseChapterEvent) {
         this.event = this.event.baseChapterEvent;
       }
+      this.syncEventConfiguration(this.event);
       this.parseChapterHeaderInfo();
     }
   }
@@ -154,6 +155,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
     const currentEv = this.event?.baseChapterEvent || this.event;
     if (currentEv?.id) {
       this.event = currentEv;
+      this.syncEventConfiguration(this.event);
       this.parseChapterHeaderInfo();
       if (this.userDetails?.id) {
         this.loadProgressiveData();
@@ -162,6 +164,7 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       this.eventService.getTestEvent().pipe(take(1)).subscribe((ev) => {
         if (ev) {
           this.event = ev.baseChapterEvent || ev;
+          this.syncEventConfiguration(this.event);
           this.parseChapterHeaderInfo();
           if (this.userDetails?.id) {
             this.loadProgressiveData();
@@ -200,9 +203,100 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
     }
   }
 
+  private syncEventConfiguration(targetEvent?: any) {
+    const ev = targetEvent || this.event;
+    if (!ev) return;
+
+    // 1. Total Questions to Attempt
+    const rawQCount = Number(ev.questionToAttemp ?? ev.baseChapterEvent?.questionToAttemp);
+    if (Number.isFinite(rawQCount) && rawQCount > 0) {
+      this.totalQuestionsToAttempt = rawQCount;
+    }
+
+    // 2. Event duration: configured in seconds in Admin Panel (e.g. 3000 seconds -> 50 minutes)
+    const rawTotalTimeSec = Number(ev.totalHour ?? ev.baseChapterEvent?.totalHour);
+    if (Number.isFinite(rawTotalTimeSec) && rawTotalTimeSec > 0) {
+      this.totalTestTimeMinutes = Math.round(rawTotalTimeSec / 60);
+    }
+
+    // 3. Keep attempts array synchronized with the latest duration and question count
+    if (Array.isArray(this.attempts)) {
+      this.attempts.forEach((att) => {
+        att.totalTimeMinutes = this.totalTestTimeMinutes;
+        if (!att.record) {
+          att.totalQuestions = this.totalQuestionsToAttempt;
+        }
+      });
+    }
+  }
+
+  private async ensureProgressiveEventDetails(): Promise<void> {
+    if (!this.event) return;
+
+    const currentTotalSec = Number(this.event.totalHour ?? this.event.baseChapterEvent?.totalHour);
+    if (Number.isFinite(currentTotalSec) && currentTotalSec > 0 && this.event.category === 'Progressive Test') {
+      this.syncEventConfiguration(this.event);
+      return;
+    }
+
+    try {
+      // 1. If event has ID, try fetching document directly from Firestore
+      if (this.event.id) {
+        const snap = await this.firestore.collection('events').doc(this.event.id).get().toPromise();
+        if (snap && snap.exists) {
+          const docData: any = snap.data();
+          docData.id = snap.id;
+          this.event = {
+            ...docData,
+            ...this.event,
+            totalHour: docData.totalHour ?? this.event.totalHour,
+            perQuestionHour: docData.perQuestionHour ?? this.event.perQuestionHour,
+            questionToAttemp: docData.questionToAttemp ?? this.event.questionToAttemp,
+          };
+          this.syncEventConfiguration(this.event);
+          if (Number(this.event.totalHour) > 0 && this.event.category === 'Progressive Test') {
+            return;
+          }
+        }
+      }
+
+      // 2. If event has moduleId but category is not 'Progressive Test' or totalHour is missing,
+      // query the Progressive Test event for this module
+      const moduleId = this.event.moduleId;
+      if (moduleId) {
+        const progSnap = await this.firestore
+          .collection('events', (ref) =>
+            ref
+              .where('moduleId', '==', moduleId)
+              .where('category', '==', 'Progressive Test')
+          )
+          .get()
+          .toPromise();
+
+        if (progSnap && !progSnap.empty) {
+          const progDoc: any = progSnap.docs[0].data();
+          progDoc.id = progSnap.docs[0].id;
+          this.event = {
+            ...progDoc,
+            ...this.event,
+            totalHour: progDoc.totalHour ?? this.event.totalHour,
+            perQuestionHour: progDoc.perQuestionHour ?? this.event.perQuestionHour,
+            questionToAttemp: progDoc.questionToAttemp ?? this.event.questionToAttemp,
+          };
+          this.syncEventConfiguration(this.event);
+        }
+      }
+    } catch (err) {
+      console.error('Error ensuring progressive event details:', err);
+    }
+
+    this.syncEventConfiguration(this.event);
+  }
+
   private async loadProgressiveData() {
     this.isLoading = true;
     try {
+      await this.ensureProgressiveEventDetails();
       await Promise.all([
         this.loadDiagnosticModuleData(),
         this.loadUserProgressiveAttempts(),
@@ -330,6 +424,12 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
         this.attempts[i].totalQuestions = total;
         this.attempts[i].percentage = pct;
         this.attempts[i].record = foundAttempt;
+        const attemptSec = Number(foundAttempt.totalHour);
+        if (Number.isFinite(attemptSec) && attemptSec > 0) {
+          this.attempts[i].totalTimeMinutes = Math.round(attemptSec / 60);
+        } else {
+          this.attempts[i].totalTimeMinutes = this.totalTestTimeMinutes;
+        }
 
         if (is100) {
           this.attempts[i].status = 'SUCCESSFUL';
@@ -434,8 +534,14 @@ export class ChapterProgressiveComponent implements OnInit, OnDestroy {
       // 3. Build Attempt Event
       const attemptNumber = attemptItem.attemptNumber;
       const attemptId = `${this.event.id}_P${attemptNumber}_${this.userDetails?.id || 'user'}`;
-      const totalTimeSec = this.totalTestTimeMinutes * 60; // 3600 seconds
-      const perQSec = Math.max(15, Math.floor(totalTimeSec / selectedQuestions.length));
+      const configuredTotalSec = Number(this.event?.totalHour);
+      const totalTimeSec = Number.isFinite(configuredTotalSec) && configuredTotalSec > 0
+        ? configuredTotalSec
+        : this.totalTestTimeMinutes * 60;
+      const configuredPerQ = Number(this.event?.perQuestionHour);
+      const perQSec = Number.isFinite(configuredPerQ) && configuredPerQ > 0
+        ? configuredPerQ
+        : Math.max(15, Math.floor(totalTimeSec / Math.max(1, selectedQuestions.length)));
 
       const progressiveTestEvent: any = {
         ...this.event,
