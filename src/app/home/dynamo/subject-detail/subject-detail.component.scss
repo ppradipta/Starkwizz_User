@@ -106,9 +106,17 @@
                 font-size: 34px;
                 transform: translateY(-50%);
                 cursor: pointer;
+                transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.2s ease;
                 &.module-arrow-prev { left: 0; }
                 &.module-arrow-next { right: 0; }
                 ion-icon { pointer-events: none; }
+
+                &[disabled], &:disabled, &.is-hidden {
+                    opacity: 0;
+                    visibility: hidden;
+                    pointer-events: none;
+                    cursor: default;
+                }
             }
             .section-title {
                 display: flex;

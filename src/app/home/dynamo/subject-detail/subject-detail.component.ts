@@ -104,12 +104,56 @@ export class SubjectDetailComponent implements OnInit {
     return events.length;
   }
 
-  moveModule(carousel: any, direction: 'prev' | 'next') {
-    const swiper = carousel?.swiper;
-    if (!swiper) return;
+  categoryActiveIndex: { [key: string]: number } = {};
 
-    if (direction === 'prev') swiper.slidePrev();
-    else swiper.slideNext();
+  getCategoryActiveIndex(category: string): number {
+    return this.categoryActiveIndex[category] ?? 0;
+  }
+
+  isPrevDisabled(category: string): boolean {
+    const activeIndex = this.getCategoryActiveIndex(category);
+    return activeIndex <= 0;
+  }
+
+  isNextDisabled(category: string, totalCount?: number): boolean {
+    const total = totalCount ?? 1;
+    if (total <= 1) return true;
+    const activeIndex = this.getCategoryActiveIndex(category);
+    return activeIndex >= total - 1;
+  }
+
+  onSlideChange(event: any, category: string) {
+    const swiper = event?.detail?.[0] || event?.target?.swiper;
+    if (swiper && typeof swiper.activeIndex === 'number') {
+      this.categoryActiveIndex[category] = swiper.activeIndex;
+    }
+  }
+
+  moveModule(carousel: any, direction: 'prev' | 'next', category?: string, totalCount?: number) {
+    const swiper = carousel?.swiper;
+    const cat = category || '';
+    const total = totalCount ?? (swiper?.slides?.length ?? 1);
+    const current = this.getCategoryActiveIndex(cat);
+
+    if (direction === 'prev') {
+      if (current <= 0) {
+        return; // Guard: Cannot navigate before first chapter
+      }
+      const nextIndex = Math.max(0, current - 1);
+      this.categoryActiveIndex[cat] = nextIndex;
+      if (swiper) {
+        swiper.slidePrev();
+      }
+    } else {
+      if (current >= total - 1) {
+        return; // Guard: Cannot navigate beyond last chapter
+      }
+      const nextIndex = Math.min(total - 1, current + 1);
+      this.categoryActiveIndex[cat] = nextIndex;
+      if (swiper) {
+        swiper.slideNext();
+      }
+    }
   }
 
   constructor(
@@ -151,6 +195,7 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.categoryActiveIndex = {};
     if (this.selectedSubject?.id && this.userDetails?.id) {
       this.getEventsForSelectedSubjects();
       this.getSubjectModules(this.selectedSubject);
@@ -573,6 +618,7 @@ export class SubjectDetailComponent implements OnInit {
 
   getSubjectModules(subject: any) {
     if (!subject?.id || !this.userDetails?.classId) return;
+    this.categoryActiveIndex = {};
     // this.loadingService.presentLoading(7000);
     if (this.userDetails.userLinkType != 'SCHOOL_SPECIFICE') {
       const query = this.firestore.collection('modules');
@@ -698,6 +744,7 @@ export class SubjectDetailComponent implements OnInit {
     this.segmentValue = event.detail.value;
     // Clear all data before fetching new data for the new segment
     this.sortedRecords = new Map();
+    this.categoryActiveIndex = {};
     this.subjectDtls = [];
     this.contenskeleton = true;
     this.getSelectedSubject();
