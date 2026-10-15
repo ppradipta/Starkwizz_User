@@ -22,7 +22,7 @@ export class BeforePaidComponent implements OnInit {
   subjForSubscription: any[] = [];
   subjForSubscriptionMap = new Map<String, any[]>();
   userDetails: any = {};
-  subsImages= [
+  subsImages = [
     { id: 0, img: '/assets/images/dynamo/Biology.png', label: 'Biology' },
     { id: 1, img: '/assets/images/dynamo/Chemistry.png', label: 'Chemistry' },
     { id: 2, img: '/assets/images/dynamo/Computer.png', label: 'Computer' },
@@ -39,9 +39,10 @@ export class BeforePaidComponent implements OnInit {
     { id: 16, img: '/assets/images/dynamo/Odia Literature.png', label: 'Odia Literature' },
     { id: 17, img: '/assets/images/dynamo/physics.png', label: 'Physics' },
     { id: 18, img: '/assets/images/dynamo/Science.png', label: 'Science' },
-    { id: 19, img: '/assets/images/dynamo/SST.png', label: 'Social Science' },
+    { id: 19, img: '/assets/images/dynamo/social_science.png', label: 'Social Science' },
     { id: 20, img: '/assets/images/dynamo/SST.png', label: 'SST' },
     { id: 21, img: '/assets/images/dynamo/SST.png', label: 'Social Studies' },
+    { id: 22, img: '/assets/images/dynamo/the_world_around_us.png', label: 'The World Around Us (TWAU)' },
   ]
   currentMonth: string = '';
   // subjectList: any[] = [];
@@ -171,7 +172,7 @@ export class BeforePaidComponent implements OnInit {
 
   onClickSubjectDetail(subject: any) {
     this.loading.present();
-     // open publisher setup (user_prefrence_publisher)
+    // open publisher setup (user_prefrence_publisher)
     //subjectid, boardName, classId, userid,publisherid and name 
     this.getUserEventForSelectedSubject(subject);
     let linkSubjectIndex = this.linkedPublishers.findIndex(linPub => linPub.subjectId == subject.id);
@@ -268,7 +269,7 @@ export class BeforePaidComponent implements OnInit {
     this.isDynamoInfoModalOpen = true;
   }
 
-  
+
   modalDismiss() {
     this.isDynamoInfoModalOpen = false;
     this.dynamoInfoModal.dismiss(null, 'cancel');
