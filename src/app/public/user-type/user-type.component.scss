@@ -89,6 +89,12 @@
                 --background: #E7F7FC;
                 color: #00AEFF;
             }
+
+            &.button-disabled,
+            &[disabled] {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
     }
 

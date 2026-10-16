@@ -18,7 +18,7 @@
       <div>
         <div class="custom-raw">
           <ng-container *ngFor="let type of selectedType">
-            <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}"
+            <ion-button class="selectBtn" [ngClass]="{'ACTIVE': type.isActive}" [disabled]="type.disabled"
               (click)="onClickType(type)">{{type.name}}</ion-button>
           </ng-container>
         </div>

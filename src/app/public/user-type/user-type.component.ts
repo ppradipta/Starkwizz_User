@@ -15,8 +15,8 @@ export class UserTypeComponent implements OnInit {
   userDetails: UserDetails = new UserDetails();
   checkedBtn = false;
   selectedType = [
-    { id: 1, name: 'Student', value: 'STUDENT', isActive: false },
-    { id: 2, name: 'Parent', value: 'PARENT', isActive: false }
+    { id: 1, name: 'Student', value: 'STUDENT', isActive: false, disabled: false },
+    { id: 2, name: 'Parent', value: 'PARENT', isActive: false, disabled: true }
   ]
   constructor(
     private router: Router,
@@ -38,6 +38,9 @@ export class UserTypeComponent implements OnInit {
   }
 
   onClickType(type: any) {
+    if (type?.disabled) {
+      return;
+    }
     this.userDetails.userType = type.value;
     this.selectedType.forEach(el => {
       if (type?.id === el?.id) {
