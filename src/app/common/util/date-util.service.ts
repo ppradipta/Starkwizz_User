@@ -11,7 +11,7 @@ export class DateUtilService {
         // moment.tz.setDefault('asia/kolkata');
     }
 
-    private toMoment(input: any): moment.Moment | null {
+    public toMoment(input: any): moment.Moment | null {
         if (input == null) return null;
         if (moment.isMoment(input)) return input;
         if (input instanceof Date) return moment(input);
@@ -32,17 +32,25 @@ export class DateUtilService {
             if (!trimmed) return null;
 
             // Prefer strict parsing of the app's common formats
-             const formats = [
-                 'YYYY-MM-DD hh:mm A',
-                 // Some data sources (or manual edits) use 24h time with AM/PM (e.g. "15:15 PM")
-                 'YYYY-MM-DD HH:mm A',
-                 'YYYY-MM-DD HH:mm',
-                 'YYYY-MM-DD',
-                 'DD-MM-YYYY hh:mm A',
-                 'DD/MM/YYYY hh:mm A',
-                 'DD-MM-YYYY',
-                 'DD/MM/YYYY',
-             ];
+            const formats = [
+                'YYYY-MM-DD hh:mm:ss A',
+                'YYYY-MM-DD hh:mm A',
+                'YYYY-MM-DD HH:mm:ss A',
+                'YYYY-MM-DD HH:mm A',
+                'YYYY-MM-DD HH:mm:ss',
+                'YYYY-MM-DD HH:mm',
+                'YYYY-MM-DD',
+                'DD-MM-YYYY hh:mm:ss A',
+                'DD-MM-YYYY hh:mm A',
+                'DD-MM-YYYY HH:mm:ss',
+                'DD-MM-YYYY HH:mm',
+                'DD-MM-YYYY',
+                'DD/MM/YYYY hh:mm:ss A',
+                'DD/MM/YYYY hh:mm A',
+                'DD/MM/YYYY HH:mm:ss',
+                'DD/MM/YYYY HH:mm',
+                'DD/MM/YYYY',
+            ];
             let parsed = moment(trimmed, formats, true);
             if (!parsed.isValid()) {
                 parsed = moment(trimmed); // ISO / browser fallback
@@ -63,9 +71,38 @@ export class DateUtilService {
         return parsed ? parsed.format(format) : '';
     }
 
+    formatToDDMMYYYY(dateInput: any): string {
+        const m = this.toMoment(dateInput);
+        return m ? m.format('DD/MM/YYYY') : '';
+    }
+
+    public static readonly FIXED_SUBSCRIPTION_END_DATE = '30/03/2028';
+
+    getFixedSubscriptionEndDate(): string {
+        return '30/03/2028';
+    }
+
+    isFixedSubscriptionEnded(): boolean {
+        const m = this.toMoment('30/03/2028');
+        if (!m) return false;
+        return moment().isAfter(m.clone().endOf('day'));
+    }
+
+    calculatePlanValidityDays(startDateInput: any, endDateInput?: any): number {
+        const start = this.toMoment(startDateInput);
+        const end = endDateInput ? this.toMoment(endDateInput) : this.toMoment('30/03/2028');
+        if (!start || !end) return 0;
+        if (start.isAfter(end.clone().endOf('day'))) return 0;
+        const diff = end.clone().startOf('day').diff(start.clone().startOf('day'), 'days');
+        return Math.max(0, diff);
+    }
+
     isExpired(expiry: any): boolean {
         const expiryMoment = this.toMoment(expiry);
         if (!expiryMoment) return false;
+        if (typeof expiry === 'string' && expiry.trim().length <= 10) {
+            return moment().isAfter(expiryMoment.clone().endOf('day'));
+        }
         return moment().isAfter(expiryMoment);
     }
 
@@ -252,11 +289,14 @@ export class DateUtilService {
     }
 
     getUnixTime(date: string) {
-        return moment(date, "YYYY-MM-DD").unix();
+        const m = this.toMoment(date);
+        return m ? m.unix() : moment(date, "YYYY-MM-DD").unix();
     }
 
     getExpiredDays(eDate: string) {
-        return moment().diff(moment(eDate), 'days');
+        const m = this.toMoment(eDate);
+        if (!m) return 0;
+        return moment().diff(m, 'days');
     }
 
     getCurrentMonth() {

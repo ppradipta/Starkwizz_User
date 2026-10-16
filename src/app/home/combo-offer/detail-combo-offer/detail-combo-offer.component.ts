@@ -78,7 +78,7 @@ export class DetailComboOfferComponent implements OnInit {
     this.userService.getUserQuizType().subscribe((userQuiz) => {
       this.quizSubscription = userQuiz;
       this.quizSubscription.startDate = this.dateUtilService.getCurrentDateWithTime();
-      this.quizSubscription.endDate = this.dateUtilService.addDayToCurrentData(365);
+      this.quizSubscription.endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     });
   }
 
@@ -113,6 +113,12 @@ export class DetailComboOfferComponent implements OnInit {
 
   async onClickPay() {
     this.loading.present();
+
+    if (this.subscriptionType == 'SUBSCRIBE' && this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.loading.dismiss();
+      this.util.showToast('This subscription offer has ended as of 30/03/2028.', 'danger', 'bottom');
+      return;
+    }
 
     if (this.payTotal > 0) {
       let options = {
@@ -201,7 +207,7 @@ export class DetailComboOfferComponent implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -237,6 +243,13 @@ export class DetailComboOfferComponent implements OnInit {
       year: this.dateUtilService.getCurrentYear(),
       referralCode: this.referralCode,
       paymentForDetails: this.comboOffer?.offerApplicables,
+      comboOfferId: this.comboOffer?.id || '',
+      comboOfferCode: this.comboOffer?.code || '',
+      comboOfferName: this.comboOffer?.name || 'Combo Offer',
+      comboOfferPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planPrice: Number(this.comboOffer?.totalPrice) || 0,
+      totalPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planDiscount: Number(this.comboOffer?.discount) || 0,
       classId: this.userDetails?.classId,
       className: this.userDetails?.className,
       boardName: this.userDetails?.boardName,
@@ -252,6 +265,9 @@ export class DetailComboOfferComponent implements OnInit {
     } else {
       subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, this.comboOffer.totalPrice, this.payTotal, this.discountAmt, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId, 'SUBSCRIBE', endDate, this.subscriptionType);
     }
+    subscribedSubjects.comboOfferId = this.comboOffer?.id || '';
+    subscribedSubjects.comboOfferName = this.comboOffer?.name || 'Combo Offer';
+    subscribedSubjects.planPrice = Number(this.comboOffer?.totalPrice) || 0;
     subscribedSubjects.applicationDiscounts = this.discountAmt;
     subscribedSubjects.referralDiscount = this.referralUser.discount;
     subscribedSubjects.offerType = this.offerType == 'ALL' ? 'ALL' : 'DYNAMO';
@@ -275,7 +291,7 @@ export class DetailComboOfferComponent implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -311,6 +327,13 @@ export class DetailComboOfferComponent implements OnInit {
       endDateUnix: this.dateUtilService.getUnixTime(endDate),
       referralCode: this.referralCode,
       paymentForDetails: this.comboOffer?.offerApplicables,
+      comboOfferId: this.comboOffer?.id || '',
+      comboOfferCode: this.comboOffer?.code || '',
+      comboOfferName: this.comboOffer?.name || 'Combo Offer',
+      comboOfferPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planPrice: Number(this.comboOffer?.totalPrice) || 0,
+      totalPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planDiscount: Number(this.comboOffer?.discount) || 0,
       classId: this.userDetails?.classId,
       className: this.userDetails?.className,
       boardName: this.userDetails?.boardName,
@@ -326,6 +349,9 @@ export class DetailComboOfferComponent implements OnInit {
     } else {
       subscribedSubjects = this.userHelperService.populateQuizSubscription(null, this.userDetails, this.comboOffer.totalPrice, this.payTotal, this.discountAmt, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId, 'SUBSCRIBE', endDate, this.subscriptionType);
     }
+    subscribedSubjects.comboOfferId = this.comboOffer?.id || '';
+    subscribedSubjects.comboOfferName = this.comboOffer?.name || 'Combo Offer';
+    subscribedSubjects.planPrice = Number(this.comboOffer?.totalPrice) || 0;
     subscribedSubjects.applicationDiscounts = this.discountAmt;
     subscribedSubjects.referralDiscount = this.referralUser.discount;
     subscribedSubjects.offerType = this.offerType == 'ALL' ? 'ALL' : 'QUIZWHIZZ';
@@ -342,7 +368,7 @@ export class DetailComboOfferComponent implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -378,6 +404,13 @@ export class DetailComboOfferComponent implements OnInit {
       endDateUnix: this.dateUtilService.getUnixTime(endDate),
       referralCode: this.referralCode,
       paymentForDetails: this.comboOffer?.offerApplicables,
+      comboOfferId: this.comboOffer?.id || '',
+      comboOfferCode: this.comboOffer?.code || '',
+      comboOfferName: this.comboOffer?.name || 'Combo Offer',
+      comboOfferPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planPrice: Number(this.comboOffer?.totalPrice) || 0,
+      totalPrice: Number(this.comboOffer?.totalPrice) || 0,
+      planDiscount: Number(this.comboOffer?.discount) || 0,
       classId: this.userDetails?.classId,
       className: this.userDetails?.className,
       boardName: this.userDetails?.boardName,
@@ -393,6 +426,9 @@ export class DetailComboOfferComponent implements OnInit {
     } else {
       subscribedSubjects = this.userHelperService.populateQuizSubscription(this.quizSubscription, this.userDetails, this.comboOffer.totalPrice, this.payTotal, this.discountAmt, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId, 'SUBSCRIBE', endDate, this.subscriptionType);
     }
+    subscribedSubjects.comboOfferId = this.comboOffer?.id || '';
+    subscribedSubjects.comboOfferName = this.comboOffer?.name || 'Combo Offer';
+    subscribedSubjects.planPrice = Number(this.comboOffer?.totalPrice) || 0;
     subscribedSubjects.applicationDiscounts = this.discountAmt;
     subscribedSubjects.referralDiscount = this.referralUser.discount;
     subscribedSubjects.offerType = this.offerType == 'ALL' ? 'ALL' : 'EVENT';
@@ -408,7 +444,7 @@ export class DetailComboOfferComponent implements OnInit {
     let transactionId = this.util.generateAlphaNumericId();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -416,6 +452,10 @@ export class DetailComboOfferComponent implements OnInit {
     subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, 0, this.payTotal, this.discountAmt, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId, 'FREETRIAL', endDate, this.subscriptionType);
 
     subscribedSubjects.offerType = 'ALL';
+    subscribedSubjects.comboOfferId = this.comboOffer?.id || '';
+    subscribedSubjects.comboOfferName = this.comboOffer?.name || 'Combo Offer';
+    subscribedSubjects.planPrice = Number(this.comboOffer?.totalPrice) || 0;
+    subscribedSubjects.totalAmount = Number(this.comboOffer?.totalPrice) || 0;
     subscribedSubjects.applicationDiscounts = this.discountAmt;
     subscribedSubjects.referralDiscount = this.referralUser.discount;
     this.userService.setUserAllSubscription(subscribedSubjects);

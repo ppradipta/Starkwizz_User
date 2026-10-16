@@ -78,6 +78,10 @@ export class PaymentCardComponent implements OnInit {
   }
 
   async onClickPay() {
+    if (this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.util.showToast('Subscription is no longer available as the validity period has ended (30/03/2028).', 'warning', 'bottom');
+      return;
+    }
 
     if (this.discountedPrice > 0) {
       let options = {
@@ -213,7 +217,7 @@ export class PaymentCardComponent implements OnInit {
     });
 
     let startDate = this.dateUtilService.getCurrentDateWithTime();
-    let endDate = this.dateUtilService.addDayToCurrentData(365);
+    let endDate = this.dateUtilService.getFixedSubscriptionEndDate();
 
     let paymentData = {
       id: payment_id,
@@ -243,7 +247,7 @@ export class PaymentCardComponent implements OnInit {
       boardId: this.userDetails.boardId,
     }
     this.userService.setSubscriptionToCollecton(paymentData);
-    let subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, this.totalPrice, this.discountedPrice, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,"SUBJECT",null, this.subscriptionType);
+    let subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, this.totalPrice, this.discountedPrice, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,"SUBJECT",endDate, this.subscriptionType);
     subscribedSubjects.applicationDiscounts = this.discounts;
     subscribedSubjects.referralDiscount = this.userReferal.discount;
     this.userService.setSubscriptionSubjectsToCollecton(subscribedSubjects);

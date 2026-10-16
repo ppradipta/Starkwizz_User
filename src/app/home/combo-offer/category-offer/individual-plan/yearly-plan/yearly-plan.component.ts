@@ -86,7 +86,7 @@ export class YearlyPlanComponent  implements OnInit {
     this.userService.getUserQuizType().subscribe((userQuiz) => {
       this.quizSubscription = userQuiz;
       this.quizSubscription.startDate = this.dateUtilService.getCurrentDateWithTime();
-      this.quizSubscription.endDate = this.dateUtilService.addDayToCurrentData(365);
+      this.quizSubscription.endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     });
   }
 
@@ -127,6 +127,12 @@ export class YearlyPlanComponent  implements OnInit {
 
   async onClickPay() {
     this.loading.present();
+
+    if (this.subscriptionType == 'SUBSCRIBE' && this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.loading.dismiss();
+      this.util.showToast('This subscription offer has ended as of 30/03/2028.', 'danger', 'bottom');
+      return;
+    }
 
     if (this.payTotal > 0) {
       let options = {
@@ -220,7 +226,7 @@ export class YearlyPlanComponent  implements OnInit {
       } else if (this.planType == 'quarterly') {
         endDate = this.dateUtilService.addDayToCurrentData(90);
       } else {
-        endDate = this.dateUtilService.addDayToCurrentData(365);
+        endDate = this.dateUtilService.getFixedSubscriptionEndDate();
       }
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
@@ -297,7 +303,7 @@ export class YearlyPlanComponent  implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -366,7 +372,7 @@ export class YearlyPlanComponent  implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -434,7 +440,7 @@ export class YearlyPlanComponent  implements OnInit {
     let transactionId = this.util.generateAlphaNumericId();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }

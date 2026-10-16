@@ -557,6 +557,10 @@ export class EventsPage implements OnInit {
   }
 
   async onClickSubscriptionPay() {
+    if (this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.util.showToast('Subscription is no longer available as the validity period has ended (30/03/2028).', 'warning', 'bottom');
+      return;
+    }
     let payment_id = 'SUBSCRIBE';
     this.loading.presentLoading(2000);
     this.createSubscription(payment_id);
@@ -566,6 +570,10 @@ export class EventsPage implements OnInit {
 
 
   async onClickPay() {
+    if (this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.util.showToast('Subscription is no longer available as the validity period has ended (30/03/2028).', 'warning', 'bottom');
+      return;
+    }
     this.loading.presentLoading(2000);
     if (this.discountedAmount > 0) {
       let options = {
@@ -637,7 +645,7 @@ export class EventsPage implements OnInit {
     });
 
     let startDate = this.dateUtilService.getCurrentDateWithTime();
-    let endDate = this.dateUtilService.addDayToCurrentData(365);
+    let endDate = this.dateUtilService.getFixedSubscriptionEndDate();
 
     let paymentData: any = {
       id: payment_id,

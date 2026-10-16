@@ -82,7 +82,7 @@ export class PaymentDetailComponent implements OnInit {
     this.userService.getUserQuizType().subscribe((userQuiz) => {
       this.quizSubscription = userQuiz;
       this.quizSubscription.startDate = this.dateUtilService.getCurrentDateWithTime();
-      this.quizSubscription.endDate = this.dateUtilService.addDayToCurrentData(365);
+      this.quizSubscription.endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     });
 
     this.getDiscount();
@@ -91,6 +91,10 @@ export class PaymentDetailComponent implements OnInit {
 
 
   async onClickPay() {
+    if (this.dateUtilService.isFixedSubscriptionEnded()) {
+      this.util.showToast('Subscription is no longer available as the validity period has ended (30/03/2028).', 'warning', 'bottom');
+      return;
+    }
     this.loading.present();
 
     if (this.payTotal > 0) {
@@ -274,7 +278,7 @@ export class PaymentDetailComponent implements OnInit {
     });
 
     let startDate = this.dateUtilService.getCurrentDateWithTime();
-    let endDate = this.dateUtilService.addDayToCurrentData(365);
+    let endDate = this.dateUtilService.getFixedSubscriptionEndDate();
 
     let paymentData = {
       id: payment_id,
@@ -304,7 +308,7 @@ export class PaymentDetailComponent implements OnInit {
       boardId: this.userDetails?.boardId,
     }
     this.userService.setSubscriptionToCollecton(paymentData);
-    let subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, this.totalPrice, this.payTotal, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,"SUBJECT",null, this.subscriptionType);
+    let subscribedSubjects = this.userHelperService.populateSubjectSubscription(this.subjectList, this.userDetails, this.totalPrice, this.payTotal, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,"SUBJECT",endDate, this.subscriptionType);
     subscribedSubjects.applicationDiscounts = this.discounts;
     subscribedSubjects.referralDiscount = this.userReferal.discount;
     this.userService.setSubscriptionSubjectsToCollecton(subscribedSubjects);
@@ -342,7 +346,7 @@ export class PaymentDetailComponent implements OnInit {
   createQuizWhizzSubscription(payment_id: any) {
     let transactionId = this.util.generateAlphaNumericId();
     let startDate = this.dateUtilService.getCurrentDateWithTime();
-    let endDate = this.dateUtilService.addDayToCurrentData(365);
+    let endDate = this.dateUtilService.getFixedSubscriptionEndDate();
 
     let paymentData = {
       id: payment_id,
@@ -372,7 +376,7 @@ export class PaymentDetailComponent implements OnInit {
       boardId: this.userDetails?.boardId,
     }
     this.userService.setSubscriptionToCollecton(paymentData);
-    let subscribedSubjects = this.userHelperService.populateQuizSubscription(this.quizSubscription, this.userDetails, this.totalPrice, this.payTotal, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,'SUBJECT',null, this.subscriptionType);
+    let subscribedSubjects = this.userHelperService.populateQuizSubscription(this.quizSubscription, this.userDetails, this.totalPrice, this.payTotal, this.totalDiscountTypeValue, 'PERCENTAGE', payment_id, transactionId, this.userDetails.emailId,'SUBJECT',endDate, this.subscriptionType);
     subscribedSubjects.applicationDiscounts = this.discounts;
     subscribedSubjects.referralDiscount = this.userReferal.discount;
     this.userService.setQuizWhizzSubscriptionToCollecton(subscribedSubjects);

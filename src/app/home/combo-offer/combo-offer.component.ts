@@ -85,7 +85,15 @@ export class ComboOfferComponent implements OnInit {
     this.navCtrl.back();
   }
 
+  isFixedSubscriptionEnded(): boolean {
+    return this.dateUtilService.isFixedSubscriptionEnded();
+  }
+
   onClickOfferDetail() {
+    if (this.isFixedSubscriptionEnded()) {
+      this.util.showToast('Subscription is no longer available as the validity period has ended (30/03/2028).', 'warning', 'bottom');
+      return;
+    }
     this.loading.present();
     const bundleTypes = ['DYNAMO', 'QUIZWHIZZ', 'EVENT'];
     const bundle = (this.comboOffer?.offerApplicables ?? []).filter((offer: any) =>
