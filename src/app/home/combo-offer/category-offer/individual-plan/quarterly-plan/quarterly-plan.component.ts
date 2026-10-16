@@ -85,7 +85,7 @@ export class QuarterlyPlanComponent  implements OnInit {
     this.userService.getUserQuizType().subscribe((userQuiz) => {
       this.quizSubscription = userQuiz;
       this.quizSubscription.startDate = this.dateUtilService.getCurrentDateWithTime();
-      this.quizSubscription.endDate = this.dateUtilService.addDayToCurrentData(365);
+      this.quizSubscription.endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     });
   }
 
@@ -219,7 +219,7 @@ export class QuarterlyPlanComponent  implements OnInit {
       } else if (this.planType == 'quarterly') {
         endDate = this.dateUtilService.addDayToCurrentData(90);
       } else {
-        endDate = this.dateUtilService.addDayToCurrentData(365);
+        endDate = this.dateUtilService.getFixedSubscriptionEndDate();
       }
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
@@ -301,7 +301,7 @@ export class QuarterlyPlanComponent  implements OnInit {
       } else if (this.planType == 'quarterly') {
         endDate = this.dateUtilService.addDayToCurrentData(90);
       } else {
-        endDate = this.dateUtilService.addDayToCurrentData(365);
+        endDate = this.dateUtilService.getFixedSubscriptionEndDate();
       }
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
@@ -371,7 +371,7 @@ export class QuarterlyPlanComponent  implements OnInit {
     let startDate = this.dateUtilService.getCurrentDateWithTime();
     let endDate = '';
     if (this.subscriptionType == 'SUBSCRIBE') {
-      endDate = this.dateUtilService.addDayToCurrentData(365);
+      endDate = this.dateUtilService.getFixedSubscriptionEndDate();
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);
     }
@@ -444,7 +444,7 @@ export class QuarterlyPlanComponent  implements OnInit {
       } else if (this.planType == 'quarterly') {
         endDate = this.dateUtilService.addDayToCurrentData(90);
       } else {
-        endDate = this.dateUtilService.addDayToCurrentData(365);
+        endDate = this.dateUtilService.getFixedSubscriptionEndDate();
       }
     } else if (this.subscriptionType == 'FREETRIAL') {
       endDate = this.dateUtilService.addDayToCurrentData(this.freeTrial.totalDays);

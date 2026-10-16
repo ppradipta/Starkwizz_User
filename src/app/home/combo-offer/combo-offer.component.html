@@ -70,6 +70,6 @@
     <ng-container *ngIf="!isFreeTrialUser">
       <ion-button class="freetrial" (click)="onClickFreeTrial()" [disabled]="!freeTrial"><span>Free Trial</span></ion-button>
     </ng-container>
-    <ion-button (click)="onClickOfferDetail()">Go For Subscription</ion-button>
+    <ion-button (click)="onClickOfferDetail()" [disabled]="isFixedSubscriptionEnded()">Go For Subscription</ion-button>
   </div>
 </ion-footer>

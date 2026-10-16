@@ -55,7 +55,7 @@ export class UserHelperService {
         userSubjectSubscription.userId = userDetail.id;
         userSubjectSubscription.status = 'SUBSCRIBED';
         userSubjectSubscription.subscribedDate = this.dateUtilService.getCurrentDateWithYYYYMMDD();
-        userSubjectSubscription.expiryDate = this.dateUtilService.addDayToCurrentData(365);
+        userSubjectSubscription.expiryDate = this.dateUtilService.getFixedSubscriptionEndDate();
         userSubjectSubscription.subscribeAmount = appliedDiscountAmount
         userSubjectSubscription.totalAmount = totalPrice;
         userSubjectSubscription.paymentId = payment_id;
@@ -380,7 +380,7 @@ export class UserHelperService {
         userEventsSubscription.dateUnix = this.dateUtilService.getCurrentEpochTime();
         userEventsSubscription.subscribedDate = this.dateUtilService.getCurrentDateWithYYYYMMDD();
         userEventsSubscription.subscribedDateUnix = this.dateUtilService.getUnixTime(userEventsSubscription.subscribedDate);
-        userEventsSubscription.expiryDate = this.dateUtilService.addDayToCurrentData(365);
+        userEventsSubscription.expiryDate = this.dateUtilService.getFixedSubscriptionEndDate();
         userEventsSubscription.expiryDateUnix = this.dateUtilService.getUnixTime(userEventsSubscription.expiryDate);
         userEventsSubscription.subscribeAmount = subscribeAmount
         userEventsSubscription.discountAmount = totalDiscount;
