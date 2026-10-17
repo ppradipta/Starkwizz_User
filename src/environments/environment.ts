@@ -13,11 +13,11 @@ export const environment = {
     measurementId: "G-V1NJHSTGYC"
   },
   production: true,
-  version: '1.6.8.3',
-  versionNumber: 1683,
+  version: '1.6.8.5',
+  versionNumber: 1685,
   razorpayConfig: {
-      key: 'rzp_live_xvAoiBHMFWAdKr'
-   // key: 'rzp_test_rD4r9gTr7emaSX'
+    key: 'rzp_live_xvAoiBHMFWAdKr'
+    // key: 'rzp_test_rD4r9gTr7emaSX'
   },
   // starkwizz: {
   //   trailkey: "rzp_test_rD4r9gTr7emaSX"
@@ -25,7 +25,7 @@ export const environment = {
   sms: ['USER_PROFILE_KYC', 'USER_PROFILE_KYC_PENDING', 'USER_REGISTRATION', 'EVENT_SUBSCRIBED', 'EVENT_SCHEDULE', 'USER_PROFILE_CHANGE_REQUEST'],
   push: ['EVENT_COMPLETED', 'USER_PROFILE_KYC_PENDING', 'USER_REGISTRATION', , 'EVENT_SUBSCRIBED', 'EVENT_SCHEDULE', 'USER_PROFILE_CHANGE_REQUEST'],
   domain: "https://starkwizzuser.web.app",
-  appPlt:'WEB',
+  appPlt: 'WEB',
 
 };
 
